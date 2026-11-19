@@ -1,0 +1,24 @@
+{
+  "name": "horizon-juicer-manual",
+  "version": "1.0.0",
+  "description": "Horizon-Juicer 西门子数控磨削程序包与 HorizonJuicerCreator 配置工具完全操作指南",
+  "main": "index.js",
+  "scripts": {
+    "serve": "honkit serve",
+    "build": "honkit build",
+    "pdf": "node tools/build_pdf.js ./ ./output.pdf"
+  },
+  "keywords": [
+    "sinumerik",
+    "honkit",
+    "cnc",
+    "grinding",
+    "horizon-juicer"
+  ],
+  "author": "Nie Kun",
+  "license": "ISC",
+  "devDependencies": {
+    "honkit": "^6.1.7",
+    "honkit-plugin-katex": "^1.1.7"
+  }
+}

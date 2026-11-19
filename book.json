@@ -1,0 +1,31 @@
+{
+    "title": "Horizon-Juicer & HorizonJuicerCreator 用户与工程指南",
+    "author": "Nie Kun",
+    "description": "HorizonJuicerCreator 配置软件与 Horizon-Juicer 西门子数控磨削程序包完整用户手册",
+    "language": "zh-hans",
+    "plugins": [
+        "theme-default",
+        "katex"
+    ],
+    "pluginsConfig": {
+        "theme-default": {
+            "showLevel": false
+        }
+    },
+    "styles": {
+        "website": "styles/website.css",
+        "pdf": "styles/pdf.css"
+    },
+    "pdf": {
+        "pageNumbers": true,
+        "fontFamily": "Microsoft YaHei",
+        "fontSize": 11,
+        "paperSize": "a4",
+        "margin": {
+            "right": 48,
+            "left": 48,
+            "top": 48,
+            "bottom": 48
+        }
+    }
+}
