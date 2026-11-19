@@ -228,4 +228,5 @@ tools/vm_bridge/cmd.json
 tools/vm_bridge/resp_*.json
 _ebook_tmp/
 tools/vm_bridge/crop_calib.json
+tools/audit_manual.py
 

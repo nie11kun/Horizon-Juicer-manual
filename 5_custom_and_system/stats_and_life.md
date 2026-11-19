@@ -32,6 +32,8 @@
 | **3** | **金刚笔一（外圆）** | `SERVICE_LIFE[2]` | `SERVICE_LIFE[12]` | `SERVICE_LIFE[7]` | `SERVICE_LIFE_TXT[2]` | 仅磨削中心（`;ifIsCenter`） |
 | **4** | **金刚笔二（端面）** | `SERVICE_LIFE[3]` | `SERVICE_LIFE[13]` | `SERVICE_LIFE[8]` | `SERVICE_LIFE_TXT[3]` | 仅磨削中心（`;ifIsCenter`） |
 
+> **机型差异说明**：对于**普通外/内螺纹机型（`;ifIsNotCenter`）**，`Mask3` 表格仅显示前 2 行（**滚轮**与**夹具**），且底层 `B_SET_SERVICE_LIFE.SPF` 会自动裁剪跳过金刚笔一/二的寿命初始化、计数与报警检查。
+
 ### 自动累加与超限停机保护逻辑（`B_SET_SERVICE_LIFE.SPF`）
 
 - 每次执行对应修整或加工循环时，子程序调用 `B_SET_SERVICE_LIFE(2, NUM)` 为对应配件计数 `+1`；

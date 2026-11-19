@@ -58,8 +58,9 @@ $$e = \left( R - \frac{D_b}{2} \right) \cdot \sin\left( \frac{\alpha}{180} \cdot
    - 在三角（`SHAPE_MODEL[8/9/29/73]`）、梯形（`74/66/75/76`）及双圆弧（`77/67/78/79`）界面左下/右下角均设有 **多线修整** 扩展栏，可一次性在单片宽砂轮上同时修出 `N` 个等螺距牙槽，支持 **`间隔螺距`** 与 **`齿高补偿`**（正值令左侧齿逐个变矮以作渐进切入牙）。
 2. **外部自定义齿形轨迹（`DRESSER[139]` & `D_EXTERNE_SHAPE.SPF` / `D_LINE_TOOL_SHAPE.SPF`）**：
    - 当标准三角/梯形/双圆弧无法满足特殊异形螺杆时，在 **修整配置** 打开 **`外部齿形参数显示`（NC：`DRESSER[110]=1` / HMI：`111`）**，可在修整主画面选择调用外挂曲线子程序：
-     - **`D_EXTERNE_SHAPE.SPF`（`1 = 左右分开修整`）**：按 `DRESSER[56]` 设定的插补平面（`G17` / `G18` / `G19`）与 `TOOL_INDEX=1` 刀具配置分段切入修整；
-     - **`D_LINE_TOOL_SHAPE.SPF`（`2 = 带刀具半径补偿的连续轨迹曲线`）**：读取单段完整廓形程序并开启刀具半径补偿走通轮廓；
+     - **`D_EXTERNE_SHAPE.SPF`（`1 = 左右分开修整`）**：按 `DRESSER[56]` 设定的插补平面（`G17` / `G18` / `G19`）分别以 `DRESSER[44]=0`（右半边）与 `1`（左半边）分段切入修整；
+     - **`D_LINE_TOOL_SHAPE.SPF`（`2 = 带刀具半径补偿的连续轨迹曲线`）**：按 `DRESSER[56]` 选择 `G17/G18/G19`，自动绑定刀具 `TOOL_INDEX=1` / `TOOL_EDGE_INDEX=1` / `TOOL_NAME="1"`（`$TC_DP6[1,1]=DRESSER[32]`、`T="1" D=1 M206`）与齿高 `PROCESS[123]` 走通连续廓形；需注意设 `MD42480=0`（建议将 `G41/G42` 置于子程序内以避免 `EXTCALL` 开启刀补报警）；
      - 支持 `SHAPE_MODEL[0]`（HMI `1`）指定存放介质：`0 内置`、`1 后USB（//DEV_3）`、`2 前USB`、`3 CF卡`。
 3. **通用 10 线段积木模型原理（`Research/.../CommonShapeUserGuide`）**：
-   - 底层 `D_COMMON_SHAPE.SPF` 将任意对称/非对称槽型以垂直中心线为准拆成 **左 5 段 + 右 5 段（共 10 段）**；每段由 **长度（`COMMON_LENGTH[i]`）、与垂直向下方向的夹角（`COMMON_ANG[i]`）、过渡圆角（`COMMON_RND[i]`）** 三个元素拼装，通过 `E_COMMON_DARC_ANG`、`E_COMMON_LINE_TO_ARC` 等积木子程序自动交点求取与滚轮半径补偿，极大简化非标牙型的定制开发。
+   - 底层 `D_COMMON_SHAPE.SPF` 将任意对称/非对称槽型以垂直中心线为准拆成 **左 5 段 + 右 5 段（共 10 段）**；每段由 **长度（`COMMON_LENGTH[i]`）、与垂直向下方向的夹角（`COMMON_ANG[i]`）、过渡圆角（`COMMON_RND[i]`）** 三个元素拼装，通过 `E_COMMON_DARC_ANG`、`E_COMMON_LINE_TO_ARC` 等积木子程序自动交点求取与滚轮半径补偿，极大简化非标牙型的定制开发；
+   - 新增 **平面修砂轮（`DRESSER[4] = 4` → `F_COMMON_SHAPE_10.SPF`）** 时，`E_COMMON_SHAPE_CACU.SPF` 会自动切为非对称单边水平边界（`HORI_5_LEFT = 0`、`HORI_5_RIGHT = -DRESSER[22] - 1`），配合 `DRESSER[141]`（平面锥度）生成仅面向砂轮全宽的单斜平面廓形（此时要求对刀起点将 **砂轮左端对准滚轮中心**）。

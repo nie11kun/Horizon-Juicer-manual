@@ -263,7 +263,7 @@ def draw_mcp_keys():
     rbox(dr, [1644, 1158, 3104, 1442], radius=14, fill=C_PURPLE_BG, outline=C_PURPLE, width=3)
     badge(dr, 1694, 1206, "4", bg=C_PURPLE)
     dr.text((1736, 1184), "PLC 与 NC 变量核心联动点（调试必查）", font=f_bold(26), fill=C_PURPLE)
-    dr.text((1680, 1248), "• $A_DBB[2] / Q113.5 QCHECK：部分机型在 CYCLE START 前检测门锁/就绪允许位", font=f_reg(22), fill=C_DARK)
+    dr.text((1680, 1248), "• 关键 PLC-NC 信号：$A_DBB[0]修整 / [1]手动对刀 / [5]自动对刀 / [2]退刀中断(PLCASUP1) / [80]侧门", font=f_reg(22), fill=C_DARK)
     dr.text((1680, 1294), "• 砂轮状态与驱动模式 INI[36]/INI[37]/INI[91]：必须执行一次 VS3->Mask2 重置才能与", font=f_reg(22), fill=C_DARK)
     dr.text((1700, 1332), "HorizonJuicerCreator 配置的 伺服(M1=3 S1=) / 变频器(R299+M13) 输出格式匹配！", font=f_bold(22), fill=C_RED)
     dr.text((1680, 1378), "• 急停 [EMERGENCY STOP]：任何碰撞风险下直接拍下，确认后先 RESET 再回参考点", font=f_reg(22), fill=C_DARK)
@@ -488,7 +488,7 @@ def draw_roller_calibration():
             "1. 修整坐标轴联动模式：",
             "• 立式/卧式插补(V/VW): U/V 轴或 Z/X 联控",
             "• 成型 X 修整(XZ/X): U 轴缺失时 X 轴直驱",
-            "• N_CX_X_TYPE: 前置=0 / 后置=1 决定",
+            "• 无U轴外磨位(后置0/前置1)及 DRESSER[37] 决定",
             "  修整进给符号与接触位正负方向。",
             "• 标定流程: 轻碰确定尖端 -> 写入",
             "  当前位置 -> 自动反算新砂轮补偿。",
@@ -496,7 +496,7 @@ def draw_roller_calibration():
         (1080, [
             "2. 滚轮结构与修整方向匹配：",
             "• 双圆弧滚轮(A): 圆角半径 R 必须小于",
-            "  齿槽最小圆弧；DRESSER[0/1]=0 或 2。",
+            "  齿槽最小圆弧；修整器DRESSER[0]，滚轮DRESSER[3]=0/1/2。",
             "• 单边滚轮(B): 左右侧接触角与",
             "  进刀侧壁分开标定，防单侧过切。",
             "• 滚轮转速线速度控制:",
@@ -559,32 +559,32 @@ def draw_tooth_profiles():
     # 4. WORM profile
     dr.line([(2420, 520), (2540, 520), (2620, 348), (2840, 348), (2920, 520), (3060, 520)], fill=C_AMBER, width=6)
     dr.text((2590, 296), "模数 m · 压力角 α", font=f_reg(20), fill=C_DARK)
-    dr.text((2625, 420), "法向/轴向齿厚\nM28/M35/M38 互锁", font=f_bold(20), fill=C_RED)
+    dr.text((2625, 420), "法向/轴向齿厚\nC_DRESS_WORM_INIT(R3~R29)", font=f_bold(20), fill=C_RED)
 
     specs = [
         (56, ["• TRI[] + DRESSER[112]", "• 支持单圆弧齿顶 / 带", "  丝底凹槽 (Mask10)", "• 可控斜角 & 齿高修正"]),
         (824, ["• TRAP[] + SHAPE_MODEL", "• 支持左右偏心/牙底", "  圆弧/齿顶倒角", "• TIXING_TYPE 切标准/扩展"]),
         (1592, ["• DARC[] + SHAPE_MODEL[31..]", "• 行星齿 接触角 45~90°", "• DARC_CACL_REF 过切限制", "  范围 0.9~1.2 (默认 1.11)"]),
-        (2360, ["• WORM_SHAPE 独立入口", "• ZA/ZN/ZK/ZI 等蜗杆齿形", "• M_OPEN/M_CLOSE 联动", "  液压夹紧/尾座安全门"]),
+        (2360, ["• WORM_SHAPE 独立入口", "• ZA/ZN/ZK/ZI 等蜗杆齿形", "• M_OPEN/M_CLOSE OEM钩子(默认RET)", "  冷却/松夹: M8/28/38 · M35/36"]),
     ]
     for x0, lines in specs:
         for i, ln in enumerate(lines):
             dr.text((x0 + 30, 634 + i * 64), ln, font=f_reg(21), fill=C_DARK)
 
     rbox(dr, [56, 986, 1558, 1460], fill=C_BLUE_BG, outline=C_BLUE, width=4)
-    dr.text((92, 1016), "D_EXTERNE_SHAPE.SPF —— 外部 CAD 轮廓调用平面映射", font=f_bold(30), fill=C_BLUE)
-    dr.text((92, 1084), "• 适用场景：异形滚道、非标对称/不对称槽型直接导出 G 代码修整路径", font=f_reg(23), fill=C_DARK)
-    dr.text((92, 1134), "• 平面自动选择：DRESSER[1] / DRESSER[38] 决定 G17(X-Y) / G18(Z-X) / G19(Y-Z)", font=f_mono(22), fill=C_SLATE)
-    dr.text((92, 1184), "• 刀补号绑定：自动激活 TOOL_INDEX = 1，TOOL_NAME = \"1\"，读取 shape/ 目录", font=f_reg(23), fill=C_DARK)
+    dr.text((92, 1016), "D_EXTERNE_SHAPE.SPF —— 外部 CAD 左右分开修整", font=f_bold(30), fill=C_BLUE)
+    dr.text((92, 1084), "• 适用场景：异形滚道、非标对称/不对称槽型直接导出 G 代码左右分边修整", font=f_reg(23), fill=C_DARK)
+    dr.text((92, 1134), "• 插补平面与分边：DRESSER[56] 决定 G17(0) / G18(1) / G19(2)；DRESSER[44]=0右/1左", font=f_mono(22), fill=C_SLATE)
+    dr.text((92, 1184), "• 外部路径位置：SHAPE_MODEL[0]（0内置 / 1后USB //DEV_3 / 2前USB / 3 CF卡）", font=f_reg(23), fill=C_DARK)
     dr.text((92, 1234), "• 提示：导入 CAD 轮廓前须在 shape/ 校验原点是否与砂轮尖端参考点重合！", font=f_bold(23), fill=C_RED)
     dr.text((92, 1294), "• 对应界面：通用齿形模块（a_shapecommon）外部轮廓名称 SHAPE_EXTERNAL", font=f_reg(23), fill=C_SLATE)
 
     rbox(dr, [1592, 986, 3144, 1460], fill=C_TEAL_BG, outline=C_TEAL, width=4)
-    dr.text((1628, 1016), "D_LINE_TOOL_SHAPE.SPF —— 参数化多段通用修整", font=f_bold(30), fill=C_TEAL)
-    dr.text((1628, 1084), "• 适用场景：不需要外部 CAD 文件，直接在 HMI 填写多段折线+圆弧拐角参数", font=f_reg(23), fill=C_DARK)
-    dr.text((1628, 1134), "• 核心变量：COMMON_LENGTH[0..19]、COMMON_ANG[0..19]、COMMON_RND[0..19]", font=f_mono(22), fill=C_SLATE)
-    dr.text((1628, 1184), "• 修整器保护：读取 SHAPE_MODEL[0]、DRESSER[32]、PROCESS[123] 校验退刀路径", font=f_reg(23), fill=C_DARK)
-    dr.text((1628, 1234), "• 多线蜗杆/多头修整：通过 WHICH_COMMON_SHAPE 动态分派成型计算子程序", font=f_reg(23), fill=C_SLATE)
+    dr.text((1628, 1016), "D_LINE_TOOL_SHAPE.SPF —— 带刀补连续曲线（与通用积木区分）", font=f_bold(30), fill=C_TEAL)
+    dr.text((1628, 1084), "• 适用场景：读取完整单段外部轨迹程序，并启用刀具半径补偿连续走刀", font=f_reg(23), fill=C_DARK)
+    dr.text((1628, 1134), "• 刀补绑定：TOOL_INDEX=1, TOOL_EDGE_INDEX=1, TOOL_NAME=\"1\" ($TC_DP6[1,1]=DRESSER[32])", font=f_mono(21), fill=C_SLATE)
+    dr.text((1628, 1184), "• 关键约束：通道须设 MD42480=0 防 EXTCALL+刀补报警（G41/G42放子程序内）；齿高 PROCESS[123]", font=f_reg(21), fill=C_DARK)
+    dr.text((1628, 1234), "• 区分：参数化 10 线段积木(COMMON_LENGTH/ANG/RND)与平面修砂轮属 D_COMMON_SHAPE.SPF", font=f_reg(22), fill=C_SLATE)
     dr.text((1628, 1294), "• 注意：修整参数切换后必须在空行程下验证首轮空修防撞！", font=f_bold(23), fill=C_RED)
 
     save_downsampled(im, "diag_tooth_profiles.png")
@@ -663,8 +663,8 @@ def draw_probe_and_slot():
     notes = [
         "1. SYN / 高速开关量切换：依赖 MD21220 ($MC_MULTFEED_ASSIGN_FASTIN)",
         "   与 MD21230 关联数字量高速输入字节，实现毫秒级不停顿变进给（FMA）。",
-        "2. 量仪就位与撤回 M 代码：M93 控制气缸/机械臂推送在线测量爪抱合外圆，",
-        "   精磨到达终点信号后自动同步收回量仪、砂轮退回安全位（PROCESS[46]）。",
+        "2. 量仪就位与撤回 M 代码：M92 伸出量仪气缸抱合外圆，到寸后发 M93 自动缩回量仪，",
+        "   同时置 $A_OUT[3]=0 结束测量、砂轮退回安全位（PROCESS[46]）。",
         "3. 测量使能绑定：主览界面 Mask23 打开 [在线测量使能] (TECHNOLOGY[295/296])",
         "   且机床配置 INI[149/150] 允许显示时生效，避免空跑报量仪未就位报警。",
     ]

@@ -43,6 +43,7 @@ html, body {
     margin: 0 auto;
     padding: 20px;
     box-sizing: border-box;
+    overflow-x: visible !important;
 }
 
 /* 段落字体设置 */

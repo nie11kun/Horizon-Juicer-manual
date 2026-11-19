@@ -13,8 +13,8 @@
 | :--- | :--- | :--- | :--- |
 | **`INI`** | `INI[16]` / `INI[36]` / `INI[68]`<br>`INI[84]` / `INI[130]` / `INI[144]`<br>`INI[149]` | `INI[17]` / `INI[37]` / `INI[69]`<br>`INI[85]` / `INI[131]` / `INI[145]`<br>`INI[150]` | 螺旋升角使能 / 砂轮驱动类型 / 自磨夹具使能<br>内磨退出方式 / 出厂编号 / 恒转速模式<br>外圆在线量仪开关 |
 | **`PROCESS`** | `PROCESS[15]` / `PROCESS[41..48]`<br>`PROCESS[94]` / `PROCESS[122]` | `PROCESS[16]` / `PROCESS[42..49]`<br>`PROCESS[95]` / `PROCESS[123]` | 扩展工艺开关 / 磨削中心 5 工序勾选及接触位<br>外圆台阶总开关 / 机械手辅助参数 |
-| **`TECHNOLOGY`** | `TECHNOLOGY[56/57/109/127]`<br>`TECHNOLOGY[158/232/307/310]`<br>`TECHNOLOGY[368]` | `TECHNOLOGY[57/58/110/128]`<br>`TECHNOLOGY[159/233/308/311]`<br>`TECHNOLOGY[369]` | 备份页 / 统计页 / 两端变径 / 内磨测量模式<br>开关测头切换 / 自磨夹具显示 / 附加冷却 / 分段补偿<br>配件寿命界面显示 |
-| **`DRESSER`** | `DRESSER[0/3/4/5]`<br>`DRESSER[56/110/112]` | `DRESSER[1/4/5/6]`<br>`DRESSER[57/111/113]` | 修整器类型 / 滚轮类型 / 齿形选择 / 新旧砂轮<br>插补平面 / 外部齿形显示 / 双圆弧计算比例系数 |
+| **`TECHNOLOGY`** | `TECHNOLOGY[56/57/109/127]`<br>`TECHNOLOGY[158/232/307/310]`<br>`TECHNOLOGY[368/431]` | `TECHNOLOGY[57/58/110/128]`<br>`TECHNOLOGY[159/233/308/311]`<br>`TECHNOLOGY[369/432]` | 备份页 / 统计页 / 两端变径 / 内磨测量模式<br>开关测头切换 / 自磨夹具显示 / 附加冷却 / 分段补偿<br>配件寿命界面显示 / 平面修砂轮显示开关 |
+| **`DRESSER`** | `DRESSER[0/3/4/5]`<br>`DRESSER[56/110/112/141]` | `DRESSER[1/4/5/6]`<br>`DRESSER[57/111/113/142]` | 修整器类型 / 滚轮类型 / 齿形选择 / 新旧砂轮<br>插补平面 / 外部齿形显示 / 双圆弧比例 / 平面修锥度(mm) |
 | **`TOOL_SET`** | `TOOL_SET[8/10/16]`<br>`TOOL_SET[41/57/59]` | `TOOL_SET[9/11/17]`<br>`TOOL_SET[42/58/60]` | 首次二次对刀 / 测头水平距 / 机械手按钮开关<br>对刀结果微调 / 首件工件标志 / 螺距变换总开关 |
 | **`RING` / `SCREW_TAP`** | `RING[0]` / `RING[49]`<br>`SCREW_TAP[0]` | `RING[1]` / `RING[50]`<br>`SCREW_TAP[1]` | 螺纹环形槽切换 / 环形槽显示开关<br>丝锥铲磨总开关 |
 
