@@ -1,0 +1,976 @@
+
+<!DOCTYPE HTML>
+<html lang="zh-hans" >
+    <head>
+        <meta charset="UTF-8">
+        <title>4.1 真机 NC-Data 与 CF 卡部署流程 · Horizon-Juicer & HorizonJuicerCreator 用户与工程指南</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="HonKit 6.2.6">
+        <meta name="author" content="Nie Kun">
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/honkit-plugin-katex/katex.min.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/@honkit/honkit-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/@honkit/honkit-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+        <link rel="stylesheet" href="../styles/website.css">
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="sinutrain_simulation.html" />
+    
+    
+    <link rel="prev" href="./" />
+    
+
+    </head>
+    <body>
+        
+<div class="book honkit-cloak">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="输入并搜索" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    前言：系统概览与手册导航
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">第一部分：HorizonJuicerCreator 配置生成软件指南</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../1_creator_getting_started/">
+            
+                <a href="../1_creator_getting_started/">
+            
+                    
+                    第 1 章 软件入门与路径配置
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.1" data-path="../1_creator_getting_started/ui_overview.html">
+            
+                <a href="../1_creator_getting_started/ui_overview.html">
+            
+                    
+                    1.1 主工作台、菜单栏与版本历史
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2" data-path="../1_creator_getting_started/path_settings.html">
+            
+                <a href="../1_creator_getting_started/path_settings.html">
+            
+                    
+                    1.2 源仓库与输出目录设置
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../2_creator_machine_config/">
+            
+                <a href="../2_creator_machine_config/">
+            
+                    
+                    第 2 章 机床配置与程序生成
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.2.1" data-path="../2_creator_machine_config/machine_and_system_info.html">
+            
+                <a href="../2_creator_machine_config/machine_and_system_info.html">
+            
+                    
+                    2.1 机床信息、系统平台与安全选项
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.2" data-path="../2_creator_machine_config/structure_options.html">
+            
+                <a href="../2_creator_machine_config/structure_options.html">
+            
+                    
+                    2.2 机床结构、修整器与硬件选配联动
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.3" data-path="../2_creator_machine_config/output_structure.html">
+            
+                <a href="../2_creator_machine_config/output_structure.html">
+            
+                    
+                    2.3 生成目录结构与规格编码解析
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../3_creator_tools/">
+            
+                <a href="../3_creator_tools/">
+            
+                    
+                    第 3 章 辅助工具箱
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.3.1" data-path="../3_creator_tools/password_calculator.html">
+            
+                <a href="../3_creator_tools/password_calculator.html">
+            
+                    
+                    3.1 系统动态解锁口令计算器
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3.2" data-path="../3_creator_tools/remove_comments.html">
+            
+                <a href="../3_creator_tools/remove_comments.html">
+            
+                    
+                    3.2 批量删除程序注释工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">第二部分：程序部署与系统管理</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    第 4 章 真机部署与 SinuTrain 仿真
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="3.1.1" data-path="real_machine_deploy.html">
+            
+                <a href="real_machine_deploy.html">
+            
+                    
+                    4.1 真机 NC-Data 与 CF 卡部署流程
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.2" data-path="sinutrain_simulation.html">
+            
+                <a href="sinutrain_simulation.html">
+            
+                    
+                    4.2 SinuTrain 4.8 SP4 仿真导入与缓存刷新
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="../5_custom_and_system/">
+            
+                <a href="../5_custom_and_system/">
+            
+                    
+                    第 5 章 系统主页、底层设置、统计与备份
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.2.1" data-path="../5_custom_and_system/custom_home.html">
+            
+                <a href="../5_custom_and_system/custom_home.html">
+            
+                    
+                    5.1 CUSTOM 主页导航与设备编号信息
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.2" data-path="../5_custom_and_system/machine_settings.html">
+            
+                <a href="../5_custom_and_system/machine_settings.html">
+            
+                    
+                    5.2 机床系统配置与安全解锁
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.3" data-path="../5_custom_and_system/stats_and_life.html">
+            
+                <a href="../5_custom_and_system/stats_and_life.html">
+            
+                    
+                    5.3 加工统计、砂轮记录与配件寿命管理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.4" data-path="../5_custom_and_system/backup_and_restore.html">
+            
+                <a href="../5_custom_and_system/backup_and_restore.html">
+            
+                    
+                    5.4 NC 全局参数备份与恢复
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">第三部分：Horizon-Juicer 机床操作与工艺功能指南</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="../6_thread_grinding/">
+            
+                <a href="../6_thread_grinding/">
+            
+                    
+                    第 6 章 螺纹磨削与工艺参数
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.1.1" data-path="../6_thread_grinding/main_grinding.html">
+            
+                <a href="../6_thread_grinding/main_grinding.html">
+            
+                    
+                    6.1 主磨削参数与手动对刀操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.2" data-path="../6_thread_grinding/process_params.html">
+            
+                <a href="../6_thread_grinding/process_params.html">
+            
+                    
+                    6.2 工艺参数表、附加配置、Y 轴与 UW 挡块
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.3" data-path="../6_thread_grinding/tap_worm_ring.html">
+            
+                <a href="../6_thread_grinding/tap_worm_ring.html">
+            
+                    
+                    6.3 丝锥、蜗杆与环形槽专用功能
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.4" data-path="../6_thread_grinding/advanced_modules.html">
+            
+                <a href="../6_thread_grinding/advanced_modules.html">
+            
+                    
+                    6.4 高级模块：夹具自磨、倒角、空运行、变径与分段补偿
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="../7_dressing_and_shapes/">
+            
+                <a href="../7_dressing_and_shapes/">
+            
+                    
+                    第 7 章 砂轮修整、滚轮与齿形模型
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.2.1" data-path="../7_dressing_and_shapes/dressing_main.html">
+            
+                <a href="../7_dressing_and_shapes/dressing_main.html">
+            
+                    
+                    7.1 砂轮修整主参数与新/旧砂轮策略
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2.2" data-path="../7_dressing_and_shapes/wheel_setup.html">
+            
+                <a href="../7_dressing_and_shapes/wheel_setup.html">
+            
+                    
+                    7.2 滚轮类型与修整中心校准方法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2.3" data-path="../7_dressing_and_shapes/shape_profiles.html">
+            
+                <a href="../7_dressing_and_shapes/shape_profiles.html">
+            
+                    
+                    7.3 齿形参数、通用齿形模型与多线/外部轨迹
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="../8_auto_tool_setting/">
+            
+                <a href="../8_auto_tool_setting/">
+            
+                    
+                    第 8 章 自动对刀系统
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.3.1" data-path="../8_auto_tool_setting/external_auto_set.html">
+            
+                <a href="../8_auto_tool_setting/external_auto_set.html">
+            
+                    
+                    8.1 外螺纹自动对刀标定与测量
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3.2" data-path="../8_auto_tool_setting/internal_auto_set.html">
+            
+                <a href="../8_auto_tool_setting/internal_auto_set.html">
+            
+                    
+                    8.2 内螺纹与磨削中心自动对刀标定
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="../9_grinding_center/">
+            
+                <a href="../9_grinding_center/">
+            
+                    
+                    第 9 章 磨削中心复合功能
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.4.1" data-path="../9_grinding_center/center_overview.html">
+            
+                <a href="../9_grinding_center/center_overview.html">
+            
+                    
+                    9.1 加工选择看板与多工序联合调度
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4.2" data-path="../9_grinding_center/cylindrical_and_step.html">
+            
+                <a href="../9_grinding_center/cylindrical_and_step.html">
+            
+                    
+                    9.2 外圆与外圆台阶磨削及修整
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4.3" data-path="../9_grinding_center/endface_grinding.html">
+            
+                <a href="../9_grinding_center/endface_grinding.html">
+            
+                    
+                    9.3 左右端面磨削、修整及交叉补偿
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">第四部分：附录与故障排查</li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="../10_appendix_and_troubleshooting/">
+            
+                <a href="../10_appendix_and_troubleshooting/">
+            
+                    
+                    第 10 章 报警参考、信号定义与变量字典
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.1.1" data-path="../10_appendix_and_troubleshooting/alarms_and_faq.html">
+            
+                <a href="../10_appendix_and_troubleshooting/alarms_and_faq.html">
+            
+                    
+                    10.1 报警代码对照表与现场常见问题
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.1.2" data-path="../10_appendix_and_troubleshooting/m_codes_and_signals.html">
+            
+                <a href="../10_appendix_and_troubleshooting/m_codes_and_signals.html">
+            
+                    
+                    10.2 M 代码、PLC-NC 交互信号与机械手接口
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.1.3" data-path="../10_appendix_and_troubleshooting/variables_and_markers.html">
+            
+                <a href="../10_appendix_and_troubleshooting/variables_and_markers.html">
+            
+                    
+                    10.3 MGUD 全局变量索引与条件编译标记
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://github.com/honkit/honkit" target="blank" class="gitbook-link">
+            本书使用 HonKit 发布
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >4.1 真机 NC-Data 与 CF 卡部署流程</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="41-真机-nc-data-与-cf-卡部署流程">4.1 真机 NC-Data 与 CF 卡部署流程</h1>
+<p>由 <code>HorizonJuicerCreator</code> 生成交付包的目录严格划分为两部分：<strong><code>NC-Data/</code>（进 NC 控制器内存）</strong> 与 <strong><code>System-CF-Card/</code>（进 HMI 面板/CF 卡文件系统）</strong>。两部分缺一不可。</p>
+<h2 id="1-部署前必查的-nc-机床数据（md）">1. 部署前必查的 NC 机床数据（MD）</h2>
+<p>在激活全局变量定义文件 <code>MGUD.DEF</code> 之前，请先进入机床 <strong>调试 → 机床数据 → 通用机床数据</strong> 核对并调整以下两个核心系统参数：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">机床数据号</th>
+<th style="text-align:left">参数名称 / 用途</th>
+<th style="text-align:center">要求设定值</th>
+<th style="text-align:left">说明与注意事项</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong><code>MD18120</code></strong></td>
+<td style="text-align:left"><code>MM_NUM_GUD_NAMES_NCK</code>（NCK 区域全局用户数据名称数量）</td>
+<td style="text-align:center"><strong><code>&gt;= 70</code></strong></td>
+<td style="text-align:left"><code>MGUD.DEF</code> 内声明了海量 <code>INI</code>、<code>DRESSER</code>、<code>PROCESS</code>、<code>TECHNOLOGY</code> 等数组与字符串变量，默认值偏小时激活 <code>MGUD</code> 会报内存不足</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong><code>MD18660</code></strong></td>
+<td style="text-align:left"><code>MM_NUM_SYNACT_GUD_REAL[1]</code>（同步动作可用的 Real 型固定 SYG 变量数）</td>
+<td style="text-align:center">按需设为 <strong><code>20</code></strong></td>
+<td style="text-align:left">同步动作中无法直接使用普通 GUD 变量，若需要开放 <code>SYG_RM[0]</code>～<code>SYG_RM[19]</code> 供同步动作使用，可设该参数为 <code>20</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>提示</strong>：修改 <code>MD18120</code> 后通常需要执行一次 <strong>NCK 复位（PO Restart）</strong> 使其内存重新分配生效，建议先备份当前机床总系列备份文件（Archive）后再行修改。</p>
+</blockquote>
+<h2 id="2-nc-data-导入顺序（严格先-def，后-cma-与-mpf）">2. NC-Data 导入顺序（严格先 DEF，后 CMA 与 MPF）</h2>
+<p>可通过 <strong>前部 USB 接口</strong> 拷贝或使用 <strong>WinSCP / FileZilla</strong> 经由服务网口传输至控制器，必须严格遵守以下顺序：</p>
+<ol>
+<li><strong>导入并激活 <code>DEF/MGUD.DEF</code>（第一步）</strong>：<ul>
+<li>将 <code>NC-Data/DEF/MGUD.DEF</code> 传入控制器 <strong>定义（Definitions）</strong> 目录；</li>
+<li>在程序管理器中选中 <code>MGUD.DEF</code>，点击右侧软键 <strong>激活（Activate）</strong>，确认无报警后所有全局数组即建立完毕。</li>
+</ul>
+</li>
+<li><strong>导入子程序 <code>CMA/*.SPF</code>（第二步）</strong>：<ul>
+<li>将 <code>NC-Data/CMA/</code> 下全部 <code>.SPF</code> 文件传入系统 <strong>制造厂循环（Manufacturer Cycles）</strong> 目录（即 <code>/_N_CMA_DIR</code>）。</li>
+</ul>
+</li>
+<li><strong>导入主程序 <code>MPF/&lt;机床型号&gt;.MPF</code>（第三步）</strong>：<ul>
+<li>将 <code>NC-Data/MPF/&lt;机床型号&gt;.MPF</code> 传入 <strong>零件程序（Part Programs）</strong> 目录。</li>
+<li><strong>重要初始化操作</strong>：第一次投产调试前，请务必检查 <code>&lt;机床型号&gt;.MPF</code> 内的轴速度（<code>INI[54]</code>～<code>INI[65]</code>、S轴/V/W/U/A速度）、主轴等待延时（<code>INI[71]</code>、<code>INI[112..115]</code>）、换刀指令标记（<strong>禁止在未安装或未配置 <code>TCHANGE</code> 子程序时直接保留无效 <code>T0 D0</code></strong>，需按源码内备注视实际机床情况处理），并在 <strong>AUTO</strong> 模式下运行一次该初始化主程序使预设生效。</li>
+</ul>
+</li>
+</ol>
+<h2 id="3-system-cf-card-导入-hmi-系统目录">3. System-CF-Card 导入 HMI 系统目录</h2>
+<p>根据所选目标系统平台的不同，<code>System-CF-Card</code> 内的有效目录结构有所差异：</p>
+<ul>
+<li><strong>828D 老版</strong>：包含 <code>user</code>、<code>oem</code>、<code>siemens</code></li>
+<li><strong>828D 新版 / Sinumerik ONE</strong>：包含 <code>oem</code>、<code>user</code>（<code>siemens</code> 由内部标准固件接管或按对应层级存放）</li>
+</ul>
+<p>将 <code>System-CF-Card</code> 下的全部文件夹整体复制到控制器 CF 卡根目录 <code>/card/</code>（PCU50/IPC 可使用 WinSCP 连接至 <code>/siemens</code>、<code>/oem</code>、<code>/user</code> 并对应合并覆盖）：</p>
+<blockquote>
+<p><strong>关键一步 — 清理旧版在线帮助缓存</strong>：<br></br>每次更新 <code>hlp</code> 帮助包后，若老帮助内容或图片未生效，请删除以下缓存目录并重新开机或切换语言：<br></br><code>/card/siemens/sinumerik/sys_cache/hmi/hlp</code></p>
+</blockquote>
+<h2 id="4-新设备首次传入数据必做：配置重置（vs3-→-mask2）">4. 新设备首次传入数据必做：配置重置（VS3 → Mask2）</h2>
+<blockquote>
+<p><strong>重要提示（新设备首次传入数据必做配置重置）</strong>：<br></br>当向 <strong>全新机床</strong>（或重新激活了 <code>MGUD.DEF</code> 清空了全局变量内存的控制器）首次导入程序包并运行一次 <code>&lt;机床型号&gt;.MPF</code> 后，<strong>必须</strong>立即进入 <strong>CUSTOM → 右下角 <code>VS8 扩展菜单</code> → <code>VS1 机床配置</code></strong>（使用 <a href="../3_creator_tools/password_calculator.html">3.1 口令计算器</a> 解锁 <code>Mask0</code> 进入 <code>Mask1</code>），点击右侧软键 <strong><code>VS3 重置数据</code></strong>，并在 <code>Mask2</code> 弹窗中点击 <strong><code>VS8 确认</code></strong> 执行一次配置重置！<br></br><strong>底层原因（<code>a_setting.com</code> <code>SUB(UP6)</code>）</strong>：新建立的 <code>MGUD</code> 变量默认全为 <code>0</code>；而 <code>HorizonJuicerCreator</code> 已将您勾选的 <strong>砂轮/修整轮伺服或变频驱动（<code>INI[36]</code> 内/外磨砂轮、<code>INI[37]</code> 修整轮、<code>INI[91]</code> 磨削中心外圆砂轮，决定 <code>F_GRINDWHEEL_RUN.SPF</code> 发送 <code>M1=3 S1=</code> 还是 <code>R299+M13</code>）、A 轴使能（<code>INI[16]</code>）、自动对刀与测量方向（<code>INI[69]</code>、<code>±1</code>）、默认安全转速（<code>1000</code>/<code>5000</code>）以及 <code>UP1</code>～<code>UP9</code> 输入框读写权限锁</strong> 编译写入了 <code>SUB(UP6)</code>。<strong>不执行这次重置，磨削主轴可能无法正常按对应驱动方式启动或关联输入框呈灰显锁定！</strong> 详见 <a href="../5_custom_and_system/machine_settings.html">5.2 机床系统配置与安全解锁</a>。</p>
+</blockquote>
+<h2 id="5-逻辑驱动器与前置后置-usb-配置文件（extdevini）">5. 逻辑驱动器与前置/后置 USB 配置文件（<code>extdev.ini</code>）</h2>
+<p>如果客户需要使用 <strong>外部齿形轨迹程序加载</strong> 或 <strong>参数备份恢复到 USB</strong> 功能，请注意以下两个接口配置要求：</p>
+<ol>
+<li><strong>前置 USB 存储（备份与读取）</strong>：<ul>
+<li>需将 <code>Source_Library</code>（或程序包内附带的）配置示例 <code>extdev.ini</code> 放入控制器的 <code>/oem/sinumerik/nck/</code>（或 <code>/user/sinumerik/nck/</code>）目录，并 <strong>重启 CNC 系统</strong> 后生效。</li>
+<li>注意：受西门子底层系统限制，<strong>部分固件测试无法直接执行向后置 USB 写入备份</strong>（建议备份优先使用 <code>内部SPF</code>、<code>CF卡</code> 或正确配置了 <code>extdev.ini</code> 的 <code>前USB</code>）。</li>
+</ul>
+</li>
+<li><strong>后置 USB 读取外部文件（<code>//DEV_3</code>）</strong>：<ul>
+<li>如需从机床电气柜 <strong>后置 USB</strong> 读取参数备份文件或外部齿形程序，必须在 SINUMERIK Operate <strong>调试 → HMI → 逻辑驱动器（Logical Drives）</strong> 中新增并配置驱动器连接，且逻辑名称必须严格设置为 <strong><code>//DEV_3</code></strong>。</li>
+</ul>
+</li>
+</ol>
+<h2 id="6-实机首次上电前操作面板速查">6. 实机首次上电前操作面板速查</h2>
+<p><img src="../images/diagrams/diag_mcp_keys.png" alt="OP 与 MCP 操作面板键位、钥匙开关与 DRF 手轮联动示意图"></img></p>
+<h3 id="sinumerik-operate-ac1～ac7-访问权限对照表">SINUMERIK Operate <code>ac1</code>～<code>ac7</code> 访问权限对照表</h3>
+<blockquote>
+<p><strong>说明</strong>：西门子访问等级编号越小权限越高，高权限向下兼容全部低权限软键与输入框（<code>ac0</code> 为西门子系统厂商最高级）。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">访问标识</th>
+<th style="text-align:left">对应口令 / 钥匙开关等级</th>
+<th style="text-align:left">在 <code>Horizon-Juicer</code> 中的具体开放范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong><code>ac1</code></strong></td>
+<td style="text-align:left"><strong>制造商口令</strong>（客户侧最高口令）</td>
+<td style="text-align:left">向下兼容全部 <code>ac2</code>～<code>ac7</code> 界面、软键与底层参数</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong><code>ac2</code></strong></td>
+<td style="text-align:left"><strong>服务口令</strong></td>
+<td style="text-align:left">向下兼容全部 <code>ac3</code>～<code>ac7</code> 界面、软键与底层参数</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong><code>ac3</code></strong></td>
+<td style="text-align:left"><strong>用户口令</strong></td>
+<td style="text-align:left">解锁 <code>CUSTOM</code> 主页 <strong><code>VS2 备份恢复</code></strong>、<strong><code>VS8 扩展菜单 → VS1 机床配置</code></strong>、<code>a_setting</code> <strong><code>Mask0</code> 隐藏 <code>VS3</code>（显示挑战码）</strong> 与 <strong><code>Mask1</code> <code>VS3 重置数据</code></strong>，以及 <code>a_info</code> <strong>隐藏 <code>VS3</code>（解锁修改出厂编号）</strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong><code>ac4</code></strong></td>
+<td style="text-align:left"><strong>钥匙开关 3 档</strong>（日常改参默认位）</td>
+<td style="text-align:left">解锁绝大多数磨削、工艺、修整、对刀、磨削中心及机床配置参数输入框（<code>WR2, ac4</code>），并开放 <code>CUSTOM</code> 主页 <strong><code>VS5 加工统计</code></strong> 及统计页 <strong><code>VS1 重置统计</code> / <code>VS4 重置计数</code></strong></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong><code>ac5</code></strong></td>
+<td style="text-align:left"><strong>钥匙开关 2 档</strong></td>
+<td style="text-align:left">中间操作级（权限低于 <code>ac4</code>，不可修改 <code>ac4</code> 参数）</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong><code>ac6</code></strong></td>
+<td style="text-align:left"><strong>钥匙开关 1 档</strong></td>
+<td style="text-align:left">初级操作级（权限低于 <code>ac4</code>，不可修改 <code>ac4</code> 参数）</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong><code>ac7</code></strong></td>
+<td style="text-align:left"><strong>钥匙开关 0 档</strong>（最低级别 / 无限制）</td>
+<td style="text-align:left">始终可操作：进入 <strong><code>HS7 用户界面</code></strong>、查看 <strong><code>VS1 出厂信息</code></strong> / <strong><code>VS3 配件寿命</code></strong>，以及各加工画面常规导航软键与只读监控数据</td>
+</tr>
+</tbody>
+</table>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="./" class="navigation navigation-prev " aria-label="Previous page: 第 4 章 真机部署与 SinuTrain 仿真">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="sinutrain_simulation.html" class="navigation navigation-next " aria-label="Next page: 4.2 SinuTrain 4.8 SP4 仿真导入与缓存刷新">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"4.1 真机 NC-Data 与 CF 卡部署流程","level":"3.1.1","depth":2,"next":{"title":"4.2 SinuTrain 4.8 SP4 仿真导入与缓存刷新","level":"3.1.2","depth":2,"path":"4_deployment_and_sinutrain/sinutrain_simulation.md","ref":"4_deployment_and_sinutrain/sinutrain_simulation.md","articles":[]},"previous":{"title":"第 4 章 真机部署与 SinuTrain 仿真","level":"3.1","depth":1,"path":"4_deployment_and_sinutrain/README.md","ref":"4_deployment_and_sinutrain/README.md","articles":[{"title":"4.1 真机 NC-Data 与 CF 卡部署流程","level":"3.1.1","depth":2,"path":"4_deployment_and_sinutrain/real_machine_deploy.md","ref":"4_deployment_and_sinutrain/real_machine_deploy.md","articles":[]},{"title":"4.2 SinuTrain 4.8 SP4 仿真导入与缓存刷新","level":"3.1.2","depth":2,"path":"4_deployment_and_sinutrain/sinutrain_simulation.md","ref":"4_deployment_and_sinutrain/sinutrain_simulation.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["theme-default","katex"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css"},"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"katex":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2}},"theme":"default","author":"Nie Kun","pdf":{"pageNumbers":true,"fontSize":11,"fontFamily":"Microsoft YaHei","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":48,"left":48,"top":48,"bottom":48},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Horizon-Juicer & HorizonJuicerCreator 用户与工程指南","language":"zh-hans","gitbook":"*","description":"HorizonJuicerCreator 配置软件与 Horizon-Juicer 西门子数控磨削程序包完整用户手册"},"file":{"path":"4_deployment_and_sinutrain/real_machine_deploy.md","mtime":"2026-11-19T08:52:45.975Z","type":"markdown"},"gitbook":{"version":"6.2.6","time":"2026-11-19T08:52:51.800Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <noscript>
+        <style>
+            .honkit-cloak {
+                display: block !important;
+            }
+        </style>
+    </noscript>
+    <script>
+        // Restore sidebar state as critical path for prevent layout shift
+        function __init__getSidebarState(defaultValue){
+            var baseKey = "";
+            var key = baseKey + ":sidebar";
+            try {
+                var value = localStorage[key];
+                if (value === undefined) {
+                    return defaultValue;
+                }
+                var parsed = JSON.parse(value);
+                return parsed == null ? defaultValue : parsed;
+            } catch (e) {
+                return defaultValue;
+            }
+        }
+        function __init__restoreLastSidebarState() {
+            var isMobile = window.matchMedia("(max-width: 600px)").matches;
+            if (isMobile) {
+                // Init last state if not mobile
+                return;
+            }
+            var sidebarState = __init__getSidebarState(true);
+            var book = document.querySelector(".book");
+            // Show sidebar if it enabled
+            if (sidebarState && book) {
+                book.classList.add("without-animation", "with-summary");
+            }
+        }
+
+        try {
+            __init__restoreLastSidebarState();
+        } finally {
+            var book = document.querySelector(".book");
+            book.classList.remove("honkit-cloak");
+        }
+    </script>
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/@honkit/honkit-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/@honkit/honkit-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/@honkit/honkit-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

@@ -1,0 +1,10 @@
+node_modules
+_book
+tools
+.git
+.github
+.agents
+AGENTS.md
+package.json
+package-lock.json
+output.pdf

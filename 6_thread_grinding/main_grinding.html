@@ -1,0 +1,999 @@
+
+<!DOCTYPE HTML>
+<html lang="zh-hans" >
+    <head>
+        <meta charset="UTF-8">
+        <title>6.1 主磨削参数与手动对刀操作 · Horizon-Juicer & HorizonJuicerCreator 用户与工程指南</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="HonKit 6.2.6">
+        <meta name="author" content="Nie Kun">
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/honkit-plugin-katex/katex.min.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/@honkit/honkit-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/@honkit/honkit-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+        <link rel="stylesheet" href="../styles/website.css">
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="process_params.html" />
+    
+    
+    <link rel="prev" href="./" />
+    
+
+    </head>
+    <body>
+        
+<div class="book honkit-cloak">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="输入并搜索" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    前言：系统概览与手册导航
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">第一部分：HorizonJuicerCreator 配置生成软件指南</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../1_creator_getting_started/">
+            
+                <a href="../1_creator_getting_started/">
+            
+                    
+                    第 1 章 软件入门与路径配置
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.1.1" data-path="../1_creator_getting_started/ui_overview.html">
+            
+                <a href="../1_creator_getting_started/ui_overview.html">
+            
+                    
+                    1.1 主工作台、菜单栏与版本历史
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.1.2" data-path="../1_creator_getting_started/path_settings.html">
+            
+                <a href="../1_creator_getting_started/path_settings.html">
+            
+                    
+                    1.2 源仓库与输出目录设置
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../2_creator_machine_config/">
+            
+                <a href="../2_creator_machine_config/">
+            
+                    
+                    第 2 章 机床配置与程序生成
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.2.1" data-path="../2_creator_machine_config/machine_and_system_info.html">
+            
+                <a href="../2_creator_machine_config/machine_and_system_info.html">
+            
+                    
+                    2.1 机床信息、系统平台与安全选项
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.2" data-path="../2_creator_machine_config/structure_options.html">
+            
+                <a href="../2_creator_machine_config/structure_options.html">
+            
+                    
+                    2.2 机床结构、修整器与硬件选配联动
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2.3" data-path="../2_creator_machine_config/output_structure.html">
+            
+                <a href="../2_creator_machine_config/output_structure.html">
+            
+                    
+                    2.3 生成目录结构与规格编码解析
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../3_creator_tools/">
+            
+                <a href="../3_creator_tools/">
+            
+                    
+                    第 3 章 辅助工具箱
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="2.3.1" data-path="../3_creator_tools/password_calculator.html">
+            
+                <a href="../3_creator_tools/password_calculator.html">
+            
+                    
+                    3.1 系统动态解锁口令计算器
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3.2" data-path="../3_creator_tools/remove_comments.html">
+            
+                <a href="../3_creator_tools/remove_comments.html">
+            
+                    
+                    3.2 批量删除程序注释工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">第二部分：程序部署与系统管理</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../4_deployment_and_sinutrain/">
+            
+                <a href="../4_deployment_and_sinutrain/">
+            
+                    
+                    第 4 章 真机部署与 SinuTrain 仿真
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.1.1" data-path="../4_deployment_and_sinutrain/real_machine_deploy.html">
+            
+                <a href="../4_deployment_and_sinutrain/real_machine_deploy.html">
+            
+                    
+                    4.1 真机 NC-Data 与 CF 卡部署流程
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.1.2" data-path="../4_deployment_and_sinutrain/sinutrain_simulation.html">
+            
+                <a href="../4_deployment_and_sinutrain/sinutrain_simulation.html">
+            
+                    
+                    4.2 SinuTrain 4.8 SP4 仿真导入与缓存刷新
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="../5_custom_and_system/">
+            
+                <a href="../5_custom_and_system/">
+            
+                    
+                    第 5 章 系统主页、底层设置、统计与备份
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="3.2.1" data-path="../5_custom_and_system/custom_home.html">
+            
+                <a href="../5_custom_and_system/custom_home.html">
+            
+                    
+                    5.1 CUSTOM 主页导航与设备编号信息
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.2" data-path="../5_custom_and_system/machine_settings.html">
+            
+                <a href="../5_custom_and_system/machine_settings.html">
+            
+                    
+                    5.2 机床系统配置与安全解锁
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.3" data-path="../5_custom_and_system/stats_and_life.html">
+            
+                <a href="../5_custom_and_system/stats_and_life.html">
+            
+                    
+                    5.3 加工统计、砂轮记录与配件寿命管理
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2.4" data-path="../5_custom_and_system/backup_and_restore.html">
+            
+                <a href="../5_custom_and_system/backup_and_restore.html">
+            
+                    
+                    5.4 NC 全局参数备份与恢复
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">第三部分：Horizon-Juicer 机床操作与工艺功能指南</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    第 6 章 螺纹磨削与工艺参数
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="4.1.1" data-path="main_grinding.html">
+            
+                <a href="main_grinding.html">
+            
+                    
+                    6.1 主磨削参数与手动对刀操作
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.2" data-path="process_params.html">
+            
+                <a href="process_params.html">
+            
+                    
+                    6.2 工艺参数表、附加配置、Y 轴与 UW 挡块
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.3" data-path="tap_worm_ring.html">
+            
+                <a href="tap_worm_ring.html">
+            
+                    
+                    6.3 丝锥、蜗杆与环形槽专用功能
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.4" data-path="advanced_modules.html">
+            
+                <a href="advanced_modules.html">
+            
+                    
+                    6.4 高级模块：夹具自磨、倒角、空运行、变径与分段补偿
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="../7_dressing_and_shapes/">
+            
+                <a href="../7_dressing_and_shapes/">
+            
+                    
+                    第 7 章 砂轮修整、滚轮与齿形模型
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.2.1" data-path="../7_dressing_and_shapes/dressing_main.html">
+            
+                <a href="../7_dressing_and_shapes/dressing_main.html">
+            
+                    
+                    7.1 砂轮修整主参数与新/旧砂轮策略
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2.2" data-path="../7_dressing_and_shapes/wheel_setup.html">
+            
+                <a href="../7_dressing_and_shapes/wheel_setup.html">
+            
+                    
+                    7.2 滚轮类型与修整中心校准方法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2.3" data-path="../7_dressing_and_shapes/shape_profiles.html">
+            
+                <a href="../7_dressing_and_shapes/shape_profiles.html">
+            
+                    
+                    7.3 齿形参数、通用齿形模型与多线/外部轨迹
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="../8_auto_tool_setting/">
+            
+                <a href="../8_auto_tool_setting/">
+            
+                    
+                    第 8 章 自动对刀系统
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.3.1" data-path="../8_auto_tool_setting/external_auto_set.html">
+            
+                <a href="../8_auto_tool_setting/external_auto_set.html">
+            
+                    
+                    8.1 外螺纹自动对刀标定与测量
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3.2" data-path="../8_auto_tool_setting/internal_auto_set.html">
+            
+                <a href="../8_auto_tool_setting/internal_auto_set.html">
+            
+                    
+                    8.2 内螺纹与磨削中心自动对刀标定
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="../9_grinding_center/">
+            
+                <a href="../9_grinding_center/">
+            
+                    
+                    第 9 章 磨削中心复合功能
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="4.4.1" data-path="../9_grinding_center/center_overview.html">
+            
+                <a href="../9_grinding_center/center_overview.html">
+            
+                    
+                    9.1 加工选择看板与多工序联合调度
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4.2" data-path="../9_grinding_center/cylindrical_and_step.html">
+            
+                <a href="../9_grinding_center/cylindrical_and_step.html">
+            
+                    
+                    9.2 外圆与外圆台阶磨削及修整
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4.3" data-path="../9_grinding_center/endface_grinding.html">
+            
+                <a href="../9_grinding_center/endface_grinding.html">
+            
+                    
+                    9.3 左右端面磨削、修整及交叉补偿
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+        
+        <li class="header">第四部分：附录与故障排查</li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="../10_appendix_and_troubleshooting/">
+            
+                <a href="../10_appendix_and_troubleshooting/">
+            
+                    
+                    第 10 章 报警参考、信号定义与变量字典
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="5.1.1" data-path="../10_appendix_and_troubleshooting/alarms_and_faq.html">
+            
+                <a href="../10_appendix_and_troubleshooting/alarms_and_faq.html">
+            
+                    
+                    10.1 报警代码对照表与现场常见问题
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.1.2" data-path="../10_appendix_and_troubleshooting/m_codes_and_signals.html">
+            
+                <a href="../10_appendix_and_troubleshooting/m_codes_and_signals.html">
+            
+                    
+                    10.2 M 代码、PLC-NC 交互信号与机械手接口
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.1.3" data-path="../10_appendix_and_troubleshooting/variables_and_markers.html">
+            
+                <a href="../10_appendix_and_troubleshooting/variables_and_markers.html">
+            
+                    
+                    10.3 MGUD 全局变量索引与条件编译标记
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://github.com/honkit/honkit" target="blank" class="gitbook-link">
+            本书使用 HonKit 发布
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >6.1 主磨削参数与手动对刀操作</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="61-主磨削参数与手动对刀操作">6.1 主磨削参数与手动对刀操作</h1>
+<p><strong>磨削参数</strong> 界面（<code>a_grind.com</code>）按机型自动呈现对应版本：外螺纹主界面为 <strong><code>Mask1</code></strong>，内螺纹主界面为 <strong><code>Mask18</code></strong>。界面顶部实时监控机械坐标 <code>X</code>/<code>Z</code> 与手轮偏置读数 <code>X_DRF</code>/<code>Z_DRF</code>，并集成了工件尺寸、位置边界与对刀微调全部核心设定。</p>
+<p><img src="../images/sinutrain/hmi_external_grind.png" alt="SinuTrain 外螺纹磨削参数界面实拍（Mask1）"></img></p>
+<p><img src="../images/sinutrain/hmi_internal_grind.png" alt="SinuTrain 内螺纹磨削参数界面实拍（Mask18）"></img></p>
+<h2 id="1-核心参数全解">1. 核心参数全解</h2>
+<h3 id="11-生产与对刀模式控制">1.1 生产与对刀模式控制</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名</th>
+<th style="text-align:left">NC 变量</th>
+<th style="text-align:left">取值与使用场景解析</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>加工模式</strong></td>
+<td style="text-align:left"><code>INI[26]</code></td>
+<td style="text-align:left"><strong><code>0</code> 单件小批量</strong>：从左侧 <strong>当前磨削接触位</strong>（<code>PROCESS[4]</code>）起刀续磨，适合修磨、返修或首件渐进试切；<br></br><strong><code>1</code> 批量生产</strong>：每次程序启动均回到 <strong>初始磨削接触位</strong>（<code>PROCESS[13]</code>）重新走完完整工艺余量，同时每完一件自动累加已加工计数</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>对刀类型</strong></td>
+<td style="text-align:left"><code>TOOL_SET[8]</code></td>
+<td style="text-align:left"><strong><code>0</code> 首次对刀</strong>：用于新安装或重新找正工件，按选定对刀点从安全位置重新切入并刷新 <code>初始磨削接触位</code> 与 <code>头架初始角</code>；<br></br><strong><code>1</code> 二次对刀</strong>：不回退粗位置，直接以先前头架初始角同步插补切入工件齿槽附近，只需用 DRF 手轮微调 X/Z 对准（批量磨削首刀正常后系统会自动翻转为二次对刀以作保护）</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>选择对刀位置</strong></td>
+<td style="text-align:left"><code>TOOL_SET[19]</code></td>
+<td style="text-align:left"><strong><code>0</code> 起点对刀</strong>（从磨削起点进入）；<br></br><strong><code>1</code> 中点对刀</strong>（从工件中点 <code>(左端+右端)/2</code> 进入，适合刚性佳对称探测）；<br></br><strong><code>2</code> 任意点</strong>（配合下方手动录入 <strong><code>任意点对刀位</code> <code>INI[134]</code></strong>，用于避开台阶/破损段）</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>是否是首件工件</strong></td>
+<td style="text-align:left"><code>TOOL_SET[57]</code></td>
+<td style="text-align:left"><strong><code>0</code> 首件工件</strong>：手动对刀完成退出时，同时刷新 <code>初始磨削接触位</code>、<code>当前接触位</code> 与 <code>头架初始角</code>；<br></br><strong><code>1</code> 非首件</strong>：只重新计算并刷新 <code>头架初始角</code>，<strong>保留原来的 <code>初始磨削接触位</code> 不变</strong>，确保同一批次逐件手动对刀后中径尺寸高度一致！</td>
+</tr>
+</tbody>
+</table>
+<h3 id="12-工件几何特征与锥度螺旋升角">1.2 工件几何特征与锥度/螺旋升角</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名</th>
+<th style="text-align:left">NC 变量</th>
+<th style="text-align:left">输入规范与计算公式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>螺纹旋向</strong></td>
+<td style="text-align:left"><code>INI[0]</code></td>
+<td style="text-align:left"><code>0</code> 右旋 / <code>1</code> 左旋（注意右旋与左旋下内/外螺纹插补方向及起刀端设置；左旋如需反向进刀可在系统配置内启用相关开关）</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>工件头数</strong></td>
+<td style="text-align:left"><code>WORK[0]</code></td>
+<td style="text-align:left"><code>1</code>～<code>N</code>（多头螺纹自动按 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>36</mn><msup><mn>0</mn><mo>∘</mo></msup><mi mathvariant="normal">/</mi><mtext>WORK</mtext><mo stretchy="false">[</mo><mn>0</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">360^\circ / \text{WORK}[0]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">36</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.674115em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∘</span></span></span></span></span></span></span></span><span class="mord">/</span><span class="mord text"><span class="mord">WORK</span></span><span class="mopen">[</span><span class="mord">0</span><span class="mclose">]</span></span></span></span> 均分各头 C 轴起始角）</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>工件螺距</strong></td>
+<td style="text-align:left"><code>INI[4]</code></td>
+<td style="text-align:left">填写图纸单牙相邻距离（单头时等于导程；多头时程序内部按 <code>INI[5] = INI[4] * WORK[0]</code> 计算总导程）</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>锥度</strong></td>
+<td style="text-align:left"><code>INI[14]</code></td>
+<td style="text-align:left"><strong>重要约定</strong>：输入值为 <strong>工件每 1 mm 轴向长度上“半径方向”的偏移量</strong>（范围 <code>-10 ~ 10</code>）。<br></br>典型换算示例：<br></br>• 图纸给定锥度比 <code>1:16</code> → 界面输入算式 <code>1/16/2</code>（即 <code>0.03125</code>）；<br></br>• 长 <code>100 mm</code> 圆台大端直径 <code>30</code>、小端直径 <code>20</code> → 输入 <code>(30-20)/100/2 = 0.05</code>；<br></br>• 符号约定：内螺纹 <strong>大头往小头磨输正值</strong>，外螺纹 <strong>小头往大头磨输正值</strong>，反之输负值</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>螺旋升角计算</strong></td>
+<td style="text-align:left"><code>INI[38]</code></td>
+<td style="text-align:left"><strong><code>1</code> 开</strong>：输入下方 <strong>工件中径（<code>INI[39]</code>）</strong> 后，自动按导程与中径计算螺旋升角写入 <code>INI[17]</code>（<code>INI[20]</code>）；<br></br><strong><code>0</code> 关</strong>：允许手动录入 <code>-90° ~ 90°</code> 螺旋升角（以度/分/秒或角度显示）</td>
+</tr>
+</tbody>
+</table>
+<p><img src="../images/diagrams/diag_taper_convention.png" alt="锥螺纹径向锥度输入符号约定示意图"></img></p>
+<h3 id="13-边界坐标与退刀安全位置">1.3 边界坐标与退刀安全位置</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数名</th>
+<th style="text-align:center">区分内/外</th>
+<th style="text-align:left">NC 变量</th>
+<th style="text-align:left">操作测量方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>工件左端</strong></td>
+<td style="text-align:center">共用</td>
+<td style="text-align:left"><code>INI[1]</code></td>
+<td style="text-align:left">手动将砂轮移到能完整磨出工件左侧端牙型/退出余量的位置，记录当前 Z 轴坐标</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>工件右端</strong></td>
+<td style="text-align:center">共用</td>
+<td style="text-align:left"><code>INI[2]</code></td>
+<td style="text-align:left">手动将砂轮移到工件右端入刀起始端（需留适当导入安全量），记录当前 Z 轴坐标</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>对刀起始位置 / 工件中心</strong></td>
+<td style="text-align:center"><strong>外螺纹</strong>：对刀起始<br></br><strong>内螺纹</strong>：工件中心</td>
+<td style="text-align:left"><code>INI[10]</code></td>
+<td style="text-align:left">• <strong>外螺纹</strong>：手动将 X 轴靠近工件外圆安全不干涉处记录 X；<br></br>• <strong>内螺纹</strong>：精确标定砂轮中心与头架中心重合时的 X 坐标（测量公式：<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>X</mi><mtext>中心</mtext></msub><mo>=</mo><msub><mi>X</mi><mtext>外圆接触</mtext></msub><mo>+</mo><msub><mi>D</mi><mtext>工件外径</mtext></msub><mi mathvariant="normal">/</mi><mn>2</mn><mo>+</mo><msub><mi>D</mi><mtext>砂轮</mtext></msub><mi mathvariant="normal">/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">X_{\text{中心}} = X_{\text{外圆接触}} + D_{\text{工件外径}}/2 + D_{\text{砂轮}}/2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.07847em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord cjk_fallback mtight">中心</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.07847em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord cjk_fallback mtight">外圆接触</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord cjk_fallback mtight">工件外径</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">/2</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.02778em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord cjk_fallback mtight">砂轮</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord">/2</span></span></span></span>）</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>台面起始位置 / 上料位置 Z</strong></td>
+<td style="text-align:center"><strong>内螺纹</strong>：台面起始<br></br><strong>机械手</strong>：上料位</td>
+<td style="text-align:left"><code>INI[28]</code></td>
+<td style="text-align:left"><strong>内螺纹</strong>：每次磨削/修整停泊安全 Z 位，系统校检须至少离开 <code>工件右端</code> 安全距离（默认 <code>30 mm</code>，由 <code>TECHNOLOGY[387]</code> 限定）；<strong>外螺纹配机械手</strong>：机械手上下料等待 Z 坐标</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>退刀位置</strong></td>
+<td style="text-align:center">共用</td>
+<td style="text-align:left"><code>INI[23]</code></td>
+<td style="text-align:left">加工完成后 X 轴回退到的绝对安全坐标</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>磨削安全后退距离</strong></td>
+<td style="text-align:center">外螺纹</td>
+<td style="text-align:left"><code>TECHNOLOGY[129]</code></td>
+<td style="text-align:left">相对于初始磨削接触位的 X 后退量（默认限制 <code>&gt;= 10 mm</code>），Z 回退前 X 先退出此距离避免扫坏螺纹牙型</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>内螺纹退出方式</strong></td>
+<td style="text-align:center">内螺纹</td>
+<td style="text-align:left"><code>INI[84]</code></td>
+<td style="text-align:left"><strong><code>0</code> 直接退出</strong>：直退到安全中心后沿 Z 拉出（仅当砂轮直径显著小于内孔小径时使用）；<br></br><strong><code>1</code> 螺旋退出</strong>：沿着螺旋槽轨迹反向/退刀同步拉出，防小孔径大砂轮退刀啃伤内牙</td>
+</tr>
+</tbody>
+</table>
+<h3 id="14-磨削实时尺寸与螺距微调（绿色高亮解锁区）">1.4 磨削实时尺寸与螺距微调（绿色高亮解锁区）</h3>
+<p>屏幕右下角及左下角为生产中高频使用的微调项，受右侧小锁开关（<code>para_switch_1/2/3</code>）保护，防误触输入：</p>
+<ul>
+<li><strong>全长导程补偿</strong>（<code>INI[24]</code>）：根据激光干涉仪或三坐标检测全长螺距累计误差输入补偿值（mm）；</li>
+<li><strong>全长锥度补偿</strong>（<code>INI[141]</code>）：根据圆度/锥度检测报告输入全长 <strong>半径方向</strong> 锥度微调量；</li>
+<li><strong>中径调整</strong>（<code>GRIND[4]</code>）：输入 <strong>直径方向</strong> 偏差（受 <code>TOOL_SET[11]</code> 限值保护，默认 <code>±1 mm</code>）。按需要加减磨削余量，在下一轮循环或执行写入后生效；</li>
+<li><strong>偏刀调整</strong>（<code>TOOL_SET[42]</code>）：当实测螺纹半牙一侧切多一侧切少（偏刀）时输入 Z 向偏移补偿。</li>
+</ul>
+<h2 id="2-标准手动对刀操作全步骤（首次对刀--drf）">2. 标准手动对刀操作全步骤（首次对刀 + DRF）</h2>
+<ol>
+<li><strong>填写基础几何与边界</strong>：正确填好旋向、螺距、左端、右端、安全退刀位及工件中心（外磨填对刀起始位）；</li>
+<li><strong>点亮手动对刀键</strong>：确认左侧模式为 <strong><code>首次对刀</code></strong> 并选好起点/中点/任意点，按下机床操作面板的 <strong>手动对刀</strong> 按键（<code>GRIND[2] = 1</code>）并切至 <strong><code>AUTO</code> 模式</strong>；</li>
+<li><strong>调低倍率并开启手轮</strong>：将进给倍率与主轴倍率关至最小/安全档，按 <strong>循环启动</strong>；</li>
+<li><strong>切入并激活 DRF</strong>：<ul>
+<li>待砂轮自动旋转至工件上方或孔内开始随 C 轴作 <strong>Z-C 同步螺旋插补</strong> 后，按下操作面板 <strong><code>DRF</code></strong> 键并选适当手轮步率（<code>×100</code> 粗移 → <code>×10</code> → <code>×1</code> 精调）；</li>
+<li><em>安全提示</em>：内螺纹默认对刀砂轮不转（<code>INI[53]=0</code>）靠眼看/塞尺；外螺纹或丝锥默认 <code>INI[53]=1500</code> RPM（可在主初始化 <code>.MPF</code> 修改）。推荐在手轮把砂轮轻靠贴合螺纹槽两壁中心后，将 <strong>X 轴向后微退约 <code>0.1 mm</code></strong>，然后略微放大进给倍率走一段，肉眼观察整个行程是否发生后段挤压；</li>
+</ul>
+</li>
+<li><strong>按退刀键结束采样</strong>：对刀位置满意后按下操作面板 <strong>退刀键</strong>（触发 <code>PLCASUP1.SPF</code>），系统自动记录瞬时坐标与 <code>$AC_DRF[X/Z/C]</code> 偏置，算出精准 <strong>头架初始角</strong> 与 <strong>初始磨削接触位</strong>，随后退回安全位并 <code>DRFOF</code> 清零手轮偏置；</li>
+<li><strong>熄灭对刀键准备磨削</strong>：若系统开启 <code>INI[70]=1</code> 则会自动灭灯；否则手动关闭 <strong>手动对刀</strong> 键后即可进入工艺页面启动磨削！</li>
+</ol>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="./" class="navigation navigation-prev " aria-label="Previous page: 第 6 章 螺纹磨削与工艺参数">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="process_params.html" class="navigation navigation-next " aria-label="Next page: 6.2 工艺参数表、附加配置、Y 轴与 UW 挡块">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"6.1 主磨削参数与手动对刀操作","level":"4.1.1","depth":2,"next":{"title":"6.2 工艺参数表、附加配置、Y 轴与 UW 挡块","level":"4.1.2","depth":2,"path":"6_thread_grinding/process_params.md","ref":"6_thread_grinding/process_params.md","articles":[]},"previous":{"title":"第 6 章 螺纹磨削与工艺参数","level":"4.1","depth":1,"path":"6_thread_grinding/README.md","ref":"6_thread_grinding/README.md","articles":[{"title":"6.1 主磨削参数与手动对刀操作","level":"4.1.1","depth":2,"path":"6_thread_grinding/main_grinding.md","ref":"6_thread_grinding/main_grinding.md","articles":[]},{"title":"6.2 工艺参数表、附加配置、Y 轴与 UW 挡块","level":"4.1.2","depth":2,"path":"6_thread_grinding/process_params.md","ref":"6_thread_grinding/process_params.md","articles":[]},{"title":"6.3 丝锥、蜗杆与环形槽专用功能","level":"4.1.3","depth":2,"path":"6_thread_grinding/tap_worm_ring.md","ref":"6_thread_grinding/tap_worm_ring.md","articles":[]},{"title":"6.4 高级模块：夹具自磨、倒角、空运行、变径与分段补偿","level":"4.1.4","depth":2,"path":"6_thread_grinding/advanced_modules.md","ref":"6_thread_grinding/advanced_modules.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["theme-default","katex"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css"},"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"katex":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2}},"theme":"default","author":"Nie Kun","pdf":{"pageNumbers":true,"fontSize":11,"fontFamily":"Microsoft YaHei","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":48,"left":48,"top":48,"bottom":48},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Horizon-Juicer & HorizonJuicerCreator 用户与工程指南","language":"zh-hans","gitbook":"*","description":"HorizonJuicerCreator 配置软件与 Horizon-Juicer 西门子数控磨削程序包完整用户手册"},"file":{"path":"6_thread_grinding/main_grinding.md","mtime":"2026-11-19T08:52:45.975Z","type":"markdown"},"gitbook":{"version":"6.2.6","time":"2026-11-19T08:52:51.800Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <noscript>
+        <style>
+            .honkit-cloak {
+                display: block !important;
+            }
+        </style>
+    </noscript>
+    <script>
+        // Restore sidebar state as critical path for prevent layout shift
+        function __init__getSidebarState(defaultValue){
+            var baseKey = "";
+            var key = baseKey + ":sidebar";
+            try {
+                var value = localStorage[key];
+                if (value === undefined) {
+                    return defaultValue;
+                }
+                var parsed = JSON.parse(value);
+                return parsed == null ? defaultValue : parsed;
+            } catch (e) {
+                return defaultValue;
+            }
+        }
+        function __init__restoreLastSidebarState() {
+            var isMobile = window.matchMedia("(max-width: 600px)").matches;
+            if (isMobile) {
+                // Init last state if not mobile
+                return;
+            }
+            var sidebarState = __init__getSidebarState(true);
+            var book = document.querySelector(".book");
+            // Show sidebar if it enabled
+            if (sidebarState && book) {
+                book.classList.add("without-animation", "with-summary");
+            }
+        }
+
+        try {
+            __init__restoreLastSidebarState();
+        } finally {
+            var book = document.querySelector(".book");
+            book.classList.remove("honkit-cloak");
+        }
+    </script>
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/@honkit/honkit-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/@honkit/honkit-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/@honkit/honkit-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
