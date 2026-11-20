@@ -230,3 +230,10 @@ _ebook_tmp/
 tools/vm_bridge/crop_calib.json
 tools/audit_manual.py
 
+
+# hlp_capture 生成物
+tools/hlp_capture/out/
+tools/hlp_capture/__pycache__/
+
+# hlp_capture 原始截图
+tools/hlp_capture/raw/

@@ -3,7 +3,7 @@
 <html lang="zh-hans" >
     <head>
         <meta charset="UTF-8">
-        <title>10.2 M 代码、PLC-NC 交互信号与机械手接口 · Horizon-Juicer & HorizonJuicerCreator 用户与工程指南</title>
+        <title>10.2 全量 M 代码表与 PLC-NC 交互信号 · Horizon-Juicer & HorizonJuicerCreator 用户与工程指南</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="HonKit 6.2.6">
@@ -54,7 +54,7 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="variables_and_markers.html" />
+    <link rel="next" href="config_ui_variables.html" />
     
     
     <link rel="prev" href="alarms_and_faq.html" />
@@ -668,7 +668,7 @@
                 <a href="m_codes_and_signals.html">
             
                     
-                    10.2 M 代码、PLC-NC 交互信号与机械手接口
+                    10.2 全量 M 代码表与 PLC-NC 交互信号
             
                 </a>
             
@@ -676,12 +676,38 @@
             
         </li>
     
-        <li class="chapter " data-level="5.1.3" data-path="variables_and_markers.html">
+        <li class="chapter " data-level="5.1.3" data-path="config_ui_variables.html">
             
-                <a href="variables_and_markers.html">
+                <a href="config_ui_variables.html">
             
                     
-                    10.3 MGUD 全局变量索引与条件编译标记
+                    10.3 全量配置界面对应变量表
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.1.4" data-path="full_variable_index.html">
+            
+                <a href="full_variable_index.html">
+            
+                    
+                    10.4 全量全局变量与 R 参数索引表
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.1.5" data-path="replace_markers.html">
+            
+                <a href="replace_markers.html">
+            
+                    
+                    10.5 条件编译与字符替换标记全表
             
                 </a>
             
@@ -724,7 +750,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >10.2 M 代码、PLC-NC 交互信号与机械手接口</a>
+        <a href=".." >10.2 全量 M 代码表与 PLC-NC 交互信号</a>
     </h1>
 </div>
 
@@ -739,299 +765,810 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="102-m-代码、plc-nc-交互信号与机械手接口">10.2 M 代码、PLC-NC 交互信号与机械手接口</h1>
-<p>本节完整汇总 <code>Horizon-Juicer</code>（<code>M-sympol_Index.md</code> 与 <code>Parameter_Index.md</code>）使用的全部自定义 M 代码、PLC-NC 交换字节、高速 I/O 量仪信号以及桁架机械手握手协议，供电气 PLC 工程师与现场调试核查。</p>
-<h2 id="1-全系统-m-代码清单（m0-～-m99）">1. 全系统 M 代码清单（<code>M0</code> ～ <code>M99</code>）</h2>
+                                <h1 id="102-全量-m-代码表与-plc-nc-交互信号">10.2 全量 M 代码表与 PLC-NC 交互信号</h1>
+<p>本节依据上游 <code>M-sympol_Index.md</code>、<code>Parameter_Index.md</code> 及 <code>CMA/**/*.SPF</code> 实际调用源码，完整列出 <code>M0</code>～<code>M99</code> 全量 M 代码、全部 46 项 PLC-NC 交换字节（<code>$A_DBB</code> ↔ <code>DB4900</code>）以及全部 14 项快速 I/O 与测头硬件信号。</p>
+<h2 id="1-全系统-m-代码标准索引表（m0-～-m99）">1. 全系统 M 代码标准索引表（<code>M0</code> ～ <code>M99</code>）</h2>
 <table>
 <thead>
 <tr>
 <th style="text-align:center">M 代码</th>
+<th style="text-align:left">分类 / 作用域</th>
 <th style="text-align:left">含义与功能定义</th>
-<th style="text-align:center">M 代码</th>
-<th style="text-align:left">含义与功能定义</th>
+<th style="text-align:left">关联信号 / 备注</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td style="text-align:center"><code>M0</code></td>
-<td style="text-align:left">程序停止（系统）</td>
-<td style="text-align:center"><code>M50</code></td>
-<td style="text-align:left">排屑器停止</td>
+<td style="text-align:left">西门子系统</td>
+<td style="text-align:left">程序停止 - 系统</td>
+<td style="text-align:left">—</td>
 </tr>
 <tr>
 <td style="text-align:center"><code>M1</code></td>
-<td style="text-align:left">可选程序停止（系统）</td>
-<td style="text-align:center"><code>M51</code> / <code>M52</code></td>
-<td style="text-align:left">静压泵启动 / 停止</td>
+<td style="text-align:left">西门子系统</td>
+<td style="text-align:left">可选程序停止 - 系统</td>
+<td style="text-align:left">—</td>
 </tr>
 <tr>
-<td style="text-align:center"><code>M2</code> / <code>M30</code></td>
-<td style="text-align:left">主程序结束（系统）</td>
-<td style="text-align:center"><code>M53</code> / <code>M54</code></td>
-<td style="text-align:left">液压修整前进 / 返回</td>
+<td style="text-align:center"><code>M2</code></td>
+<td style="text-align:left">西门子系统</td>
+<td style="text-align:left">程序结束-同M30 - 系统</td>
+<td style="text-align:left">—</td>
 </tr>
 <tr>
-<td style="text-align:center"><code>M3</code> / <code>M4</code> / <code>M5</code></td>
-<td style="text-align:left">伺服主轴正转 / 反转 / 停止（系统）</td>
-<td style="text-align:center"><code>M55</code></td>
-<td style="text-align:left">自动对刀按键灯关闭</td>
+<td style="text-align:center"><code>M3</code></td>
+<td style="text-align:left">西门子系统</td>
+<td style="text-align:left">伺服主轴顺时针旋转 - 系统</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M4</code></td>
+<td style="text-align:left">西门子系统</td>
+<td style="text-align:left">伺服主轴逆时针旋转 - 系统</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M5</code></td>
+<td style="text-align:left">西门子系统</td>
+<td style="text-align:left">伺服主轴停止 - 系统</td>
+<td style="text-align:left">—</td>
 </tr>
 <tr>
 <td style="text-align:center"><code>M6</code></td>
-<td style="text-align:left">刀具更换（系统）</td>
-<td style="text-align:center"><code>M57</code></td>
-<td style="text-align:left">退刀按键灯关闭</td>
+<td style="text-align:left">西门子系统</td>
+<td style="text-align:left">刀具更换 - 系统</td>
+<td style="text-align:left">—</td>
 </tr>
 <tr>
-<td style="text-align:center"><code>M8</code> / <code>M9</code></td>
-<td style="text-align:left">内磨冷却 Pump 1 启动 / 停止</td>
-<td style="text-align:center"><code>M58</code> / <code>M59</code></td>
-<td style="text-align:left">修整器低头 / 抬头</td>
+<td style="text-align:center"><code>M7</code></td>
+<td style="text-align:left">未分配 / 预留</td>
+<td style="text-align:left">未分配 / 预留</td>
+<td style="text-align:left">—</td>
 </tr>
 <tr>
-<td style="text-align:center"><code>M10</code> / <code>M14</code></td>
-<td style="text-align:left">尾架回退 / 伸出</td>
-<td style="text-align:center"><code>M60</code></td>
-<td style="text-align:left">外圆修整器未回退到位报警</td>
+<td style="text-align:center"><code>M8</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">磨削冷却启动(冷却泵1)(内磨冷却)</td>
+<td style="text-align:left">—</td>
 </tr>
 <tr>
-<td style="text-align:center"><code>M11</code> / <code>M12</code></td>
-<td style="text-align:left">润滑启动 / 停止</td>
-<td style="text-align:center"><code>M61</code></td>
-<td style="text-align:left">手动对刀按键灯关闭</td>
+<td style="text-align:center"><code>M9</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">磨削冷却停止(冷却泵1)(内磨冷却)</td>
+<td style="text-align:left">—</td>
 </tr>
 <tr>
-<td style="text-align:center"><code>M13</code> / <code>M15</code></td>
-<td style="text-align:left">变频砂轮 1 启动 / 停止</td>
-<td style="text-align:center"><code>M62</code></td>
-<td style="text-align:left">手轮 <code>DRF</code> 状态关闭</td>
+<td style="text-align:center"><code>M10</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">尾架回退</td>
+<td style="text-align:left">—</td>
 </tr>
 <tr>
-<td style="text-align:center"><code>M16</code> / <code>M18</code></td>
-<td style="text-align:left">360 功能异步子程序调用 / 按键关闭</td>
-<td style="text-align:center"><code>M63</code> / <code>M65</code></td>
-<td style="text-align:left">变频修整轮 1 正转 / 停止</td>
+<td style="text-align:center"><code>M11</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">润滑启动</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M12</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">润滑停止</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M13</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">变频砂轮1启动</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M14</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">尾架伸出</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M15</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">变频砂轮1停止</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M16</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">调用360功能异步子程序</td>
+<td style="text-align:left">—</td>
 </tr>
 <tr>
 <td style="text-align:center"><code>M17</code></td>
-<td style="text-align:left">子程序结束（系统）</td>
-<td style="text-align:center"><code>M66</code> / <code>M67</code></td>
-<td style="text-align:left">安全门锁开 / 关</td>
+<td style="text-align:left">西门子系统</td>
+<td style="text-align:left">子程序程序结束 - 系统</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M18</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">360功能按键关闭</td>
+<td style="text-align:left">—</td>
 </tr>
 <tr>
 <td style="text-align:center"><code>M19</code></td>
-<td style="text-align:left">主轴定向到 <code>SD43240</code> 指定角度（系统）</td>
-<td style="text-align:center"><code>M68</code> / <code>M69</code></td>
-<td style="text-align:left">液压外圆修整器伸出 / 缩回</td>
+<td style="text-align:left">西门子系统</td>
+<td style="text-align:left">主轴运动到 SD43240 指定的位置 - 系统</td>
+<td style="text-align:left">依据设定数据 <code>SD43240</code> 执行主轴准停定向</td>
 </tr>
 <tr>
-<td style="text-align:center"><code>M20</code> / <code>M21</code></td>
-<td style="text-align:left">吸雾器启动 / 停止</td>
-<td style="text-align:center"><code>M70</code></td>
-<td style="text-align:left">过渡到进给轴运行（系统，常用于 <code>PLCASUP2</code> C轴回零前）</td>
+<td style="text-align:center"><code>M20</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">吸雾器启动</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M21</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">吸雾器停止</td>
+<td style="text-align:left">—</td>
 </tr>
 <tr>
 <td style="text-align:center"><code>M22</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
 <td style="text-align:left">砂轮修整程序启动</td>
-<td style="text-align:center"><code>M71</code> / <code>M72</code></td>
-<td style="text-align:left">液压尾架顶紧 / 松开</td>
+<td style="text-align:left">—</td>
 </tr>
 <tr>
-<td style="text-align:center"><code>M23</code> / <code>M25</code></td>
-<td style="text-align:left">变频砂轮 2（或外磨变频）启动 / 停止</td>
-<td style="text-align:center"><code>M73</code> / <code>M74</code></td>
-<td style="text-align:left">液压启动 / 停止</td>
+<td style="text-align:center"><code>M23</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">变频砂轮2启动</td>
+<td style="text-align:left">—</td>
 </tr>
 <tr>
-<td style="text-align:center"><code>M26</code> / <code>M27</code></td>
-<td style="text-align:left">电气控制箱空调启动 / 停止</td>
-<td style="text-align:center"><code>M75</code> / <code>M76</code></td>
-<td style="text-align:left">液压卡盘夹紧 / 松开</td>
+<td style="text-align:center"><code>M24</code></td>
+<td style="text-align:left">未分配 / 预留</td>
+<td style="text-align:left">未分配 / 预留</td>
+<td style="text-align:left">—</td>
 </tr>
 <tr>
-<td style="text-align:center"><code>M28</code> / <code>M29</code></td>
-<td style="text-align:left">修整冷却 Pump 2 启动 / 停止</td>
-<td style="text-align:center"><code>M77</code></td>
-<td style="text-align:left">自动测量失败，触发报警信号</td>
+<td style="text-align:center"><code>M25</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">变频砂轮2停止</td>
+<td style="text-align:left">—</td>
 </tr>
 <tr>
-<td style="text-align:center"><code>M31</code> / <code>M37</code></td>
-<td style="text-align:left">罩壳门 2 打开 / 关闭（及机械手调用）</td>
-<td style="text-align:center"><code>M78</code></td>
-<td style="text-align:left">修整按键灯关闭</td>
+<td style="text-align:center"><code>M26</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">控制箱空调启动</td>
+<td style="text-align:left">—</td>
 </tr>
 <tr>
-<td style="text-align:center"><code>M33</code> / <code>M34</code></td>
-<td style="text-align:left">测量机构 1 伸出 / 回退</td>
-<td style="text-align:center"><code>M79</code></td>
-<td style="text-align:left"><code>Z1</code> 力矩电机测试前进后退按钮关闭</td>
+<td style="text-align:center"><code>M27</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">控制箱空调停止</td>
+<td style="text-align:left">—</td>
 </tr>
 <tr>
-<td style="text-align:center"><code>M35</code> / <code>M36</code></td>
-<td style="text-align:left">砂轮架 / <code>A</code> 轴松开 / 夹紧</td>
-<td style="text-align:center"><code>M90</code> / <code>M91</code></td>
-<td style="text-align:left">测量机构 2 伸出 / 回退</td>
+<td style="text-align:center"><code>M28</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">修整冷却启动(冷却泵2)</td>
+<td style="text-align:left">—</td>
 </tr>
 <tr>
-<td style="text-align:center"><code>M38</code> / <code>M39</code></td>
-<td style="text-align:left">淋浴冷却 / 外磨冷却 Pump 3 启动 / 停止</td>
-<td style="text-align:center"><code>M92</code> / <code>M93</code></td>
-<td style="text-align:left">卡盘松开信号 <strong>或</strong> 外圆在线量仪气缸伸出 / 缩回</td>
+<td style="text-align:center"><code>M29</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">修整冷却停止(冷却泵2)</td>
+<td style="text-align:left">—</td>
 </tr>
 <tr>
-<td style="text-align:center"><code>M40</code>～<code>M45</code></td>
-<td style="text-align:left">自动/手动齿轮 1～5 档切换（系统）</td>
-<td style="text-align:center"><code>M94</code> / <code>M95</code></td>
-<td style="text-align:left">液压卡盘夹紧到位信号置 1 / 置 0</td>
+<td style="text-align:center"><code>M30</code></td>
+<td style="text-align:left">西门子系统</td>
+<td style="text-align:left">主程序结束 - 系统</td>
+<td style="text-align:left">—</td>
 </tr>
 <tr>
-<td style="text-align:center"><code>M47</code> / <code>M48</code></td>
-<td style="text-align:left">罩壳门 1（安全门）打开 / 关闭</td>
-<td style="text-align:center"><code>M96</code> / <code>M97</code></td>
-<td style="text-align:left">机床吹气旋转头架复位（置0）/ 有效（置1）</td>
+<td style="text-align:center"><code>M31</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">罩壳门2打开；机械手调用</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M32</code></td>
+<td style="text-align:left">西门子系统</td>
+<td style="text-align:left">系统占用</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M33</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">测量机构1伸出</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M34</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">测量机构1回退</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M35</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">砂轮架松开；A轴松开</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M36</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">砂轮架夹紧；A轴夹紧</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M37</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">罩壳门2关闭；机械手调用</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M38</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">淋浴冷却 / 外磨冷却（冷却泵 3）启动</td>
+<td style="text-align:left">用于磨削中心外圆/端面磨削及修整冷却控制</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M39</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">淋浴冷却 / 外磨冷却（冷却泵 3）停止</td>
+<td style="text-align:left">与 <code>M38</code> 成对使用</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M40</code></td>
+<td style="text-align:left">西门子系统</td>
+<td style="text-align:left">自动齿轮换档 - 系统</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M41</code></td>
+<td style="text-align:left">西门子系统</td>
+<td style="text-align:left">齿轮级 1 - 系统</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M42</code></td>
+<td style="text-align:left">西门子系统</td>
+<td style="text-align:left">齿轮级 2 - 系统</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M43</code></td>
+<td style="text-align:left">西门子系统</td>
+<td style="text-align:left">齿轮级 3 - 系统</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M44</code></td>
+<td style="text-align:left">西门子系统</td>
+<td style="text-align:left">齿轮级 4 - 系统</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M45</code></td>
+<td style="text-align:left">西门子系统</td>
+<td style="text-align:left">齿轮级 5 - 系统</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M46</code></td>
+<td style="text-align:left">未分配 / 预留</td>
+<td style="text-align:left">未分配 / 预留</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M47</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">罩壳门1打开；安全门打开</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M48</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">罩壳门1关闭；安全门关闭</td>
+<td style="text-align:left">—</td>
 </tr>
 <tr>
 <td style="text-align:center"><code>M49</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
 <td style="text-align:left">排屑器启动</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M50</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">排屑器停止</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M51</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">静压泵启动</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M52</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">静压泵停止</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M53</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">液压修整前进</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M54</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">液压修整返回</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M55</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">自动对刀按键灯关闭</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M56</code></td>
+<td style="text-align:left">未分配 / 预留</td>
+<td style="text-align:left">未分配 / 预留</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M57</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">退刀按键灯关闭</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M58</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">修整器低头</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M59</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">修整器抬头</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M60</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">外圆修整器没有回退到位置报警</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M61</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">手动对刀关闭</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M62</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">DRF关闭</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M63</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">变频修整轮1正转</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M64</code></td>
+<td style="text-align:left">未分配 / 预留</td>
+<td style="text-align:left">未分配 / 预留</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M65</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">变频修整轮1停止</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M66</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">安全门锁开</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M67</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">安全门锁关</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M68</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">液压外圆修整器伸出</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M69</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">液压外圆修整器缩回</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M70</code></td>
+<td style="text-align:left">西门子系统</td>
+<td style="text-align:left">过渡到进给轴运行 - 系统</td>
+<td style="text-align:left">过渡到进给轴运行，常用于 <code>PLCASUP2.SPF</code> C 轴回零前</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M71</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">液压尾架顶紧</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M72</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">液压尾架松开</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M73</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">液压启动</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M74</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">液压停止</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M75</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">液压卡盘夹紧</td>
+<td style="text-align:left">与 <code>M76</code> 成对使用</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M76</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">液压卡盘松开</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M77</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">自动测量：测量失败，触发报警信号</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M78</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">修整按键灯关闭</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M79</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">Z1力矩电机测试前进后退按钮关闭</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M80</code></td>
+<td style="text-align:left">机械手握手</td>
+<td style="text-align:left">罩壳门已打开信号置1(有效) <code>$A_DBB[60]</code> "备妥信号"</td>
+<td style="text-align:left">置位 <code>$A_DBB[60]</code> / <code>DB4900.DBX60.0</code>（备妥信号）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M81</code></td>
+<td style="text-align:left">机械手握手</td>
+<td style="text-align:left">罩壳门已打开信号置0(无效)</td>
+<td style="text-align:left">复位 <code>$A_DBB[60]</code> / <code>DB4900.DBX60.0</code>（备妥信号）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M82</code></td>
+<td style="text-align:left">机械手握手</td>
+<td style="text-align:left">预完成,通知机械手准备信号置1(有效) <code>$A_DBB[61]</code> "预完成信号"</td>
+<td style="text-align:left">置位 <code>$A_DBB[61]</code> / <code>DB4900.DBX61.0</code>（预完成信号）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M83</code></td>
+<td style="text-align:left">机械手握手</td>
+<td style="text-align:left">预完成,通知机械手准备信号置0(无效)</td>
+<td style="text-align:left">复位 <code>$A_DBB[61]</code> / <code>DB4900.DBX61.0</code>（预完成信号）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M84</code></td>
+<td style="text-align:left">机械手握手</td>
+<td style="text-align:left">机床故障信号置1(有效) <code>$A_DBB[62]</code> "故障信号"</td>
+<td style="text-align:left">置位 <code>$A_DBB[62]</code> / <code>DB4900.DBX62.0</code>（故障信号）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M85</code></td>
+<td style="text-align:left">机械手握手</td>
+<td style="text-align:left">机床故障信号置0(无效)</td>
+<td style="text-align:left">复位 <code>$A_DBB[62]</code> / <code>DB4900.DBX62.0</code>（故障信号）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M86</code></td>
+<td style="text-align:left">机械手握手</td>
+<td style="text-align:left">尾架顶尖缩回信号置1(有效) <code>$A_DBB[63]</code></td>
+<td style="text-align:left">置位 <code>$A_DBB[63]</code> / <code>DB4900.DBX63.0</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M87</code></td>
+<td style="text-align:left">机械手握手</td>
+<td style="text-align:left">尾架顶尖缩回信号置0（复位 ）</td>
+<td style="text-align:left">复位 <code>$A_DBB[63]</code> / <code>DB4900.DBX63.0</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M88</code></td>
+<td style="text-align:left">机械手握手</td>
+<td style="text-align:left">尾架顶尖伸出到位信号置 1（有效）</td>
+<td style="text-align:left">置位 <code>$A_DBB[64]</code> / <code>DB4900.DBX64.0</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M89</code></td>
+<td style="text-align:left">机械手握手</td>
+<td style="text-align:left">尾架顶尖伸出到位信号置 0（复位）</td>
+<td style="text-align:left">复位 <code>$A_DBB[64]</code> / <code>DB4900.DBX64.0</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M90</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">测量机构2伸出</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M91</code></td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">测量机构2回退</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M92</code></td>
+<td style="text-align:left">复用定制（机械手/量仪/防护罩/测头）</td>
+<td style="text-align:left">机械手：液压卡盘松开到位信号置 1（有效）；磨削中心：外圆在线测量气缸伸出</td>
+<td style="text-align:left">机械手置位 <code>$A_DBB[65]</code>；在线测量见 <code>I_CYCLE.SPF</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M93</code></td>
+<td style="text-align:left">复用定制（机械手/量仪/防护罩/测头）</td>
+<td style="text-align:left">机械手：液压卡盘松开到位信号置 0（复位）；磨削中心：外圆在线测量气缸缩回</td>
+<td style="text-align:left">机械手复位 <code>$A_DBB[65]</code>；退回见 <code>J_GRIND_ONLINE.SPF</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M94</code></td>
+<td style="text-align:left">复用定制（机械手/量仪/防护罩/测头）</td>
+<td style="text-align:left">机械手：液压卡盘夹紧到位信号置 1（有效）；内螺纹：头架防护罩壳伸出</td>
+<td style="text-align:left">机械手置位 <code>$A_DBB[66]</code>；防护罩见 <code>F_SHIELD_CONTROL.SPF</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M95</code></td>
+<td style="text-align:left">复用定制（机械手/量仪/防护罩/测头）</td>
+<td style="text-align:left">机械手：液压卡盘夹紧到位信号置 0（复位）；内螺纹：头架防护罩壳缩回</td>
+<td style="text-align:left">机械手复位 <code>$A_DBB[66]</code>；防护罩见 <code>F_SHIELD_CONTROL.SPF</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M96</code></td>
+<td style="text-align:left">复用定制（机械手/量仪/防护罩/测头）</td>
+<td style="text-align:left">机械手：吹气旋转头架复位 / 吹气完成回位信号；自动对刀：<code>E_PROBE_DISABLE.SPF</code> 测头信号无效</td>
+<td style="text-align:left">索引表标注 <code>$A_DBB[67]</code> 置 0；<code>B_JXS_ZJ.SPF</code> 实际以 <code>M96</code> 发吹气完成有效信号</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M97</code></td>
+<td style="text-align:left">复用定制（机械手/量仪/防护罩/测头）</td>
+<td style="text-align:left">机械手：吹气旋转头架有效 / 信号复位；自动对刀：<code>E_PROBE_ENABLE.SPF</code> 测头信号有效</td>
+<td style="text-align:left">索引表标注 <code>$A_DBB[67]</code> 置 1；<code>A_JXS_MAIN.SPF</code>/<code>B_JXS_ZJ.SPF</code> 用 <code>M97</code> 复位该信号</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M98</code></td>
+<td style="text-align:left">未分配 / 预留</td>
+<td style="text-align:left">未分配 / 预留（源码 <code>M-sympol_Index.md</code> 未定义）</td>
+<td style="text-align:left">—</td>
+</tr>
+<tr>
 <td style="text-align:center"><code>M99</code></td>
-<td style="text-align:left">复位程序（如断电/急停退刀后）</td>
+<td style="text-align:left">Horizon-Juicer 定制</td>
+<td style="text-align:left">复位程序</td>
+<td style="text-align:left">—</td>
 </tr>
 </tbody>
 </table>
-<h3 id="桁架机械手专控握手-m-代码（m80-～-m89，需勾选-机床机械手）">桁架机械手专控握手 M 代码（<code>M80</code> ～ <code>M89</code>，需勾选 <code>机床机械手</code>）</h3>
+<blockquote>
+<p><strong>源码扩展 M 代码补充</strong>（<code>M0</code>～<code>M99</code> 之外）：<br></br>• <strong><code>M206</code></strong>：外部连续轨迹曲线修整子程序 <code>D_LINE_TOOL_SHAPE.SPF</code> 中用于执行带刀补刀具调用（<code>T=TOOL_NAME D=TOOL_EDGE_INDEX M206</code>）；<br></br>• <strong><code>M03</code> / <code>M04</code></strong>：与 <code>M3</code> / <code>M4</code> 等效的主轴顺/逆时针旋转指令（见于 <code>E_DOUBLE_ARC_DRESS.SPF</code> 与 <code>C_CYCLE_CENTER.SPF</code>）。</p>
+</blockquote>
+<h2 id="2-桁架机械手专控握手-m-代码速查（m80-～-m97）">2. 桁架机械手专控握手 M 代码速查（<code>M80</code> ～ <code>M97</code>）</h2>
+<p>当 <code>HorizonJuicerCreator</code> 勾选 <code>机械手 = 1 有</code>（<code>;ifIsHasLoadingArm</code>）并在机床配置开启 <code>TOOL_SET[16] = 1</code>（HMI：<code>TOOL_SET[17]</code>）时，系统通过以下专控 M 代码向桁架机械手发送到位与状态信号：</p>
 <table>
 <thead>
 <tr>
 <th style="text-align:center">M 代码</th>
-<th style="text-align:left">置位/复位 <code>DB4900</code> 对应位</th>
+<th style="text-align:left">置位 / 复位 NC-PLC 位</th>
 <th style="text-align:left">物理定义与机械手含义</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td style="text-align:center"><code>M80</code> / <code>M81</code></td>
-<td style="text-align:left"><code>$A_DBB[60]</code> = <code>1</code> / <code>0</code></td>
+<td style="text-align:left"><code>$A_DBB[60]</code>（<code>DB4900.DBX60.0</code>）= <code>1</code> / <code>0</code></td>
 <td style="text-align:left">罩壳顶部门已打开（<strong>备妥信号</strong>有效 / 复位）</td>
 </tr>
 <tr>
 <td style="text-align:center"><code>M82</code> / <code>M83</code></td>
-<td style="text-align:left"><code>$A_DBB[61]</code> = <code>1</code> / <code>0</code></td>
+<td style="text-align:left"><code>$A_DBB[61]</code>（<code>DB4900.DBX61.0</code>）= <code>1</code> / <code>0</code></td>
 <td style="text-align:left"><strong>预完成</strong>，提前通知机械手准备抓放料 / 复位</td>
 </tr>
 <tr>
 <td style="text-align:center"><code>M84</code> / <code>M85</code></td>
-<td style="text-align:left"><code>$A_DBB[62]</code> = <code>1</code> / <code>0</code></td>
+<td style="text-align:left"><code>$A_DBB[62]</code>（<code>DB4900.DBX62.0</code>）= <code>1</code> / <code>0</code></td>
 <td style="text-align:left"><strong>机床故障</strong>信号有效 / 清除</td>
 </tr>
 <tr>
 <td style="text-align:center"><code>M86</code> / <code>M87</code></td>
-<td style="text-align:left"><code>$A_DBB[63]</code> = <code>1</code> / <code>0</code></td>
-<td style="text-align:left"><strong>尾架顶尖缩回到位</strong>信号置 1 / 置 0</td>
+<td style="text-align:left"><code>$A_DBB[63]</code>（<code>DB4900.DBX63.0</code>）= <code>1</code> / <code>0</code></td>
+<td style="text-align:left"><strong>尾架顶尖缩回到位</strong>信号置 <code>1</code> / 置 <code>0</code></td>
 </tr>
 <tr>
 <td style="text-align:center"><code>M88</code> / <code>M89</code></td>
-<td style="text-align:left"><code>$A_DBB[64]</code> = <code>1</code> / <code>0</code></td>
-<td style="text-align:left"><strong>尾架顶尖伸出到位</strong>信号置 1 / 置 0</td>
+<td style="text-align:left"><code>$A_DBB[64]</code>（<code>DB4900.DBX64.0</code>）= <code>1</code> / <code>0</code></td>
+<td style="text-align:left"><strong>尾架顶尖伸出到位</strong>信号置 <code>1</code> / 置 <code>0</code></td>
 </tr>
 <tr>
-<td style="text-align:center"><code>M92</code>～<code>M97</code></td>
-<td style="text-align:left"><code>$A_DBB[65]</code> / <code>$A_DBB[66]</code> / <code>$A_DBB[67]</code> = <code>1</code> / <code>0</code></td>
-<td style="text-align:left">卡盘松开到位（<code>$A_DBB[65]</code>）、卡盘夹紧到位（<code>$A_DBB[66]</code>）、旋转头架吹气清洁结束（<code>$A_DBB[67]</code>）</td>
+<td style="text-align:center"><code>M92</code> / <code>M93</code></td>
+<td style="text-align:left"><code>$A_DBB[65]</code>（<code>DB4900.DBX65.0</code>）= <code>1</code> / <code>0</code></td>
+<td style="text-align:left"><strong>液压卡盘松开到位</strong>信号置 <code>1</code> / 置 <code>0</code>（磨削中心复用为外圆量仪气缸伸出/缩回）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M94</code> / <code>M95</code></td>
+<td style="text-align:left"><code>$A_DBB[66]</code>（<code>DB4900.DBX66.0</code>）= <code>1</code> / <code>0</code></td>
+<td style="text-align:left"><strong>液压卡盘夹紧到位</strong>信号置 <code>1</code> / 置 <code>0</code>（内螺纹无机械手时复用为头架防护罩壳伸出/缩回）</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>M96</code> / <code>M97</code></td>
+<td style="text-align:left"><code>$A_DBB[67]</code>（<code>DB4900.DBX67.0</code>）= <code>0</code> / <code>1</code></td>
+<td style="text-align:left">机床吹气旋转头架复位（<code>M96</code>）/ 有效（<code>M97</code>）；子程序 <code>B_JXS_ZJ.SPF</code> 实际以 <code>M96</code> 发吹气完成信号、<code>M97</code> 复位</td>
 </tr>
 </tbody>
 </table>
-<h2 id="2-plc-nc-交换变量表（adbb-↔-db4900--one-迁移说明）">2. PLC-NC 交换变量表（<code>$A_DBB</code> ↔ <code>DB4900</code> &amp; ONE 迁移说明）</h2>
+<h2 id="3-plc-nc-交换变量全量表（adbb-↔-db4900，共-46-项）">3. PLC-NC 交换变量全量表（<code>$A_DBB</code> ↔ <code>DB4900</code>，共 46 项）</h2>
 <blockquote>
-<p><strong>Sinumerik ONE 兼容性提示</strong>：当 <code>HorizonJuicerCreator</code> 选择 <strong>系统类型 = <code>2</code>（Sinumerik ONE）</strong> 时，自动依据 <code>oneReplace.json</code> 将老式 <code>$A_DBB[...]</code> 与 DB4900 变量批量映射为 ONE 体系的 <code>$A_IN[...]</code> / <code>digitInpVal[...]</code>，并将对应界面软键及报警连接改为 <code>DB10.DBX107.0</code> / <code>DB10.DBX107.1</code> 等格式。下表为标准 828D/840D sl 基线映射：</p>
+<p><strong>Sinumerik ONE 跨平台说明</strong>：当 <code>HorizonJuicerCreator</code> 选择 <strong>数控系统 = <code>2 Sinumerik ONE</code></strong> 时，生成器依据 <code>oneReplace.json</code> 自动将老式 <code>$A_DBB[...]</code>、<code>aDbb[...]</code> 与 <code>DB2700</code> 信号替换为 ONE 平台的 <code>$A_IN[...]</code>、<code>digitInpVal[...]</code> 与 <code>DB10.DBX107.0</code> / <code>DB10.DBX107.1</code>，全量映射对照表见 <a href="replace_markers.html">10.5 条件编译与字符替换标记全表</a>。</p>
 </blockquote>
+<h3 id="31-常规机床互锁与状态交换信号（33-项）">3.1 常规机床互锁与状态交换信号（33 项）</h3>
 <table>
 <thead>
 <tr>
 <th style="text-align:left">NC 变量</th>
 <th style="text-align:left">PLC 地址</th>
-<th style="text-align:left">功能含义说明</th>
+<th style="text-align:left">功能含义与说明</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td style="text-align:left"><code>$A_DBB[0]</code></td>
 <td style="text-align:left"><code>DB4900.DBX0.0</code></td>
-<td style="text-align:left">是否修整按键态（840D sl 亦可映射 <code>$A_IN[11]</code>）</td>
+<td style="text-align:left">是否修整 <code>$A_IN[11]</code>-840Dsl</td>
 </tr>
 <tr>
 <td style="text-align:left"><code>$A_DBB[1]</code></td>
 <td style="text-align:left"><code>DB4900.DBX1.0</code></td>
-<td style="text-align:left">是否手动对刀按键态</td>
+<td style="text-align:left">是否手动对刀</td>
 </tr>
 <tr>
 <td style="text-align:left"><code>$A_DBB[2]</code></td>
 <td style="text-align:left"><code>DB4900.DBX2.0</code></td>
-<td style="text-align:left">是否退刀（触发 <code>PLCASUP1</code> 异步动作信号）</td>
+<td style="text-align:left">是否退刀，异步动作信号</td>
 </tr>
 <tr>
-<td style="text-align:left"><code>$A_DBB[3]</code> / <code>$A_DBB[4]</code></td>
-<td style="text-align:left"><code>DB4900.DBX3.0</code> / <code>DB4900.DBX4.0</code></td>
-<td style="text-align:left">液压动作回退到位 / 伸出到位</td>
+<td style="text-align:left"><code>$A_DBB[3]</code></td>
+<td style="text-align:left"><code>DB4900.DBX3.0</code></td>
+<td style="text-align:left">液压动作回退到位</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>$A_DBB[4]</code></td>
+<td style="text-align:left"><code>DB4900.DBX4.0</code></td>
+<td style="text-align:left">液压动作伸出到位</td>
 </tr>
 <tr>
 <td style="text-align:left"><code>$A_DBB[5]</code></td>
 <td style="text-align:left"><code>DB4900.DBX5.0</code></td>
-<td style="text-align:left">是否自动对刀按键态</td>
+<td style="text-align:left">是否自动对刀</td>
 </tr>
 <tr>
 <td style="text-align:left"><code>$A_DBB[6]</code></td>
 <td style="text-align:left"><code>DB4900.DBX6.0</code></td>
-<td style="text-align:left"><code>C</code> 轴旋转检测</td>
+<td style="text-align:left">C轴旋转</td>
 </tr>
 <tr>
-<td style="text-align:left"><code>$A_DBB[7]</code> / <code>$A_DBB[8]</code></td>
-<td style="text-align:left"><code>DB4900.DBX7.0</code> / <code>DB4900.DBX8.0</code></td>
-<td style="text-align:left">自动对刀测量机构 1 气缸回退到位 / 伸出到位</td>
+<td style="text-align:left"><code>$A_DBB[7]</code></td>
+<td style="text-align:left"><code>DB4900.DBX7.0</code></td>
+<td style="text-align:left">自动对刀测量机构1汽缸回退到位</td>
 </tr>
 <tr>
-<td style="text-align:left"><code>$A_DBB[9]</code> / <code>$A_DBB[10]</code></td>
-<td style="text-align:left"><code>DB4900.DBX9.0</code> / <code>DB4900.DBX10.0</code></td>
-<td style="text-align:left">自动门 1 打开开关 / 关闭开关</td>
+<td style="text-align:left"><code>$A_DBB[8]</code></td>
+<td style="text-align:left"><code>DB4900.DBX8.0</code></td>
+<td style="text-align:left">自动对刀测量机构1汽缸伸出到位</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>$A_DBB[9]</code></td>
+<td style="text-align:left"><code>DB4900.DBX9.0</code></td>
+<td style="text-align:left">自动门1打开开关</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>$A_DBB[10]</code></td>
+<td style="text-align:left"><code>DB4900.DBX10.0</code></td>
+<td style="text-align:left">自动门1关闭开关</td>
 </tr>
 <tr>
 <td style="text-align:left"><code>$A_DBB[11]</code></td>
 <td style="text-align:left"><code>DB4900.DBX11.0</code></td>
-<td style="text-align:left">360 功能生效信号</td>
+<td style="text-align:left">360功能生效</td>
 </tr>
 <tr>
-<td style="text-align:left"><code>$A_DBB[12]</code> / <code>$A_DBB[13]</code> / <code>$A_DBB[16]</code></td>
-<td style="text-align:left"><code>DB4900.DBX12.0</code> / <code>DB4900.DBX13.0</code> / <code>DB4900.DBX16.0</code></td>
-<td style="text-align:left">内磨砂轮（<code>$A_DBB[12]</code>）、修整轮（<code>$A_DBB[13]</code>）、外圆砂轮（<code>$A_DBB[16]</code>）当前启停状态（<code>0</code> 停 / <code>1</code> 转）</td>
+<td style="text-align:left"><code>$A_DBB[12]</code></td>
+<td style="text-align:left"><code>DB4900.DBX12.0</code></td>
+<td style="text-align:left">砂轮当前状态(0停止/1启动)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>$A_DBB[13]</code></td>
+<td style="text-align:left"><code>DB4900.DBX13.0</code></td>
+<td style="text-align:left">修整轮当前状态(0停止/1启动)</td>
 </tr>
 <tr>
 <td style="text-align:left"><code>$A_DBB[14]</code></td>
 <td style="text-align:left"><code>DB4900.DBX14.0</code></td>
-<td style="text-align:left"><code>A</code> 轴夹紧动作检测（<code>0</code> 未松开 / <code>1</code> 已松开）</td>
+<td style="text-align:left">A轴夹紧动作检测信号(0未松开/1已松开)</td>
 </tr>
 <tr>
 <td style="text-align:left"><code>$A_DBB[15]</code></td>
 <td style="text-align:left"><code>DB4900.DBX15.0</code></td>
-<td style="text-align:left">主轴冷却单元浮子开关信号</td>
+<td style="text-align:left">浮子开关信号 【主轴冷却单元】</td>
 </tr>
 <tr>
-<td style="text-align:left"><code>$A_DBB[17]</code> / <code>$A_DBB[18]</code></td>
-<td style="text-align:left"><code>DB4900.DBX17.0</code> / <code>DB4900.DBX18.0</code></td>
-<td style="text-align:left">液压卡盘夹紧到位（<code>$A_DBB[17]</code>） / 松开到位（<code>$A_DBB[18]</code>）</td>
+<td style="text-align:left"><code>$A_DBB[16]</code></td>
+<td style="text-align:left"><code>DB4900.DBX16.0</code></td>
+<td style="text-align:left">外圆砂轮当前状态(0停止/1启动)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>$A_DBB[17]</code></td>
+<td style="text-align:left"><code>DB4900.DBX17.0</code></td>
+<td style="text-align:left">液压卡盘夹紧到位时为1，未到位为0</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>$A_DBB[18]</code></td>
+<td style="text-align:left"><code>DB4900.DBX18.0</code></td>
+<td style="text-align:left">液压卡盘松开到位时为1，未到位为0</td>
 </tr>
 <tr>
 <td style="text-align:left"><code>$A_DBB[19]</code></td>
 <td style="text-align:left"><code>DB4900.DBX19.0</code></td>
-<td style="text-align:left">Z-C 插补期间 X 退刀同步动作信号</td>
+<td style="text-align:left">zc插补期间x退刀，同步动作信号</td>
 </tr>
 <tr>
-<td style="text-align:left"><code>$A_DBB[20]</code> / <code>$A_DBB[21]</code></td>
-<td style="text-align:left"><code>DB4900.DBX20.0</code> / <code>DB4900.DBX21.0</code></td>
-<td style="text-align:left">自动对刀测量机构 2 气缸回退到位 / 伸出到位</td>
+<td style="text-align:left"><code>$A_DBB[20]</code></td>
+<td style="text-align:left"><code>DB4900.DBX20.0</code></td>
+<td style="text-align:left">自动对刀测量机构2汽缸回退到位</td>
 </tr>
 <tr>
-<td style="text-align:left"><code>$A_DBB[22]</code> / <code>$A_DBB[23]</code></td>
-<td style="text-align:left"><code>DB4900.DBX22.0</code> / <code>DB4900.DBX23.0</code></td>
-<td style="text-align:left">罩壳门 2 打开开关 / 关闭开关</td>
+<td style="text-align:left"><code>$A_DBB[21]</code></td>
+<td style="text-align:left"><code>DB4900.DBX21.0</code></td>
+<td style="text-align:left">自动对刀测量机构2汽缸伸出到位</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>$A_DBB[22]</code></td>
+<td style="text-align:left"><code>DB4900.DBX22.0</code></td>
+<td style="text-align:left">罩壳门2打开开关</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>$A_DBB[23]</code></td>
+<td style="text-align:left"><code>DB4900.DBX23.0</code></td>
+<td style="text-align:left">罩壳门2关闭开关</td>
 </tr>
 <tr>
 <td style="text-align:left"><code>$A_DBB[24]</code></td>
@@ -1041,63 +1578,204 @@
 <tr>
 <td style="text-align:left"><code>$A_DBB[25]</code></td>
 <td style="text-align:left"><code>DB4900.DBX25.0</code></td>
-<td style="text-align:left"><strong>断电回退触发响应信号</strong>（驱动 <code>F_POWEROFF_PROTECT.SPF</code>）</td>
+<td style="text-align:left">断电回退信号</td>
 </tr>
 <tr>
-<td style="text-align:left"><code>$A_DBB[26]</code> / <code>$A_DBB[27]</code></td>
-<td style="text-align:left"><code>DB4900.DBX26.0</code> / <code>DB4900.DBX27.0</code></td>
-<td style="text-align:left">液压外圆修整器回退到位 / 伸出到位</td>
+<td style="text-align:left"><code>$A_DBB[26]</code></td>
+<td style="text-align:left"><code>DB4900.DBX26.0</code></td>
+<td style="text-align:left">液压外圆修整器回退到位</td>
 </tr>
 <tr>
-<td style="text-align:left"><code>$A_DBB[28]</code> / <code>$A_DBB[29]</code></td>
-<td style="text-align:left"><code>DB4900.DBX28.0</code> / <code>DB4900.DBX29.0</code></td>
-<td style="text-align:left">自动尾架顶紧到位 / 松开到位</td>
+<td style="text-align:left"><code>$A_DBB[27]</code></td>
+<td style="text-align:left"><code>DB4900.DBX27.0</code></td>
+<td style="text-align:left">液压外圆修整器伸出到位</td>
 </tr>
 <tr>
-<td style="text-align:left"><code>$A_DBB[30]</code>～<code>$A_DBB[34]</code></td>
-<td style="text-align:left"><code>DB4900.DBX30.0</code>～<code>DB4900.DBX34.0</code></td>
-<td style="text-align:left"><strong>机器人请求信号</strong>：尾架松开（<code>$A_DBB[30]</code>）/夹紧（<code>$A_DBB[31]</code>）、机械手服务中（<code>$A_DBB[32]</code>）、请求卡盘原位（<code>$A_DBB[33]</code>）/工作位（<code>$A_DBB[34]</code>）</td>
+<td style="text-align:left"><code>$A_DBB[28]</code></td>
+<td style="text-align:left"><code>DB4900.DBX28.0</code></td>
+<td style="text-align:left">自动尾架顶紧到位为1</td>
 </tr>
 <tr>
-<td style="text-align:left"><code>$A_DBB[40]</code> / <code>$A_DBB[41]</code></td>
-<td style="text-align:left"><code>DB4900.DBX40.0</code> / <code>DB4900.DBX41.0</code></td>
-<td style="text-align:left">UW 力矩电机测试信号（夹紧 / 松开）</td>
+<td style="text-align:left"><code>$A_DBB[29]</code></td>
+<td style="text-align:left"><code>DB4900.DBX29.0</code></td>
+<td style="text-align:left">自动尾架松开到位为1</td>
 </tr>
 <tr>
 <td style="text-align:left"><code>$A_DBB[80]</code></td>
 <td style="text-align:left"><code>DB4900.DBX80.0</code></td>
-<td style="text-align:left">磨削中心侧门是否关闭到位</td>
+<td style="text-align:left">侧门是否关闭到位(磨削中心)</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>$A_DBB[40]</code></td>
+<td style="text-align:left"><code>DB4900.DBX40.0</code></td>
+<td style="text-align:left">力矩电机测试信号-夹紧</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>$A_DBB[41]</code></td>
+<td style="text-align:left"><code>DB4900.DBX41.0</code></td>
+<td style="text-align:left">力矩电机测试信号-松开</td>
 </tr>
 </tbody>
 </table>
-<h2 id="3-快速-io-量仪与测头硬件信号">3. 快速 I/O 量仪与测头硬件信号</h2>
+<h3 id="32-桁架机器人专控交互信号（13-项）">3.2 桁架机器人专控交互信号（13 项）</h3>
+<blockquote>
+<p><strong>地址修正说明</strong>：标准西门子 NCK ↔ PLC 交换字节遵循 <code>$A_DBB[n]</code> ↔ <code>DB4900.DBXn.0</code> 1:1 映射。上游 <code>Parameter_Index.md</code> 原表存在少量复制笔误（将 <code>$A_DBB[34]</code> 误写为 <code>DB4900.DBX33.0</code>、将 <code>$A_DBB[65]</code> 误写为 <code>DB4900.DBX63.0</code>、将 <code>$A_DBB[66]</code> 与 <code>$A_DBB[67]</code> 误写为 <code>DB4900.DBX64.0</code>），下表已按真实字节偏移核正并在备注注明。</p>
+</blockquote>
 <table>
 <thead>
 <tr>
-<th style="text-align:left">变量接口</th>
-<th style="text-align:left">信号用途</th>
+<th style="text-align:left">NC 变量</th>
+<th style="text-align:left">PLC 地址（按 1:1 映射核正）</th>
+<th style="text-align:left">信号方向与功能含义</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left"><strong><code>$A_IN[1]</code> ～ <code>$A_IN[4]</code></strong></td>
-<td style="text-align:left">在线测量仪阶段控制反馈：<code>sr</code>（<code>$A_IN[1]</code>）、<code>st</code>（<code>$A_IN[2]</code>）、<code>f2</code>（<code>$A_IN[3]</code>）、<code>f3</code>（<code>$A_IN[4]</code>）</td>
+<td style="text-align:left"><code>$A_DBB[30]</code></td>
+<td style="text-align:left"><code>DB4900.DBX30.0</code></td>
+<td style="text-align:left">机器人发给系统,请求尾驾松开信号</td>
 </tr>
 <tr>
-<td style="text-align:left"><strong><code>$A_IN[10]</code> / <code>$A_IN[11]</code></strong></td>
-<td style="text-align:left">在线测量 <code>自动模式</code> 信号 / <code>就绪</code> 信号</td>
+<td style="text-align:left"><code>$A_DBB[31]</code></td>
+<td style="text-align:left"><code>DB4900.DBX31.0</code></td>
+<td style="text-align:left">机器人发给系统,请求尾驾夹紧信号</td>
 </tr>
 <tr>
-<td style="text-align:left"><strong><code>$A_IN[15]</code></strong></td>
-<td style="text-align:left">粗磨 <strong>消空程</strong> 碰撞/声发射输入信号（<code>TECHNOLOGY[293]=1</code> 使用）</td>
+<td style="text-align:left"><code>$A_DBB[32]</code></td>
+<td style="text-align:left"><code>DB4900.DBX32.0</code></td>
+<td style="text-align:left">机器人发给系统,机械手服务中信号</td>
 </tr>
 <tr>
-<td style="text-align:left"><strong><code>$A_OUT[3]</code></strong></td>
-<td style="text-align:left">在线测量仪测量启动输出（<code>1</code> 启动 / <code>0</code> 结束）</td>
+<td style="text-align:left"><code>$A_DBB[33]</code></td>
+<td style="text-align:left"><code>DB4900.DBX33.0</code></td>
+<td style="text-align:left">机器人发给系统,请求卡盘到原位（卡盘松开）信号</td>
 </tr>
 <tr>
-<td style="text-align:left"><strong><code>$A_PROBE[1/2]</code></strong> &amp; <strong><code>$AC_MEA[1/2]</code></strong></td>
-<td style="text-align:left">测头 1/2 实时偏转状态与测量任务锁存捕获标志（<code>DB2700.DBX1.0/1.1</code> 为界面指示灯读取点）</td>
+<td style="text-align:left"><code>$A_DBB[34]</code></td>
+<td style="text-align:left"><code>DB4900.DBX34.0</code></td>
+<td style="text-align:left">机器人发给系统,请求卡盘到工作位（卡盘夹紧）信号（原索引笔误写为 DB4900.DBX33.0）</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>$A_DBB[60]</code></td>
+<td style="text-align:left"><code>DB4900.DBX60.0</code></td>
+<td style="text-align:left">系统发给机器人,罩壳顶部门已打开信号,M80置1(有效),M81置0</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>$A_DBB[61]</code></td>
+<td style="text-align:left"><code>DB4900.DBX61.0</code></td>
+<td style="text-align:left">系统发给机器人,预完成,通知机械手准备,M82置1(有效),M83置0</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>$A_DBB[62]</code></td>
+<td style="text-align:left"><code>DB4900.DBX62.0</code></td>
+<td style="text-align:left">系统发给机器人,机床故障,M84置1(有效),M85置0</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>$A_DBB[63]</code></td>
+<td style="text-align:left"><code>DB4900.DBX63.0</code></td>
+<td style="text-align:left">系统发给机器人,尾架缩回到位,M86置1(有效),M87置0</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>$A_DBB[64]</code></td>
+<td style="text-align:left"><code>DB4900.DBX64.0</code></td>
+<td style="text-align:left">系统发给机器人,尾架伸出到位,M88置1(有效),M89置0</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>$A_DBB[65]</code></td>
+<td style="text-align:left"><code>DB4900.DBX65.0</code></td>
+<td style="text-align:left">系统发给机器人,卡盘松开到位,M92置1(有效),M93置0（原索引笔误写为 DB4900.DBX63.0）</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>$A_DBB[66]</code></td>
+<td style="text-align:left"><code>DB4900.DBX66.0</code></td>
+<td style="text-align:left">系统发给机器人,卡盘夹紧到位,M94置1(有效),M95置0（原索引笔误写为 DB4900.DBX64.0）</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>$A_DBB[67]</code></td>
+<td style="text-align:left"><code>DB4900.DBX67.0</code></td>
+<td style="text-align:left">系统发给机器人,机床旋转头架结束（吹气时使用）,M96置1(有效),M97置0（原索引笔误写为 DB4900.DBX64.0）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-快速-io-量仪与自动测量硬件信号（共-14-项）">4. 快速 I/O 量仪与自动测量硬件信号（共 14 项）</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">变量接口</th>
+<th style="text-align:left">分类</th>
+<th style="text-align:left">信号用途与状态定义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>$A_IN[1]</code></td>
+<td style="text-align:left">快速 I/O</td>
+<td style="text-align:left">在线测量-信号sr</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>$A_IN[2]</code></td>
+<td style="text-align:left">快速 I/O</td>
+<td style="text-align:left">在线测量-信号st</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>$A_IN[3]</code></td>
+<td style="text-align:left">快速 I/O</td>
+<td style="text-align:left">在线测量-信号f2</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>$A_IN[4]</code></td>
+<td style="text-align:left">快速 I/O</td>
+<td style="text-align:left">在线测量-信号f3</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>$A_IN[10]</code></td>
+<td style="text-align:left">快速 I/O</td>
+<td style="text-align:left">在线测量-自动模式信号</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>$A_IN[11]</code></td>
+<td style="text-align:left">快速 I/O</td>
+<td style="text-align:left">在线测量-就绪信号</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>$A_IN[15]</code></td>
+<td style="text-align:left">快速 I/O</td>
+<td style="text-align:left">粗磨消空程输入信号</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>$A_OUT[3]</code></td>
+<td style="text-align:left">快速 I/O</td>
+<td style="text-align:left">在线测量-启动</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>$A_PROBE[1]</code></td>
+<td style="text-align:left">自动测量探头</td>
+<td style="text-align:left">测量探头1偏转：测量探头接触上为1 未接触为0</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>$A_PROBE[2]</code></td>
+<td style="text-align:left">自动测量探头</td>
+<td style="text-align:left">测量探头2偏转</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>$AC_MEA[1]</code></td>
+<td style="text-align:left">自动测量探头</td>
+<td style="text-align:left">测量探头1任务状态：测量探头启动测量为0 接触为1 脱开也保持不变 下次启动测量置0</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>$AC_MEA[2]</code></td>
+<td style="text-align:left">自动测量探头</td>
+<td style="text-align:left">测量探头2任务状态</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>DB2700.DBX1.0</code></td>
+<td style="text-align:left">自动测量探头</td>
+<td style="text-align:left">测头1信号状态</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>DB2700.DBX1.1</code></td>
+<td style="text-align:left">自动测量探头</td>
+<td style="text-align:left">测头2信号状态</td>
 </tr>
 </tbody>
 </table>
@@ -1133,7 +1811,7 @@
                 </a>
                 
                 
-                <a href="variables_and_markers.html" class="navigation navigation-next " aria-label="Next page: 10.3 MGUD 全局变量索引与条件编译标记">
+                <a href="config_ui_variables.html" class="navigation navigation-next " aria-label="Next page: 10.3 全量配置界面对应变量表">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -1144,7 +1822,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"10.2 M 代码、PLC-NC 交互信号与机械手接口","level":"5.1.2","depth":2,"next":{"title":"10.3 MGUD 全局变量索引与条件编译标记","level":"5.1.3","depth":2,"path":"10_appendix_and_troubleshooting/variables_and_markers.md","ref":"10_appendix_and_troubleshooting/variables_and_markers.md","articles":[]},"previous":{"title":"10.1 报警代码对照表与现场常见问题","level":"5.1.1","depth":2,"path":"10_appendix_and_troubleshooting/alarms_and_faq.md","ref":"10_appendix_and_troubleshooting/alarms_and_faq.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","katex"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css"},"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"katex":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2}},"theme":"default","author":"Nie Kun","pdf":{"pageNumbers":true,"fontSize":11,"fontFamily":"Microsoft YaHei","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":48,"left":48,"top":48,"bottom":48},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Horizon-Juicer & HorizonJuicerCreator 用户与工程指南","language":"zh-hans","gitbook":"*","description":"HorizonJuicerCreator 配置软件与 Horizon-Juicer 西门子数控磨削程序包完整用户手册"},"file":{"path":"10_appendix_and_troubleshooting/m_codes_and_signals.md","mtime":"2026-11-20T02:46:15.047Z","type":"markdown"},"gitbook":{"version":"6.2.6","time":"2026-11-20T02:46:17.618Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"10.2 全量 M 代码表与 PLC-NC 交互信号","level":"5.1.2","depth":2,"next":{"title":"10.3 全量配置界面对应变量表","level":"5.1.3","depth":2,"path":"10_appendix_and_troubleshooting/config_ui_variables.md","ref":"10_appendix_and_troubleshooting/config_ui_variables.md","articles":[]},"previous":{"title":"10.1 报警代码对照表与现场常见问题","level":"5.1.1","depth":2,"path":"10_appendix_and_troubleshooting/alarms_and_faq.md","ref":"10_appendix_and_troubleshooting/alarms_and_faq.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","katex"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css"},"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"katex":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2}},"theme":"default","author":"Nie Kun","pdf":{"pageNumbers":true,"fontSize":11,"fontFamily":"Microsoft YaHei","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":48,"left":48,"top":48,"bottom":48},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Horizon-Juicer & HorizonJuicerCreator 用户与工程指南","language":"zh-hans","gitbook":"*","description":"HorizonJuicerCreator 配置软件与 Horizon-Juicer 西门子数控磨削程序包完整用户手册"},"file":{"path":"10_appendix_and_troubleshooting/m_codes_and_signals.md","mtime":"2026-11-20T06:27:38.747Z","type":"markdown"},"gitbook":{"version":"6.2.6","time":"2026-11-20T06:27:43.941Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
