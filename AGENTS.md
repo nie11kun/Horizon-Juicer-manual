@@ -15,6 +15,7 @@
    - `.SPF`、`MGUD.DEF` 与 `Parameter_Index.md` 采用 `0-based` 下标（如 `INI[36]`）；
    - SINUMERIK EasyScreen `.com`（`/NC/_N_NC_GD2_ACX/...`）固定使用 `1-based`（`HMI = NC + 1`，即 `INI[37]`）。
    - 核心变量表必须同时标注或明示换算关系，驱动类配置必须严格区分：`INI[36]` 内/外磨砂轮、`INI[37]` 修整轮、`INI[91]` 磨削中心外圆砂轮。
+   - **禁止裸数字下标缩写**：任何变量或 PLC/NC 数组引用必须完整写出数组名与下标（如 `SHAPE_MODEL[1]` / `SHAPE_MODEL[2]`、`NC：PROCESS[45] / HMI：PROCESS[46]`、`INI[157]` / `INI[160]`、<code>&#36;A_DBB[3]</code> / <code>&#36;A_DBB[4]</code>），严禁省略数组前缀写成 `（1/2）`、`（103）`、`[160]`、`HMI 44` 等歧义缩写；涉及密集数组引用的章节应在节首注明 0-based NC 与 `+1` HMI 换算规则。
 2. **SINUMERIK 访问权限与钥匙开关严格映射**：
    - **`ac1`**：制造商口令（最高口令级，向下兼容 `ac2`～`ac7`）
    - **`ac2`**：服务口令（向下兼容 `ac3`～`ac7`）
@@ -26,7 +27,7 @@
    - 进入加工区后，`HS4 自动对刀` 仅在勾选自动对刀时显示，`HS5 外圆 / HS6 端面 / HS7 加工选择` 仅在磨削中心（`;ifIsCenter`）显示；
    - `VS1~VS8` 各功能键归属不同子画面（`a_grind`、`a_process`、`a_dress`、`a_auto`、`a_center*`、`a_setting`、`a_stats`），示意图中严禁把不同画面的按钮混画到同一栏。
 4. **两条不可省略的现场部署与刷新流程**：
-   - **新设备首次导入必做重置**：导入程序包（或重建 `MGUD.DEF`）并首跑主程序后，必须在 `a_setting.com` `Mask1` 点击 **`VS3 重置数据 → Mask2 VS8 确认`** 执行 `SUB(UP6)`，初始化驱动类型（`INI[36]/[37]/[91]`）与读写权限锁；
+   - **新设备首次导入必做重置**：导入程序包（或重建 `MGUD.DEF`）并首跑主程序后，必须在 `a_setting.com` `Mask1` 点击 **`VS3 重置数据 → Mask2 VS8 确认`** 执行 `SUB(UP6)`，初始化驱动类型（`INI[36]` / `INI[37]` / `INI[91]`）与读写权限锁；若将早期控制器升级至 `TECHNOLOGY[500]` 版 `MGUD.DEF`，激活新 `MGUD.DEF` 前必须先备份原有 GUD 数据，再重新激活与重置；
    - **语言切换热刷新步骤**：进入 **调试（Setup）** 主画面后，**直接点击右侧垂直软键 `VS3 Change language`** 切换语言触发重读，**切勿点底部 `HS5 HMI`**。
 
 ---
@@ -34,6 +35,7 @@
 ## 2. 安全保密红线
 
 - **严禁在任何 Markdown、图片、脚本日志或回复中出现** 口令派生公式、魔数常量、位变换名称或算出的具体解锁密码。仅描述挑战码→计算器→输入验证的交互步骤。
+- **公有仓库审计脚本隔离**：含敏感词检测清单的本地审计脚本 `tools/audit_manual.py` 必须保留在 `.gitignore` 中，严禁 `git add`、提交或推送到公有 GitHub 仓库。
 
 ---
 
@@ -41,7 +43,7 @@
 
 1. **100% 自采与代码生成图表**：禁止复用旧版 `images/schematics/`（`hlp_pic*` / `panel_*`）或用户原始临时截图；目录 `images/schematics/` 不得存在。
 2. **标注框与序号气泡规范（[tools/annotate_screenshots.py](tools/annotate_screenshots.py)）**：
-   - 所有 UI 截图均需经 `tools/annotate_screenshots.py` 框选核心参数区/软键区，并附带 `Microsoft YaHei` 底部黑底蓝分割线图例栏；
+   - 所有 UI 截图均需经 `tools/annotate_screenshots.py` 框选核心参数区/软键区，并附带 `Microsoft YaHei` 底部黑底蓝分割线图例栏；支持通过 `tools/raw_overrides/` 优先覆盖干净底图（如自定义主入口实拍图）；
    - **序号气泡不得遮挡关键文本或输入框数值**：优先使用贴边外挂模式（如 `out_l`、`out_r`、`top_r`、`bot_l`、`vleft`、`htop`）或精调坐标；
    - 如实机画面分辨率/DPI 变化或截图坐标更新，修改定义后**必须用 `read_file` 逐张全尺寸目检**确认零错位、零遮挡。
 3. **2× 超采样技术示意图（[tools/generate_diagrams.py](tools/generate_diagrams.py) & [tools/build_diagrams_and_cover.py](tools/build_diagrams_and_cover.py)）**：
@@ -52,14 +54,16 @@
 
 ## 4. HonKit 排版、KaTeX 与构建验收门禁
 
-1. **表格防截断规则**：
-   - `[styles/website.css](styles/website.css)` 与 `[styles/pdf.css](styles/pdf.css)` 已启用表格单元格自动换行与 `code` 断行（`word-break: break-all; overflow-wrap: anywhere;`），并设置 `.markdown-section { overflow-x: visible !important; }` 防止静默裁切；
+1. **表格防断列与防截断规则**：
+   - [styles/website.css](styles/website.css) 与 [styles/pdf.css](styles/pdf.css) 已启用表格单元格自动换行与 `code` 断行（`word-break: break-all; overflow-wrap: anywhere;`），并设置 `.markdown-section { overflow-x: visible !important; }` 防止静默裁切；
+   - **严禁在 Markdown 表格单元格内写入未转义的竖线 `|`**（即便包在行内反引号中，也会被 HonKit 提前拆分成多余列并遗留裸反引号）；多路径/多选项须改用顿号、`或`、`/` 或 `<br>` 分隔；
    - 撰写宽表时控制列数（通常 `<= 5` 列）与长连续路径/数组枚举（必要时用 `<br>` 分行）。
 2. **KaTeX 与 HTML 转义安全**：
    - 同一段落中避免出现未转义的双 `$`（如 `$A_DBB[...]` 与 `$MN_...`）；正文中系统美元符变量统一写作 <code>&#36;A_DBB[...]</code>，或在独立代码块内书写；严禁把行内反引号 `` ` `` 跨入 `<code>...</code>` 标签。
 3. **收尾必跑验证流水线**（每次修改完成后按序执行，不可跳过）：
-   1. `python tools/audit_manual.py` → 确认全部 Markdown 与引用图片存在、无旧图、无敏感词、无散落 `$`，输出 `ALL AUDITS PASSED!`；
-   2. `npm run build` → 确认 39 页无报错生成，检查 `_book/**/*.html` 中 `Bad <code> spans` 与 `katex-error` 均为 `0`；
+   1. `npm run build` → 确认 39 页无报错生成；
+   2. `python tools/audit_manual.py` → 确认全部 Markdown 与引用图片存在、无旧图、无敏感词、无散落 `$`、无表格断列、无裸数字下标缩写，且 `_book/**/*.html` 中 `<table>` 列数全部匹配（`td == th`）、零 `Bad <code> spans`、零残余反引号/星号与零 `katex-error`，输出 `ALL AUDITS PASSED!`；
    3. Playwright 视口表格溢出检查 → 在 `1366/1024/800/660px` 视口扫描全部生成页，`overflows` 须为 `0`；
-   4. `npm run pdf` → 验证生成 `output.pdf`（大于 1 MB 且 `%PDF-` 头部有效）。
+   4. `npm run pdf` → **执行前必须先停止后台 `honkit serve` 进程**（防止 `chokidar` 监听 `_ebook_tmp` 触发 Node V8 堆内存 OOM），随后验证生成 `output.pdf`（大于 1 MB 且 `%PDF-` 头部有效）；
+   5. **GitHub Pages 发布核验**：推送 `main` 前确认 `git status` 中未暂存/跟踪 `tools/audit_manual.py`；推送后确认 `.github/workflows/deploy.yml` 运行成功并将静态站点部署至 `gh-pages`（保持根目录 `CNAME` 为 `hj-manual.niekun.net`）。
 4. 工作流详细操作手册见项目 Skill：[horizon-juicer-manual-workflow](.agents/skills/horizon-juicer-manual-workflow/SKILL.md)。
