@@ -126,10 +126,8 @@ def emit_param(o, d, p, ids):
     if p.get("text"):
         text_lines(o, d + 2, p["text"])
     info = []
-    if p.get("var"):
-        nc = nc_of(p["var"])
-        info.append(f'对应变量：{p["var"]}' + (f"（NC 程序中为 {nc}）" if nc else ""))
-    if p.get("ac"):
+    # 帮助面向终端用户：`var` 仅作为 YAML 源中的维护参考，不输出到 HTML
+    if p.get("ac") and str(p["ac"]) != "7":
         info.append(f'修改权限：{AC_TEXT[str(p["ac"])]}' + ("" if str(p["ac"]) == "7" else "及以上"))
     if p.get("readonly"):
         info.append("界面只读显示，由程序自动写入")

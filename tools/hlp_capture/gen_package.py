@@ -92,6 +92,36 @@ def find_window(pid):
     return found[0] if found else None
 
 
+def print_window(hwnd):
+    """Render a window to a PIL image with PrintWindow (works when the host screen is locked/covered)."""
+    from PIL import Image
+    gdi32 = ctypes.windll.gdi32
+
+    class RECT(ctypes.Structure):
+        _fields_ = [("l", ctypes.c_long), ("t", ctypes.c_long), ("r", ctypes.c_long), ("b", ctypes.c_long)]
+    rc = RECT()
+    user32.GetWindowRect(hwnd, ctypes.byref(rc))
+    w, h = rc.r - rc.l, rc.b - rc.t
+    hdc = user32.GetWindowDC(hwnd)
+    mdc = gdi32.CreateCompatibleDC(hdc)
+    bmp = gdi32.CreateCompatibleBitmap(hdc, w, h)
+    gdi32.SelectObject(mdc, bmp)
+    user32.PrintWindow(hwnd, mdc, 2)          # PW_RENDERFULLCONTENT
+
+    class BIH(ctypes.Structure):
+        _fields_ = [("biSize", ctypes.c_uint32), ("biWidth", ctypes.c_int32), ("biHeight", ctypes.c_int32),
+                    ("biPlanes", ctypes.c_uint16), ("biBitCount", ctypes.c_uint16), ("biCompression", ctypes.c_uint32),
+                    ("biSizeImage", ctypes.c_uint32), ("a", ctypes.c_int32), ("b", ctypes.c_int32),
+                    ("c", ctypes.c_uint32), ("d", ctypes.c_uint32)]
+    bi = BIH(ctypes.sizeof(BIH), w, -h, 1, 32, 0, 0, 0, 0, 0, 0)
+    buf = ctypes.create_string_buffer(w * h * 4)
+    gdi32.GetDIBits(mdc, bmp, 0, h, buf, ctypes.byref(bi), 0)
+    gdi32.DeleteObject(bmp)
+    gdi32.DeleteDC(mdc)
+    user32.ReleaseDC(hwnd, hdc)
+    return Image.frombuffer("RGBA", (w, h), buf, "raw", "BGRA", 0, 1).convert("RGB")
+
+
 def click_rel(hwnd, rx, ry, wait=0.6):
     class RECT(ctypes.Structure):
         _fields_ = [("l", ctypes.c_long), ("t", ctypes.c_long), ("r", ctypes.c_long), ("b", ctypes.c_long)]
@@ -136,7 +166,7 @@ def generate(name):
             time.sleep(0.5)
         if not os.path.exists(marker):
             raise RuntimeError(f"generation failed or not old-828D layout: {marker}")
-        time.sleep(2.0)
+        wait_until_stable(out)
     finally:
         if proc.poll() is None:
             proc.terminate()
@@ -144,28 +174,30 @@ def generate(name):
                 proc.wait(5)
             except subprocess.TimeoutExpired:
                 proc.kill()
-    fix_screwtap_markers(out, cfg)
     return os.path.basename(out)
 
 
-def fix_screwtap_markers(out, cfg):
-    """Workaround (2026-11-20): Creator leaves both ifIsScrewTap / ifIsNotScrewTap lines in HMI .com
-    files for external machines, so labels overlap. Apply the intended per-line filtering to the
-    package's proj/*.com so captures show the designed layout. Source files are untouched."""
-    if cfg.get("machineType") != 0:
-        return
-    import re
-    drop = "ifIsNotScrewTap" if cfg.get("ifHasScrewTap") == 0 else "ifIsScrewTap"
-    proj = os.path.join(out, "System-CF-Card", "siemens", "sinumerik", "hmi", "proj")
-    pat = re.compile(r"^.*\b" + drop + r"\b(?!Begin|End).*(\r?\n)?", re.M)
-    for fn in os.listdir(proj):
-        if fn.endswith(".com"):
-            fp = os.path.join(proj, fn)
-            s = open(fp, encoding="utf-8", errors="surrogateescape", newline="").read()
-            s2 = pat.sub("", s)
-            if s2 != s:
-                open(fp, "w", encoding="utf-8", errors="surrogateescape", newline="").write(s2)
-                print("  screw-tap marker fix:", fn)
+def wait_until_stable(root, quiet=8.0, minimum=15.0, timeout=180.0):
+    """Creator copies files first (keeping source mtimes) and applies ReplaceMarker processing afterwards.
+    Wait until the package's file-size signature has not changed for `quiet` seconds (and at least
+    `minimum` seconds overall); killing Creator earlier leaves markers unprocessed."""
+    t0 = time.time()
+    last, since = None, time.time()
+    while time.time() - t0 < timeout:
+        sig = []
+        for dp, _, fns in os.walk(root):
+            for fn in fns:
+                try:
+                    sig.append((dp, fn, os.path.getsize(os.path.join(dp, fn))))
+                except OSError:
+                    pass
+        sig = hash(tuple(sorted(sig)))
+        if sig != last:
+            last, since = sig, time.time()
+        elif time.time() - since >= quiet and time.time() - t0 >= minimum:
+            return
+        time.sleep(1.0)
+    raise RuntimeError("Creator did not finish writing the package in time")
 
 
 def main():

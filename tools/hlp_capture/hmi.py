@@ -97,12 +97,13 @@ def wait(sec):
     time.sleep(sec)
 
 
-def toggle(y, downs=1, x=330):
-    """Enum field in a_setting list: click field at HMI (x,y), SELECT opens list, move DOWN n (UP if <0), INPUT."""
+def toggle(y, index=1, x=330):
+    """Enum field: click field at HMI (x,y), SELECT opens the list (highlight always starts at the
+    FIRST item, not the current value), press DOWN `index` times to reach the target item, INPUT."""
     click(x, y, 400)
     key("SELECT", 600)
-    for _ in range(abs(downs)):
-        key("DOWN" if downs > 0 else "UP", 300)
+    for _ in range(index):
+        key("DOWN", 300)
     key("INPUT", 700)
 
 
@@ -125,6 +126,22 @@ def import_package(pkg_subdir):
     set_language("eng")
     set_language("chs")
     key("CUSTOM", 1500)
+
+
+def welcome_main_menu():
+    """Ensure the welcome page shows its MAIN vertical menu (VS1 = 出厂信息, orange 'i' icon) instead of
+    the extended menu (VS1 = 机床配置, green gear). Caller must already be on the welcome page."""
+    for _ in range(2):
+        p = shot("_menu_probe")
+        im = Image.open(p).convert("RGB").crop((705, 45, 740, 85))
+        os.remove(p)
+        px = list(im.getdata())
+        red = sum(1 for r, g, b in px if r > 180 and g < 140)
+        green = sum(1 for r, g, b in px if g > 150 and r < 120)
+        if red > green:
+            return True
+        vs(8, 900)
+    return False
 
 
 def open_user_ui():
