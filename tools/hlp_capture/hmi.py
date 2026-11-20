@@ -144,6 +144,21 @@ def welcome_main_menu():
     return False
 
 
+def welcome_ext_menu():
+    """Ensure the welcome page shows its EXTENDED vertical menu (VS1 = 机床配置)."""
+    for _ in range(2):
+        p = shot("_menu_probe")
+        im = Image.open(p).convert("RGB").crop((705, 45, 740, 85))
+        os.remove(p)
+        px = list(im.getdata())
+        red = sum(1 for r, g, b in px if r > 180 and g < 140)
+        green = sum(1 for r, g, b in px if g > 150 and r < 120)
+        if green > red:
+            return True
+        vs(8, 900)
+    return False
+
+
 def open_user_ui():
     """From welcome page enter the machine UI (HS7 用户界面)."""
     key("CUSTOM", 1200)

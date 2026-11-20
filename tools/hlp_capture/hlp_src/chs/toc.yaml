@@ -1,0 +1,34 @@
+language: chs
+book: 用户手册
+header:
+  - "机床型号: machineName"
+  - "机床名称: machineCHS"
+  - "软件版本: softwareVersion"
+parts:
+  - title: HMI界面参数定义
+    entries:
+      - {ref: section_9.html, title: 欢迎页与界面导航}
+      - {ref: section_1.html, title: 磨削界面}
+      - {ref: section_2.html, title: 工艺界面}
+      - {ref: section_3.html, title: 修整界面}
+      - {ref: section_4.html, title: 滚轮界面}
+      - {ref: section_6.html, title: 齿型界面}
+      - {ref: section_5.html, title: 自动对刀界面, marks: [ifIsAuto]}
+      - {ref: section_26.html, title: 外圆参数, marks: [ifIsCenter]}
+      - {ref: section_27.html, title: 端面参数, marks: [ifIsCenter]}
+      - {ref: section_28.html, title: 加工选择, marks: [ifIsCenter]}
+      - {ref: section_8.html, title: 加工统计与配件寿命界面}
+      - {ref: section_31.html, title: 参数备份恢复界面}
+      - {ref: section_7.html, title: 机床配置界面}
+  - title: 机床功能介绍
+    entries:
+      - {ref: section_10.html, title: 砂轮修整}
+      - {ref: section_11.html, title: 对刀}
+      - {ref: section_12.html, title: 磨削}
+      - {ref: section_13.html, title: 磨削扩展功能}
+      - {ref: section_20.html, title: 外圆端面修整, marks: [ifIsCenter]}
+      - {ref: section_22.html, title: 外圆端面对刀, marks: [ifIsCenter]}
+      - {ref: section_24.html, title: 外圆端面磨削, marks: [ifIsCenter]}
+      - {ref: section_15.html, title: 加工统计与配件寿命}
+      - {ref: section_30.html, title: 参数备份恢复}
+      - {ref: section_16.html, title: 机床配置管理}

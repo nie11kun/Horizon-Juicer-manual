@@ -1,0 +1,379 @@
+title: 修整界面
+head1: HMI界面参数定义
+refs: '具体操作步骤请参考[砂轮修整](section_10.html)
+
+  在用户界面中点击屏幕下方 **修整参数** 软键进入本页；右侧软键进入齿形与修整轮参数页面
+
+  '
+blocks:
+- h3: 修整主界面
+  body:
+  - img:
+      src: dress_main_ext.png
+      h: 300
+    marks:
+    - ifIsExternal
+  - img:
+      src: dress_main_int.png
+      h: 300
+    marks:
+    - ifIsInternal
+  - note: '修整有两种触发方式：
+
+      **单独修整**：点亮机床操作面板上的修整键后启动程序，按本页的粗修、精修参数修整砂轮，不磨削工件
+
+      **磨削中修整**：磨削过程中按工艺界面的修整设定自动修整，只执行精修部分（扩展工艺时使用工艺表中各工序的修整参数）
+
+      每次修整后砂轮直径自动减小，磨削位置按修整量自动补偿，无需重新对刀
+
+      '
+  - params:
+    - id: S3D1
+      marks:
+      - ifIsDressWare1
+      name: 修整器类型
+      range: 插补/成型
+      var: DRESSER[1]
+      ac: 4
+      text: '**插补**：使用碟形修整轮，修整器两轴联动沿齿形轮廓逐点修整，可修整任意设定齿形
+
+        **成型**：使用与齿形一致的成型滚压轮，修整器直线进给把滚轮齿形复制到砂轮上
+
+        按机床实际安装的修整轮选择，切换后到右侧对应的齿形或滚轮页面设置参数
+
+        '
+    - id: S3D2
+      marks:
+      - ifIsDressWare3
+      name: 修整器类型
+      range: 插补/成型
+      var: DRESSER[1]
+      ac: 4
+      text: '**插补（X-Z）**：使用碟形修整轮，X、Z 轴联动沿齿形轮廓逐点修整
+
+        **成型（X）**：使用成型滚压轮，X 轴直线进给把滚轮齿形复制到砂轮上
+
+        按机床实际安装的修整轮选择，切换后到右侧对应的齿形或滚轮页面设置参数
+
+        '
+    - id: S3D31
+      marks:
+      - ifIsDressWare5
+      name: 修整器类型（液压）
+      range: 液压摆缸
+      ac: 4
+      text: '本机为液压摆缸修整器，类型固定，修整参数在右侧 **摆缸** 页面设置
+
+        '
+    - id: S3D3
+      marks:
+      - ifIsSingleAndRound
+      name: 修整轮类型
+      range: 单滚轮/方滚轮
+      var: DRESSER[4]
+      ac: 4
+      text: '按修整器上实际安装的修整轮选择：
+
+        **单滚轮**：圆弧刃口碟形轮，可修出带圆弧的齿根
+
+        **方滚轮**：平刃方形轮，需要输入滚轮厚度和左右圆弧
+
+        切换后点击右侧对应软键设置修整中心距等滚轮参数
+
+        '
+    - id: S3D4
+      marks:
+      - ifIsAllShape
+      name: 齿形
+      range: 三角/梯形/双圆弧（开放附加齿形后还有行星齿、平面）
+      var: DRESSER[5]
+      ac: 4
+      text: '选择插补修整要修出的砂轮齿形，切换后点击右侧对应的齿形软键设置齿形参数
+
+        成型修整时齿形由滚轮决定，此项不起作用
+
+        '
+    - id: S3D24
+      name: 平面锥度
+      range: 无
+      unit: mm
+      var: DRESSER[142]
+      ac: 4
+      text: '齿形选择 **平面** 时可用，用于把砂轮修成平面（如内孔磨砂轮）
+
+        输入值为砂轮宽度范围内两侧的直径差，正值修整后砂轮左大右小，0 为圆柱面
+
+        '
+    - id: S3D16
+      name: 砂轮状态
+      range: 新砂轮/旧砂轮
+      var: DRESSER[6]
+      ac: 7
+      text: '更换新砂轮后切换为 **新砂轮**，并输入正确的新砂轮直径和修整轮参数，然后执行一次单独修整
+
+        新砂轮修整时从砂轮外圆开始逐层修出完整齿形，修整完成后自动切换为旧砂轮
+
+        ?ifIsInternal: 内螺纹新砂轮修整时，程序按 新砂轮直径 与 砂轮最大磨削直径 自动计算粗修次数，直接修到可进入工件的尺寸
+
+        '
+    - id: S3D17
+      name: 新砂轮是否是成型砂轮
+      range: 普通/成型
+      var: DRESSER[114]
+      ac: 4
+      text: '需在机床配置中开启后显示
+
+        **普通**：砂轮外圆为平的，新砂轮修整时先抬刀，从齿顶逐层向下修出齿形
+
+        **成型**：砂轮已预先做出齿形，新砂轮修整时不抬刀，直接按齿形修整
+
+        '
+    - id: S3D20
+      name: 修整角度
+      rec: '0'
+      range: -90~90
+      unit: °
+      var: INI[154]
+      ac: 4
+      text: '带 A 轴的机床修整时砂轮架摆动到的角度，默认 0° 修整
+
+        需要避让干涉或微调修整出的齿形角度时设置（需在机床配置中开启显示）
+
+        '
+- h3: 修整次数与修整量
+  body:
+  - params:
+    - id: S3D7
+      name: 粗修次数
+      range: 0~1000
+      var: DRESSER[26]
+      ac: 7
+      text: '单独修整时先执行的粗修次数。粗修用较大修整量快速修出齿形
+
+        磨削中修整不执行粗修
+
+        '
+    - id: S3D8
+      name: 粗修整量
+      range: 0~0.5
+      unit: mm
+      var: DRESSER[28]
+      ac: 4
+      text: '粗修时每次修整的进给量（半径方向）
+
+        '
+    - id: S3D9
+      name: 粗修速度
+      range: 0~1000
+      unit: mm/min
+      var: DRESSER[30]
+      ac: 4
+      text: '粗修时修整轮沿砂轮齿形运动的速度
+
+        '
+    - id: S3D10
+      name: 精修次数
+      range: 0~1000
+      var: DRESSER[27]
+      ac: 4
+      text: '单独修整时粗修之后执行的精修次数；磨削中修整也按此次数修整
+
+        '
+    - id: S3D11
+      name: 精修整量
+      rec: 0.005~0.02
+      range: 0~0.1（限制值可在机床配置中修改）
+      unit: mm
+      var: DRESSER[29]
+      ac: 4
+      text: '精修时每次修整的进给量（半径方向），决定砂轮齿形的最终质量
+
+        '
+    - id: S3D12
+      name: 精修速度
+      range: 0~1000
+      unit: mm/min
+      var: DRESSER[31]
+      ac: 4
+      text: '精修时修整轮的运动速度，速度越低砂轮表面越细
+
+        '
+    - id: S3D22
+      name: 新砂轮轮廓修整量
+      range: 0~5
+      unit: mm
+      var: TECHNOLOGY[304]
+      ac: 4
+      text: '粗修整量右侧的小框（需在机床配置中开启）。新砂轮修整时，砂轮外轮廓部分单独使用的每次修整量
+
+        未开启时轮廓部分使用粗修整量（无粗修时使用精修整量）
+
+        '
+    - id: S3D23
+      name: 新砂轮轮廓修整速度
+      range: 0~1000
+      unit: mm/min
+      var: TECHNOLOGY[305]
+      ac: 4
+      text: '粗修速度右侧的小框。新砂轮修整时砂轮外轮廓部分单独使用的修整速度
+
+        '
+    - id: S3D18
+      name: 累计修整量
+      range: 只读
+      unit: mm
+      var: DRESSER[10]
+      readonly: true
+      text: '从新砂轮开始累计修掉的量，等于 (新砂轮直径 - 当前砂轮直径) / 2
+
+        '
+    - id: S3D21
+      name: 磨削中补偿
+      range: -0.5~0.5
+      unit: mm
+      var: DRESSER[71]
+      ac: 4
+      text: '需在机床配置中开启显示。磨削中每修整一次砂轮，额外对磨削起始位置补偿的量
+
+        批量加工中工件尺寸随修整持续向一个方向变化时使用；正值使磨削位置沿坐标正方向偏移
+
+        '
+    - id: S3D26
+      name: 补偿累计
+      range: 只读
+      unit: mm
+      var: DRESSER[72]
+      readonly: true
+      text: '磨削中补偿已经累计到磨削位置上的总量
+
+        '
+- h3: 砂轮参数
+  body:
+  - params:
+    - id: S3D13
+      name: 砂轮宽度
+      rec: 实测
+      range: 0~200
+      unit: mm
+      var: DRESSER[23]
+      ac: 7
+      text: '当前砂轮的实际宽度，插补修整时用于计算修整轨迹，需用量具测量后输入
+
+        '
+    - id: S3D14
+      name: 新砂轮直径
+      rec: 实测
+      range: 0~1000
+      unit: mm
+      var: DRESSER[24]
+      ac: 7
+      text: '更换新砂轮后测量砂轮外径输入（可比实测值大 0.2mm 左右，保证首次修整能完整修出外圆）
+
+        '
+    - id: S3D25
+      name: 当前砂轮直径
+      range: 只读
+      unit: mm
+      var: DRESSER[25]
+      readonly: true
+      text: '程序按每次修整量自动计算的当前砂轮直径，用于线速度换算和直径报警
+
+        '
+    - id: S3D15
+      name: 砂轮线速度
+      rec: 22m/s 左右
+      range: 0~80
+      unit: m/s
+      var: WHEEL_LINESPEED_DRESS[2]
+      ac: 4
+      text: '修整时砂轮外圆线速度。非恒转速模式下输入线速度，砂轮转速按当前直径自动换算
+
+        通常 22m/s 左右，可根据砂轮大小与材质适当调整
+
+        '
+    - id: S3D19
+      name: 砂轮转速
+      range: 只读或按配置输入
+      unit: rpm
+      var: DRESSER[37]
+      ac: 4
+      text: '修整时砂轮转速，转速 = 线速度 × 60000 / (π × 当前砂轮直径)
+
+        机床配置为砂轮恒转速时直接输入转速，线速度只读
+
+        '
+    - id: S3D5
+      name: 砂轮最小磨削直径
+      rec: 按砂轮法兰或磨杆尺寸
+      range: 0~1000
+      unit: mm
+      var: DRESSER[36]
+      ac: 4
+      text: '砂轮允许使用到的最小直径。当前砂轮直径小于此值时机床报警，需更换砂轮
+
+        ?ifIsExternal: 根据砂轮法兰尺寸留出安全余量
+
+        ?ifIsInternal: 按 (工件小径 + 牙高 × 2) 再适当放大设置
+
+        '
+    - id: S3D6
+      marks:
+      - ifIsInternal
+      name: 砂轮最大磨削直径
+      rec: 砂轮能进入工件内孔的直径
+      range: 0~1000，且至少比新砂轮直径小 0.2
+      unit: mm
+      var: DRESSER[50]
+      ac: 4
+      text: '新砂轮修整时自动修整到此直径，保证砂轮能进入工件内孔
+
+        当前砂轮直径大于此值时启动磨削程序会报警
+
+        '
+- h3: 外部齿形与蜗杆齿形
+  body:
+  - params:
+    - id: S3D27
+      name: 齿型调用选择
+      range: 内部集成/外部模式1/外部模式2
+      var: DRESSER[140]
+      ac: 4
+      text: '需在机床配置中开启外部齿形程序后显示
+
+        **内部集成**：使用系统内置的齿形（三角、梯形、双圆弧等）
+
+        **外部模式1**：调用外部齿形程序，左右齿面分开修整
+
+        **外部模式2**：调用外部齿形程序，带刀具半径补偿的连续轨迹
+
+        '
+    - id: S3D28
+      name: 外部程序路径 / 外部程序目录 / 外部齿型程序名
+      range: 内部SPF/后USB/前USB/CF卡
+      ac: 4
+      text: '选择外部齿形程序存放的位置、文件夹和程序名称
+
+        使用后部 USB 时需要先在系统逻辑驱动器中配置好，名称设为 //DEV_3
+
+        '
+      var: SHAPE_MODEL[1]、STRING_ADDON[1]、SHAPE_EXTERNAL
+    - id: S3D29
+      name: 齿高 / 抬刀
+      range: 0~50
+      unit: mm
+      ac: 4
+      text: '外部模式2 连续轨迹齿形的齿高，以及修整起点前的抬刀高度
+
+        '
+      var: PROCESS[124]、PROCESS[125]
+    - id: S3D30
+      marks:
+      - ifIsHasWorm
+      name: 蜗杆齿形 / 蜗杆齿高
+      range: 齿高 0~200
+      unit: mm
+      var: INI[19]、WORM_SHAPE
+      ac: 4
+      text: '磨削界面蜗杆使能选择蜗杆时显示：上方显示当前调用的蜗杆齿形程序名，下方输入蜗杆齿高
+
+        '

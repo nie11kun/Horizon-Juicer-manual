@@ -1,0 +1,58 @@
+title: 对刀
+head1: 机床功能介绍
+refs: |
+  具体参数设置请参考[磨削界面](section_1.html)、[自动对刀界面](section_5.html)
+  对刀的目的：让砂轮准确进入工件已有的螺纹槽（或确定首次磨削的起始角），程序据此计算 **加工起始角.C** 和 **初始接触.X**
+blocks:
+  - h3: 手动对刀
+    body:
+      - steps:
+          - "?ifIsCenter: 磨削中心：在加工选择界面右侧点亮 **内螺纹**"
+          - t: 进入磨削界面，设置工件基本参数：[螺距](section_1.html#S1D4)、[旋向](section_1.html#S1D8)、[头数](section_1.html#S1D9)、[锥度](section_1.html#S1D16)、[螺旋升角](section_1.html#S1D20)
+            img: {src: grind_main_int.png, h: 300}
+            marks: [ifIsInternal]
+          - t: 进入磨削界面，设置工件基本参数：[螺距](section_1.html#S1D4)、[旋向](section_1.html#S1D8)、[头数](section_1.html#S1D9)、[锥度](section_1.html#S1D16)、[螺旋升角](section_1.html#S1D20)
+            img: {src: grind_main_ext.png, h: 300}
+            marks: [ifIsExternal]
+          - "?ifIsInternal: 设置 [工件中心.X](section_1.html#S1D28)：砂轮从这里进出工件内孔，需按测量方法准确设置"
+          - "?ifIsExternal: 手动将 X 轴移到接近工件外圆的安全位置，记录 X 坐标到 [对刀起始位.X](section_1.html#S1D12)"
+          - 手动将 X 轴退到不会干涉的安全位置，记录 X 坐标到 [安全位置.X](section_1.html#S1D14)
+          - 移动 Z 轴分别对准螺纹左右两端，记录到 [工件左端.Z](section_1.html#S1D10) 和 [工件右端.Z](section_1.html#S1D11)
+          - "?ifIsInternal: 设置 [安全位置.Z](section_1.html#S1D30)（砂轮完全在工件外）"
+          - "?ifIsExternal: 选择 [对刀位置](section_1.html#S1D6)（起点/中点/任意点）"
+          - 点亮操作面板上的 **手动对刀** 键，按 **循环启动**
+          - 点亮 **DRF**（手轮）键，选择合适的手轮倍率（×1 / ×10 / ×100），并将进给倍率调到最小
+          - 砂轮进入对刀位置并开始与头架同步插补转动后，用手轮微调 X 轴（必要时 Z 轴），使砂轮刚好落入工件螺纹槽中，两侧无挤压
+          - "?ifIsScrewTap: 丝锥磨削时同时用手轮调整 B 轴，使 X 轴接触工件且铲背动作正确"
+          - 对刀完成后按退刀键（外螺纹）或等待砂轮自动退出（内螺纹），程序结束；关闭手动对刀键
+          - 程序自动计算并保存 [加工起始角.C](section_1.html#S1D24) 和 [初始接触.X](section_1.html#S1D26)
+      - note: |
+          提示：
+          摇手轮时把进给倍率调到最小；砂轮放入槽内后可将 X 轴后退约 0.1mm 再提高倍率，观察后段是否有挤压
+          对刀时砂轮转速由机床程序设定，必要时联系制造商调整
+          机床配置中可选择 **插补对刀**（砂轮与头架同步转动中对刀）或 **静止对刀**（静止状态下对刀）
+          ?ifIsHasReOperate: 本机支持二次对刀：工件已磨过一次重新装夹时，选择 [对刀类型](section_1.html#S1D5) 为二次对刀，砂轮直接进入已有螺纹槽，只需微调
+          ?ifIsScrewTap: 铲背量较小导致对刀时难以确认 B 轴角度时，可先加工一件测量后再调整 [加工起始角.B](section_1.html#S1D42)
+  - h3: 批量生产中的对刀
+    body:
+      - steps:
+          - 首件工件对刀前，将 [是否是批量中的首件工件](section_1.html#S1D27) 设为 **首件工件**，对刀后保存初始接触.X 和起始角
+          - 后续每件仍需手动对刀时设为 **不是首件**：对刀只更新起始角，初始接触.X 保持首件的值，保证批量尺寸一致
+  - h3: 自动对刀
+    marks: [ifIsAuto]
+    body:
+      - steps:
+          - t: 点击屏幕下方 **自动对刀** 进入自动对刀界面
+            img: {src: auto_int.png, h: 300}
+            marks: [ifIsInternal]
+          - t: 点击屏幕下方 **自动对刀** 进入自动对刀界面
+            img: {src: auto_ext.png, h: 300}
+            marks: [ifIsExternal]
+          - "?ifIsExternal: 标定 [开关/测头-砂轮重合位](section_5.html#S5D2)：手动使开关（测头）中心对准砂轮齿顶，记录 Z 坐标"
+          - "?ifIsInternal: 选择工件定位 [结构](section_5.html#S5D41)（反向孔/内滚道）和 [测量模式](section_5.html#S5D42)"
+          - "?ifIsInternal: 标定 [测量水平距.Z](section_5.html#S5D6) 和 [测头中心位.X](section_5.html#S5D24)（新机床或更换测头后标定一次）"
+          - "?ifIsInternal: 按工件输入测头半径、外圆直径、反向孔位置等参数，并手动测量右端面后输入 [右端测量设置.Z](section_5.html#S5D37)"
+          - 先用手动对刀磨一件，确认无偏刀后再使用自动对刀
+          - 点亮操作面板上的 **自动对刀** 键，按 **循环启动**：测量机构伸出，自动测量并计算加工起始角，完成后测量机构退回
+          - 磨削后如有偏刀，在 [对刀结果调整](section_5.html#S5D1) 中修正，之后每次自动对刀都会叠加此修正值
+          - "?ifIsCenter: 磨削中心自动对刀后自动进入加工，加工内容为加工选择界面选中的工序"

@@ -1,0 +1,462 @@
+title: 齿型界面
+head1: HMI界面参数定义
+refs: '具体操作步骤请参考[砂轮修整](section_10.html)
+
+  插补修整时，在修整界面点击右侧 **三角 / 梯形 / 双圆弧 / 行星齿** 软键进入对应齿形页面，设置要修出的砂轮齿形；页面左侧示意图标出了各尺寸的位置
+
+  修改齿形参数后需执行一次修整，新齿形才会修到砂轮上
+
+  '
+blocks:
+- h3: 三角齿形
+  marks:
+  - ifIsAllShape
+  body:
+  - img:
+      src: shape_tri_int.png
+      h: 300
+  - note: '用于普通三角螺纹（公制、英制等）。机床配置开启"三角齿型-修整模式选择"后，左上角可选 **普通** 或 **扩展** 模式：
+
+      **普通**：单段斜面，左右斜面角度 + 齿高
+
+      **扩展**：上下两段不同角度的斜面（上段/下段），用于齿侧带折线的特殊齿形
+
+      '
+  - params:
+    - id: S6D1
+      name: 齿底圆弧半径
+      range: 0~20
+      unit: mm
+      var: SHAPE_MODEL[101]
+      ac: 4
+      text: '砂轮齿顶（对应工件牙底）的圆弧半径，按工件图纸牙底圆弧设置
+
+        '
+    - id: S6D2
+      name: 左斜面角度 / 右斜面角度（扩展模式分上、下两段）
+      rec: 按图纸，如公制 30°/30°
+      range: 0~90
+      unit: °
+      var: SHAPE_MODEL[102]、SHAPE_MODEL[103]、SHAPE_MODEL[106]、SHAPE_MODEL[107]
+      ac: 4
+      text: '齿形左右两侧斜面与竖直方向的夹角（半角），对称齿形左右相等
+
+        扩展模式下 **上-** 为靠近齿顶一段，**下-** 为靠近齿根一段
+
+        '
+    - id: S6D3
+      name: 齿高（扩展模式为上-齿高、总-齿高）
+      range: 0~50
+      unit: mm
+      var: SHAPE_MODEL[104]、SHAPE_MODEL[108]
+      ac: 4
+      text: '修出的砂轮齿形高度，应略大于工件牙深，保证磨削时只有齿侧接触
+
+        扩展模式下 **上-齿高** 为上段斜面高度，**总-齿高** 为整个齿高
+
+        '
+    - id: S6D4
+      name: 左齿根圆弧半径 / 右齿根圆弧半径
+      range: 0~20
+      unit: mm
+      var: SHAPE_MODEL[2] / SHAPE_MODEL[3]
+      ac: 4
+      text: '砂轮齿根两侧（对应工件牙顶倒角处）的过渡圆弧，不需要时输入 0
+
+        '
+    - id: S6D5
+      name: 锥度
+      range: -90~90
+      var: SHAPE_MODEL[6]
+      ac: 4
+      text: '修整出带锥度的砂轮外形（齿顶连线倾斜），用于锥度螺纹专用砂轮；普通螺纹输入 0
+
+        '
+    - id: S6D6
+      name: 延长线角度
+      rec: '90'
+      range: 0~90
+      unit: °
+      var: SHAPE_MODEL[105]
+      ac: 4
+      text: '齿高以外延长部分（砂轮外侧轮廓）的角度，90° 为竖直向外延伸
+
+        '
+    - id: S6D34
+      name: 三角模式（普通/扩展）
+      range: 普通/扩展
+      ac: 4
+      var: DRESSER[112]
+      text: '**普通**：单段斜面三角齿形
+
+        **扩展**：上下两段不同角度斜面的三角齿形
+
+        '
+- h3: 梯形齿形
+  marks:
+  - ifIsAllShape
+  body:
+  - img:
+      src: shape_trap_int.png
+      h: 300
+  - note: '用于梯形螺纹、蜗杆等平底齿形。机床配置开启"梯形齿型-修整模式选择"后，左上角可选：
+
+      **普通**：单段斜面梯形
+
+      **扩展**：上下两段不同角度斜面的梯形，可选平顶或锥顶
+
+      **戴帽**：按中径宽度、中径高度定义的梯形（齿顶带帽形过渡）
+
+      '
+  - params:
+    - id: S6D7
+      name: 齿底长度
+      range: 0~20
+      unit: mm
+      var: SHAPE_MODEL[91]
+      ac: 4
+      text: '砂轮齿顶平面（对应工件牙底）的宽度，按工件牙底宽设置
+
+        '
+    - id: S6D8
+      name: 齿底左圆弧半径 / 齿底右圆弧半径
+      range: 0~20
+      unit: mm
+      var: SHAPE_MODEL[92] / SHAPE_MODEL[93]
+      ac: 4
+      text: '齿底平面两端的过渡圆弧半径
+
+        '
+    - id: S6D9
+      name: 左斜面角度 / 右斜面角度（扩展模式分上、下两段）
+      range: 0~90
+      unit: °
+      var: SHAPE_MODEL[94]、SHAPE_MODEL[95]、SHAPE_MODEL[98]、SHAPE_MODEL[99]
+      ac: 4
+      text: '梯形两侧斜面与竖直方向的夹角（半角），如 30° 梯形螺纹两侧各输入 15°
+
+        '
+    - id: S6D10
+      name: 齿高（扩展模式为上-齿高、总-齿高）
+      range: 0~50
+      unit: mm
+      var: SHAPE_MODEL[96]、SHAPE_MODEL[100]
+      ac: 4
+      text: '修出的砂轮齿形高度，应略大于工件牙深
+
+        '
+    - id: S6D11
+      name: 左齿根圆弧半径 / 右齿根圆弧半径
+      range: 0~20
+      unit: mm
+      var: SHAPE_MODEL[4] / SHAPE_MODEL[5]
+      ac: 4
+      text: '砂轮齿根两侧的过渡圆弧，不需要时输入 0
+
+        '
+    - id: S6D12
+      name: 锥度 / 延长线角度
+      range: 锥度 -90~90，角度 0~90
+      var: SHAPE_MODEL[12] / SHAPE_MODEL[97]
+      ac: 4
+      text: '含义同三角齿形：锥度用于锥度专用砂轮，普通螺纹输入 0；延长线角度为齿高以外轮廓的角度
+
+        '
+    - id: S6D13
+      name: 齿顶模式
+      range: 平顶/锥顶
+      var: SHAPE_MODEL[25]
+      ac: 4
+      text: '砂轮齿根处（对应工件牙顶）为平面或锥面
+
+        '
+    - id: S6D14
+      name: 戴帽梯形参数
+      range: 按图纸
+      unit: mm / °
+      var: SHAPE_MODEL[11]~SHAPE_MODEL[22]
+      ac: 4
+      text: '梯形模式选择 **戴帽** 时显示，按工件图纸输入：
+
+        **螺距**、**锥度**：齿形对应的螺距与锥度
+
+        **中径宽度 / 中径高度**：中径处的齿宽及其距齿底的高度
+
+        **齿底高度**：齿底平面所在高度
+
+        **左/右半角**：两侧齿面半角
+
+        **左/右齿尖R、左/右齿底R**：齿尖和齿底的过渡圆弧
+
+        **延长斜线角度**：齿形以外轮廓的角度
+
+        '
+    - id: S6D35
+      name: 梯形模式（普通/扩展/戴帽）
+      range: 普通/扩展/戴帽
+      ac: 4
+      var: SHAPE_MODEL[26]
+      text: '**普通**：单段斜面梯形
+
+        **扩展**：上下两段斜面梯形
+
+        **戴帽**：按中径宽度与高度定义的梯形
+
+        '
+- h3: 双圆弧齿形（滚珠丝杠/螺母）
+  body:
+  - img:
+      src: shape_arc_int.png
+      h: 300
+  - note: '用于滚珠丝杠、滚珠螺母的哥特式（双圆弧）滚道。表格中每项分为 **初始 / 调整 / 当前** 三列：
+
+      **初始**：标准值（按图纸输入或由钢球直径自动计算）
+
+      **调整**：根据加工后的测量报告输入的修正量
+
+      **当前**：初始 + 调整，修整时实际使用的值（只读）
+
+      '
+  - params:
+    - id: S6D52
+      name: 圆弧角度
+      rec: 按需要修出的圆弧范围
+      range: 20~90
+      unit: °
+      var: SHAPE_MODEL[89]
+      ac: 4
+      text: '修出的滚道圆弧所对应的角度（与竖直方向的夹角），设为 90° 时修出完整半圆
+
+        '
+    - id: S6D55
+      name: 自动计算
+      range: 关/开
+      var: DRESSER[40]
+      ac: 4
+      text: '打开后按钢球直径和接触角自动计算初始圆弧半径与水平偏心：
+
+        圆弧半径 = 标准切换系数 × 钢球直径 / 2
+
+        水平偏心 = (圆弧半径 - 钢球直径 / 2) × sin(接触角)
+
+        '
+    - id: S6D62
+      name: 标准切换
+      rec: '1.11'
+      range: 0.9~1.2
+      var: DRESSER[113]
+      ac: 4
+      text: '自动计算时圆弧半径与钢球半径的比值（适配系数），按滚道设计标准选择，常用 1.11
+
+        '
+    - id: S6D56
+      name: 钢球直径
+      range: 0~50
+      unit: mm
+      var: SHAPE_MODEL[23]
+      ac: 4
+      text: '滚珠直径，打开自动计算时需要输入
+
+        '
+    - id: S6D57
+      name: 钢球接触角
+      rec: 45°
+      range: 0~90
+      unit: °
+      var: SHAPE_MODEL[24]
+      ac: 4
+      text: '钢球与滚道的接触角，打开自动计算时需要输入
+
+        '
+    - id: S6D40
+      name: 初始左圆弧半径 / 初始右圆弧半径
+      rec: 按图纸或自动计算
+      range: 0~50
+      unit: mm
+      var: SHAPE_MODEL[113] / SHAPE_MODEL[114]
+      ac: 4
+      text: '左、右滚道圆弧半径的标准值
+
+        '
+    - id: S6D42
+      name: 调整左圆弧半径 / 调整右圆弧半径
+      rec: 按测量报告
+      range: -10~10
+      unit: mm
+      var: SHAPE_MODEL[117] / SHAPE_MODEL[118]
+      ac: 4
+      text: '根据加工后的测量报告对左、右圆弧半径的修正量，叠加到初始值上
+
+        '
+    - id: S6D44
+      name: 当前左圆弧半径 / 当前右圆弧半径
+      range: 只读
+      unit: mm
+      readonly: true
+      text: '初始值 + 调整值，修整时实际使用的圆弧半径
+
+        '
+      var: SHAPE_MODEL[81]、SHAPE_MODEL[82]
+    - id: S6D46
+      name: 左/右圆弧理论水平偏心
+      rec: 按图纸或自动计算
+      range: 0~10
+      unit: mm
+      var: SHAPE_MODEL[115] / SHAPE_MODEL[116]
+      ac: 4
+      text: '左、右圆弧圆心相对齿形中心的水平偏移标准值
+
+        '
+    - id: S6D48
+      name: 调整左/右圆弧水平偏心
+      rec: 按测量报告
+      range: -10~10
+      unit: mm
+      var: SHAPE_MODEL[119] / SHAPE_MODEL[120]
+      ac: 4
+      text: '根据测量报告对水平偏心的修正量，叠加到理论值上
+
+        '
+    - id: S6D50
+      name: 当前左/右圆弧水平偏心
+      range: 只读
+      unit: mm
+      readonly: true
+      text: '理论值 + 调整值，修整时实际使用的水平偏心
+
+        '
+      var: SHAPE_MODEL[83]、SHAPE_MODEL[84]
+    - id: S6D60
+      name: 倒角模式
+      range: 斜角/圆角
+      var: SHAPE_MODEL[28]
+      ac: 4
+      text: '滚道两侧到砂轮外缘的过渡方式，按图纸要求选择
+
+        **斜角**：用过渡斜线角度、过渡斜线长度定义
+
+        **圆角**：用圆角半径定义，修整轮圆弧半径需小于圆角半径
+
+        '
+    - id: S6D53
+      name: 过渡斜线角度 / 过渡斜线长度
+      range: 角度 0~90，长度 0~20
+      var: SHAPE_MODEL[85] / SHAPE_MODEL[88]
+      ac: 4
+      text: '斜角倒角的角度（与水平方向夹角，0° 为水平修出）和斜线长度；长度至少为一个修整轮圆弧半径
+
+        '
+    - id: S6D61
+      name: 圆角半径
+      range: 0~20
+      unit: mm
+      var: SHAPE_MODEL[29]
+      ac: 4
+      text: '倒角模式为圆角时的过渡圆弧半径
+
+        '
+    - id: S6D58
+      name: 齿形旋转角度
+      rec: 按测量结果微调
+      range: -5~5
+      unit: °
+      var: SHAPE_MODEL[8]
+      ac: 4
+      text: '保持圆弧半径不变，将整个齿形旋转一个小角度，用于调整左右接触角对称
+
+        正值逆时针旋转，负值顺时针旋转；只能小幅微调
+
+        '
+    - id: S6D59
+      name: 右侧高低微调
+      range: -0.2~0.2
+      unit: mm
+      var: SHAPE_MODEL[90]
+      ac: 4
+      text: '需要调整接触角又不想改动圆弧时，微调齿形右侧高低：正值右侧抬高，负值右侧降低
+
+        '
+    - id: S6D63
+      name: 延长斜线角度
+      range: 0~90
+      unit: °
+      var: SHAPE_MODEL[112]
+      ac: 4
+      text: '滚道以外延长部分轮廓的角度
+
+        '
+- h3: 行星齿形
+  marks:
+  - ifIsExternal
+  body:
+  - img:
+      src: shape_planet.png
+      h: 300
+  - note: '用于行星滚柱丝杠等行星齿形，需在机床配置中开放附加齿形；在修整界面右侧点击更多菜单后选择 **行星齿**
+
+      表格的初始/调整/当前含义同双圆弧齿形
+
+      '
+  - params:
+    - id: S6D20
+      name: 左/右圆弧半径、左/右圆弧水平偏心（初始/调整/当前）
+      range: 半径 0~100，调整 -10~10
+      unit: mm
+      var: SHAPE_MODEL[31]~SHAPE_MODEL[42]
+      ac: 4
+      text: '行星齿两侧圆弧的半径与水平偏心，按图纸输入初始值，按测量报告输入调整值
+
+        '
+    - id: S6D21
+      name: 圆弧角度 / 过渡斜线角度 / 过渡斜线长度
+      range: 圆弧角度 45~90
+      var: SHAPE_MODEL[43]~SHAPE_MODEL[45]
+      ac: 4
+      text: '圆弧段的角度范围及两侧过渡斜线的角度和长度
+
+        '
+    - id: S6D22
+      name: 齿顶过渡
+      range: 圆弧/平顶
+      var: SHAPE_MODEL[50]、SHAPE_MODEL[46]、SHAPE_MODEL[47]、SHAPE_MODEL[48]、SHAPE_MODEL[49]
+      ac: 4
+      text: '**圆弧**：齿顶为圆弧，输入圆弧半径
+
+        **平顶**：齿顶为平面，输入工件中径、工件小径和中径接触角，由程序计算齿顶位置
+
+        '
+- h3: 多线修整（多牙砂轮）
+  body:
+  - note: '需在机床配置中开启后显示于各齿形页面左下方，用于把砂轮修成多个牙（多线砂轮），一次磨削多个牙以提高效率
+
+      '
+  - params:
+    - id: S6D30
+      name: 多线修整
+      range: 否/是
+      ac: 4
+      text: '选择是后，按下方牙数在砂轮宽度方向连续修出多个相同齿形
+
+        '
+    - id: S6D31
+      name: 牙数
+      range: ≥ 1
+      ac: 4
+      text: '砂轮上要修出的牙数，砂轮宽度需足够容纳 牙数 × 螺距
+
+        '
+    - id: S6D32
+      name: 间隔螺距
+      range: 0~5
+      ac: 4
+      text: '相邻两牙之间相隔的螺距数，0 表示牙与牙紧挨着连续排列
+
+        '
+    - id: S6D33
+      name: 齿高补偿
+      range: -1~1
+      unit: mm
+      ac: 4
+      text: '各牙之间逐个递减的齿高量，使先接触工件的牙承担更多切削量；正值时越靠左的牙越矮
+
+        '

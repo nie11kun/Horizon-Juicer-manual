@@ -72,6 +72,7 @@ def _calc(challenge):
             if h:
                 break
             time.sleep(0.2)
+        g.hide_offscreen(h)
         time.sleep(3)
         g.click_rel(h, 0.50, 0.60, 1.5)       # 口令计算 card
         g.click_rel(h, 0.387, 0.42, 0.5)      # challenge input box
@@ -90,6 +91,7 @@ def _calc(challenge):
 
 def unlock():
     """From the HMI welcome page: open 机床配置 and unlock it. Returns True when the list page shows."""
+    hmi.welcome_ext_menu()
     hmi.vs(1, 1500)
     code = _calc(read_challenge())
     hmi.click(280, 93, 400)

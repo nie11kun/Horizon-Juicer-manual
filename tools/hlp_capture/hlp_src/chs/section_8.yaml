@@ -1,0 +1,132 @@
+title: 加工统计与配件寿命界面
+head1: HMI界面参数定义
+refs: '具体操作请参考[加工统计与配件寿命](section_15.html)
+
+  两个界面需在机床配置中开启后，才会在欢迎页右侧显示 **加工统计**、**配件寿命** 软键
+
+  '
+blocks:
+- h3: 加工统计
+  body:
+  - img:
+      src: stats.png
+      h: 300
+  - note: '按砂轮记录每片砂轮加工的工件数量和更换日期，便于统计砂轮寿命。进入需钥匙开关 3 档
+
+      '
+  - params:
+    - id: S8D1
+      name: 砂轮已加工 / 砂轮更换日期
+      range: 只读
+      readonly: true
+      text: '表格每行对应一片砂轮：已加工的工件数量，以及该砂轮开始使用（更换）的日期时间
+
+        修整界面切换为新砂轮并完成修整后，自动开始记录下一片砂轮
+
+        '
+      var: WHEEL_GRIND_CUMU、WHEEL_CHANGED_DATA
+    - id: S8D2
+      name: 当前砂轮序号
+      range: 只读
+      readonly: true
+      text: '当前正在使用的砂轮在表格中的序号
+
+        '
+      var: CUR_WHEEL
+    - id: S8D3
+      name: 修整轮生命周期管理（修整次数极限 / 修整次数累计 / 修整量累计）
+      range: 次数极限 ≥ 0
+      ac: 4
+      text: '机床配置开启修整轮生命周期统计后显示：
+
+        **修整次数极限**：修整轮允许的修整次数，达到后提示更换（需先点击锁形图标解锁）
+
+        **修整次数累计 / 修整量累计**：当前修整轮已修整的次数和累计修整量
+
+        '
+      var: TECHNOLOGY[136]、TECHNOLOGY[137]、TECHNOLOGY[138]
+    - id: S8D4
+      name: 重置统计 / 重置计数
+      range: 软键
+      ac: 4
+      text: '**重置统计**（右侧第一个软键）：清空全部砂轮的加工记录，砂轮序号从头开始
+
+        **重置计数**（右侧第四个软键）：更换修整轮后清零修整次数和修整量累计
+
+        两者都会弹出确认窗口，按确认执行、按取消放弃；需钥匙开关 3 档
+
+        '
+- h3: 配件寿命
+  body:
+  - img:
+      src: parts_life.png
+      h: 300
+  - note: '记录易损配件（修整滚轮、夹具等）的使用次数，到达报警限制时提醒更换
+
+      '
+  - params:
+    - id: S8D10
+      name: 设定寿命
+      range: 0~1000000
+      unit: 次
+      ac: 4
+      text: '配件的额定使用次数，按配件供应商资料设置，作为更换参考
+
+        '
+      var: SERVICE_LIFE[1]~SERVICE_LIFE[4]
+    - id: S8D11
+      name: 目前寿命
+      range: 只读
+      unit: 次
+      readonly: true
+      text: '配件当前已使用的次数，由程序自动累加（如滚轮每修整一次计 1 次）
+
+        '
+      var: SERVICE_LIFE[11]~SERVICE_LIFE[14]
+    - id: S8D12
+      name: 报警限制
+      range: 0~1000000
+      unit: 次
+      ac: 4
+      text: '目前寿命超过此值后，启动程序时机床暂停并提示配件寿命到期（需打开报警提示信息）
+
+        '
+      var: SERVICE_LIFE[6]~SERVICE_LIFE[9]
+    - id: S8D13
+      name: 重置时间 / 重置
+      range: 只读 / 按钮
+      ac: 4
+      text: '更换配件后点击该行最右侧的 ↺ 图标，目前寿命清零，重置时间更新为当前日期时间
+
+        '
+      var: SERVICE_LIFE_TXT[1]~SERVICE_LIFE_TXT[4]
+    - id: S8D14
+      name: 滚轮编号 / 夹具编号
+      range: 文本
+      ac: 4
+      text: '当前使用的滚轮、夹具编号，便于追溯
+
+        '
+      var: SERVICE_LIFE_TXT[6]、SERVICE_LIFE_TXT[7]
+    - id: S8D15
+      name: 报警提示信息
+      range: 开/关
+      ac: 4
+      text: '打开后配件寿命超过报警限制时停机提示；关闭则只记录不提示
+
+        '
+      var: SERVICE_LIFE[20]
+- h3: 滚轮记录
+  body:
+  - img:
+      src: roller_record.png
+      h: 300
+  - params:
+    - id: S8D20
+      name: 滚轮编号 / 滚轮更换日期 / 当前滚轮序号
+      range: 只读
+      readonly: true
+      text: '在配件寿命界面点击右侧 **滚轮记录** 进入：按序号列出历次更换的滚轮编号和更换日期，右侧显示当前使用的滚轮序号
+
+        '
+      var: INI[162]

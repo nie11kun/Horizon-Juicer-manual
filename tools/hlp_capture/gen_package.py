@@ -122,6 +122,13 @@ def print_window(hwnd):
     return Image.frombuffer("RGBA", (w, h), buf, "raw", "BGRA", 0, 1).convert("RGB")
 
 
+def hide_offscreen(hwnd):
+    """Move the Creator window off-screen without activating it, so automation never disturbs the user
+    (PostMessage clicks and PrintWindow keep working off-screen)."""
+    SWP_NOSIZE, SWP_NOZORDER, SWP_NOACTIVATE = 0x0001, 0x0004, 0x0010
+    user32.SetWindowPos(hwnd, 0, -6000, -6000, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE)
+
+
 def click_rel(hwnd, rx, ry, wait=0.6):
     class RECT(ctypes.Structure):
         _fields_ = [("l", ctypes.c_long), ("t", ctypes.c_long), ("r", ctypes.c_long), ("b", ctypes.c_long)]
@@ -157,6 +164,7 @@ def generate(name):
             time.sleep(0.2)
         if not hwnd:
             raise RuntimeError("Creator window not found")
+        hide_offscreen(hwnd)
         time.sleep(3.0)
         click_rel(hwnd, 0.21, 0.60, 1.5)   # 机床配置 card
         click_rel(hwnd, 0.83, 0.94, 0.5)   # 程序生成

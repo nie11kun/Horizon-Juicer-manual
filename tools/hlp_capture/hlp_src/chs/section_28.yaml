@@ -1,0 +1,77 @@
+title: 加工选择
+head1: HMI界面参数定义
+blocks:
+- h3: 加工选择界面
+  body:
+  - img:
+      src: center_select.png
+      h: 300
+  - note: '磨削中心一次装夹可依次完成外圆、左/右端面、外圆台阶和内螺纹磨削。本页汇总各工序的加工模式、磨削量和接触位置
+
+      右侧 **外圆 / 左端面 / 右端面 / 外圆台阶 / 内螺纹** 软键点亮表示本次加工包含该工序，再次点击取消
+
+      ?ifIsHasLoadingArm: 右侧 **用机械手** 点亮时使用机械手自动上下料，**模拟测试** 点亮时机械手按流程空运行测试
+
+      左侧显示各工序的初始接触与当前接触位置，内容与各参数页一致
+
+      '
+  - params:
+    - id: S28D5
+      name: 累计磨削 / 设定磨削（各工序）
+      range: 只读
+      unit: mm
+      readonly: true
+      var: PROCESS[59]、PROCESS[115]、PROCESS[61]、PROCESS[117]、PROCESS[62]、PROCESS[118]
+      text: '各工序工艺的设定总磨削量与当前工件已磨削量，内容与对应参数页一致
+
+        '
+    - id: S28D6
+      name: 工序选中标识
+      range: 只读
+      readonly: true
+      var: PROCESS[44]、PROCESS[46]、PROCESS[45]、PROCESS[95]、PROCESS[42]
+      text: '右侧对应软键点亮后，在中间显示该工序已选中，本次加工将包含此工序
+
+        '
+    - id: S28D7
+      name: 在线测量
+      range: 关/开
+      ac: 4
+      var: TECHNOLOGY[296]
+      text: '机床配置开启外圆在线测量模块后显示：打开后外圆磨削由在线量仪测量外径，达到目标尺寸自动结束
+
+        '
+- h3: 加工选择
+  body:
+  - params:
+    - id: S28D1
+      name: 内螺纹工艺界面
+      rec: 点击后跳转到内螺纹工艺界面
+      range: 无
+      text: '按下此键后会自动跳转到内螺纹工艺界面
+
+        '
+    - id: S28D2
+      name: 变螺距使能
+      rec: 是否磨削变螺距工件
+      range: 不变/变
+      text: '当需要加工变导程工件时切换此参数，设置自动对刀-螺距变换界面参数
+
+        '
+    - id: S28D3
+      name: 外圆工艺界面
+      rec: 点击后跳转到外圆工艺界面
+      range: 无
+      text: '按下此键后会自动跳转到外圆工艺界面
+
+        '
+    - id: S28D4
+      name: 端面工艺界面
+      rec: 点击后跳转到端面工艺界面
+      range: 无
+      text: '按下此键后会自动跳转到端面工艺界面
+
+        '
+refs: '具体操作步骤请参考[外圆端面磨削](section_24.html)
+
+  '

@@ -28,11 +28,12 @@ IND = "    "
 
 
 class Out:
-    def __init__(self):
+    def __init__(self, ind=IND):
         self.lines = []
+        self.ind = ind
 
     def w(self, depth, s):
-        self.lines.append(IND * depth + s)
+        self.lines.append(self.ind * depth + s)
 
     def text(self):
         return "\r\n".join(self.lines) + "\r\n"
@@ -60,7 +61,8 @@ def marks_of(node):
     m = node.get("marks") if isinstance(node, dict) else None
     if not m:
         return []
-    return [m] if isinstance(m, str) else list(m)
+    m = [m] if isinstance(m, str) else list(m)
+    return list(dict.fromkeys(m))          # de-duplicate, keep order
 
 
 def open_marks(o, d, marks):
@@ -103,8 +105,8 @@ def nc_of(var):
 
 def emit_param(o, d, p, ids):
     pid = p["id"]
-    if pid in ids:
-        raise ValueError(f"重复锚点 {pid}")
+    if pid in ids and not p.get("dup"):
+        raise ValueError(f"重复锚点 {pid}（不同配置下的同一参数请加 dup: true 并用互斥标记包裹）")
     ids.add(pid)
     marks = marks_of(p)
     open_marks(o, d, marks)
@@ -145,6 +147,11 @@ def emit_steps(o, d, steps, ids):
     for st in steps:
         if isinstance(st, str):
             st = {"t": st}
+        st = dict(st)
+        cm = COND_LINE.match(str(st.get("t", "")))
+        if cm:                                   # "?ifIsA,ifIsB: text" -> conditional step
+            st["t"] = cm.group(2)
+            st["marks"] = marks_of(st) + cm.group(1).split(",")
         marks = marks_of(st)
         open_marks(o, d + 1, marks)
         if "steps" in st and "t" not in st:  # 纯嵌套
@@ -255,7 +262,7 @@ def build_toc(toc):
         ih.w(1, f"<h1>{line}</h1>")
     ih.w(1, "<hr>")
     ih.w(1, "<ol>")
-    xm = Out()
+    xm = Out("	")                  # original user_guide.xml uses tab indentation
     xm.w(0, '<?xml version="1.0" encoding="utf-8" standalone="yes"?>')
     xm.w(0, "<!DOCTYPE HMI_SL_HELP>")
     xm.w(0, f'<HMI_SL_HELP language="{toc["language"]}">')
