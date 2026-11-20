@@ -26,11 +26,11 @@ Never write UI enumerations, variable mappings, access levels, or configuration 
 ## 2. Live Capture & Pixel-Aligned Callout Annotation
 
 Do not rely on outdated manual crops or ad-hoc user screenshots when live software or VM targets can be captured cleanly:
-1. **Clean Baseline Capture**: Automate desktop/VM captures (fixing window size / crop coordinates), clean up temporary test artifacts on screen (e.g., transient alarm banners) or mask them deterministically from nearby background pixels, and support a deterministic `raw_overrides/` directory when user-supplied clean hardware/UI captures replace specific frames.
+1. **Clean Baseline Capture & IME-Safe Automation**: Automate desktop/VM captures (fixing window size / crop coordinates), clean up temporary test artifacts on screen (e.g., transient alarm banners) or mask them deterministically from nearby background pixels, and support a deterministic `raw_overrides/` directory when clean hardware/UI captures replace specific frames. When switching VM/application states automatically, avoid typing ASCII identifiers through `SendKeys` if a non-English IME may be active (prefer config/preset state injection), and always back up and restore user config files and VM baseline state in `finally` blocks.
 2. **Structured Annotation Pipeline**:
    - Draw translucent rounded highlight boxes with numbered circular badges paired with a dark bottom legend bar wrapped cleanly with a CJK-capable font (`msyh.ttc` / `PingFang`).
-   - **Never occlude target text or input values**: place badges on outer edges (`out_l`, `out_r`, `top_r`, `bot_l`, or adjacent to softkey labels like `vleft` / `htop`) instead of blindly stamping inside tight UI rows.
-   - Verify bounding boxes match actual UI regions and every label cites exact verified variable names and screen names (never conflate softkeys that belong to different masks).
+   - **Never occlude target text or clip UI rows**: place badges on outer edges (`out_l`, `out_r`, `top_r`, `bot_l`, or adjacent to softkey labels like `vleft` / `htop`) instead of blindly stamping inside tight UI rows; scan non-background pixel row intervals `[y0, y1]` on raw captures so box borders fall cleanly in inter-row gaps.
+   - Verify bounding boxes match actual UI regions and every label cites exact, unabbreviated variable names and screen names (never conflate softkeys that belong to different masks).
 3. **Full-Resolution Visual Inspection**: Inspect every generated/updated PNG directly using an image reader before embedding.
 
 ---
@@ -78,10 +78,10 @@ HonKit's default theme sets `.markdown-section { overflow: hidden; }` and tables
    - Verify every `![]()` image resolves to a valid non-empty image file; fail on banned legacy image prefixes/directories.
    - Scan outside code blocks for stray unescaped `$`, scan all text for forbidden secret keywords, check Markdown tables for ragged column counts, and scan for bare numeric identifier shorthands.
    - Scan all `_book/**/*.html` to assert every `<table>` row matches its header column count (`td == th`), zero stray `` ` `` or `**` appear outside `<pre>`/`<code>`, zero ``<code>...`...</code>`` spans exist, and `.katex-error` count is `0`.
-2. **Playwright Multi-Viewport DOM Overflow Audit**:
-   - Serve or load every generated `_book/**/*.html` in headless Chromium across desktop-with-sidebar (`1366px`, `1024px`) and tablet/narrow (`800px`, `660px`) viewports; verify `tbl.getBoundingClientRect().right <= sec.getBoundingClientRect().right + 2` and `tbl.scrollWidth <= sec.clientWidth + 2` across all pages. Capture sample screenshots of dense tables and recently edited pages, and inspect visually.
+2. **Playwright Multi-Viewport DOM Overflow & Image Load Audit**:
+   - Serve or load every generated `_book/**/*.html` in headless Chromium across desktop-with-sidebar (`1366px`, `1024px`) and tablet/narrow (`800px`, `660px`) viewports; verify `tbl.getBoundingClientRect().right <= sec.getBoundingClientRect().right + 2` and `tbl.scrollWidth <= sec.clientWidth + 2` across all pages (`overflows == 0`), and verify all embedded `<img>` tags finish loading with `img.complete && img.naturalWidth > 0` (`broken_imgs == 0`). Capture sample screenshots of dense tables and recently edited pages, and inspect visually.
 3. **PDF Export Verification (Stop Live Server First)**:
-   - Stop any running `honkit serve` process before running `npm run pdf` (otherwise `chokidar` watching `_ebook_tmp` during Calibre conversion can cause Node V8 heap OOM). Verify exit code `0`, size threshold, and `%PDF-` header.
+   - Stop any running `honkit serve` process before running `npm run pdf` **and** before generating temporary working folders that contain `.md` files inside the workspace (otherwise `chokidar` watching `_ebook_tmp` or temporary `.md` files can trigger concurrent rebuilds and Node V8 heap OOM). Verify exit code `0`, size threshold, `%PDF-` header, and `0` right-edge text clipping warnings via PyMuPDF (`pymupdf`).
 4. **GitHub Pages Dual-Branch Release Verification**:
    - When deploying via GitHub Actions (`.github/workflows/deploy.yml` + `CNAME` publishing static HTML to `gh-pages`), confirm local gitignored audit scripts remain unstaged before pushing `main`, then verify the Actions workflow succeeds cleanly.
 5. **Live Preview Verification**:

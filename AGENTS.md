@@ -28,7 +28,7 @@
    - `VS1~VS8` 各功能键归属不同子画面（`a_grind`、`a_process`、`a_dress`、`a_auto`、`a_center*`、`a_setting`、`a_stats`），示意图中严禁把不同画面的按钮混画到同一栏。
 4. **两条不可省略的现场部署与刷新流程**：
    - **新设备首次导入必做重置**：导入程序包（或重建 `MGUD.DEF`）并首跑主程序后，必须在 `a_setting.com` `Mask1` 点击 **`VS3 重置数据 → Mask2 VS8 确认`** 执行 `SUB(UP6)`，初始化驱动类型（`INI[36]` / `INI[37]` / `INI[91]`）与读写权限锁；若将早期控制器升级至 `TECHNOLOGY[500]` 版 `MGUD.DEF`，激活新 `MGUD.DEF` 前必须先备份原有 GUD 数据，再重新激活与重置；
-   - **语言切换热刷新步骤**：进入 **调试（Setup）** 主画面后，**直接点击右侧垂直软键 `VS3 Change language`** 切换语言触发重读，**切勿点底部 `HS5 HMI`**。
+   - **语言切换热刷新步骤**：进入 **调试（Setup）** 主画面后（若当前停留在 `系统数据` 等子页或 CUSTOM 内部挂起的空白 Mask，须先点击左下角 **`^`（RECALL，HMI 坐标 `18, 536`）** 退回顶层主画面），**直接点击右侧垂直软键 `VS3 Change language`** 切换语言触发重读，**切勿点底部 `HS5 HMI`**。
 
 ---
 
@@ -42,11 +42,15 @@
 ## 3. 图片采集、框选标注与原理图制作规范
 
 1. **100% 自采与代码生成图表**：禁止复用旧版 `images/schematics/`（`hlp_pic*` / `panel_*`）或用户原始临时截图；目录 `images/schematics/` 不得存在。
-2. **标注框与序号气泡规范（[tools/annotate_screenshots.py](tools/annotate_screenshots.py)）**：
-   - 所有 UI 截图均需经 `tools/annotate_screenshots.py` 框选核心参数区/软键区，并附带 `Microsoft YaHei` 底部黑底蓝分割线图例栏；支持通过 `tools/raw_overrides/` 优先覆盖干净底图（如自定义主入口实拍图）；
-   - **序号气泡不得遮挡关键文本或输入框数值**：优先使用贴边外挂模式（如 `out_l`、`out_r`、`top_r`、`bot_l`、`vleft`、`htop`）或精调坐标；
+2. **SinuTrain 实机采图配置与环境复原铁律**：
+   - **老版 828D 模式强制要求（`systemMode = 0`）**：凡导入 VMware SinuTrain 4.8 SP4 截取画面的程序包，在 `HorizonJuicerCreator` 中**必须配置为老版 828D 模式（`systemMode = 0`）**，确保 `.com` 输出至 `System-CF-Card/siemens/sinumerik/hmi/proj/` 并保留原生 `800×600` 图标尺寸（切勿误用 `1=新828D` 或 `2=ONE`）；
+   - **`HorizonJuicerCreator.json` 自动备份还原与布尔极性**：自动化调用 `HorizonJuicerCreator.exe` 生成临时包前，**必须先备份 `~/HorizonJuicerCreator.json` 并在 `finally` 块中逐字节无损还原**；修改 JSON 字段时严格区分 `generatepro.cpp` 中的反向极性（`0 = 启用`：`ifCenter=0` 磨削中心、`ifOperation=0` 自动对刀、`ifHasScrewTap=0` 丝锥、`ifHasU=0` 有 U 轴；`1 = 启用`：`ifHasWorm=1` 蜗杆、`ifHasLoadingArm=1` 机械手）；
+   - **零输入法干扰的 GUD 预设切换与基线复原**：禁止通过 `SendKeys` 在 SinuTrain 全局 GUD 搜索框发送英文变量名（VM 中文输入法会吞噬字母）；应通过仅覆盖非截图页 `a_info.com` 的临时 `_tmp_gud_helper` 软键预设原子写入 `1-based ACX` 变量，采图完成后立即触发 `RST` 预设复位默认 GUD、删除临时包并重新导入基线包刷新语言。
+3. **标注框与序号气泡规范（[tools/annotate_screenshots.py](tools/annotate_screenshots.py)，当前维护 7 张 Creator + 60 张 SinuTrain HMI 截图）**：
+   - 所有 UI 截图均需经 `tools/annotate_screenshots.py` 框选核心参数区/软键区，并附带 `Microsoft YaHei` 底部黑底蓝分割线图例栏；支持通过 `tools/raw_overrides/` 优先覆盖 `800×600` 干净底图；
+   - **序号气泡不得遮挡关键文本或输入框数值，框线不得切字**：优先使用贴边外挂模式（如 `out_l`、`out_r`、`top_r`、`bot_l`、`vleft`、`htop`）或精调坐标；对密集参数行可通过扫描原图非背景像素行区间 `[y0, y1]` 精确对齐上下框界；图例说明中同样必须书写完整数组名（如 `TECHNOLOGY[350/351]`，禁止简写为 `TECH[...]`）；
    - 如实机画面分辨率/DPI 变化或截图坐标更新，修改定义后**必须用 `read_file` 逐张全尺寸目检**确认零错位、零遮挡。
-3. **2× 超采样技术示意图（[tools/generate_diagrams.py](tools/generate_diagrams.py) & [tools/build_diagrams_and_cover.py](tools/build_diagrams_and_cover.py)）**：
+4. **2× 超采样技术示意图（[tools/generate_diagrams.py](tools/generate_diagrams.py) & [tools/build_diagrams_and_cover.py](tools/build_diagrams_and_cover.py)）**：
    - `images/diagrams/` 下架构图与原理图须以 `3200×1520` 绘制再 `LANCZOS` 降采样至 `1600×760`；
    - 使用 `msyh.ttc` / `msyhbd.ttc` 渲染混合中英文（禁用缺字终端字体与方框符号），复杂说明须经像素宽度换行防止溢出边框。
 
@@ -61,9 +65,9 @@
 2. **KaTeX 与 HTML 转义安全**：
    - 同一段落中避免出现未转义的双 `$`（如 `$A_DBB[...]` 与 `$MN_...`）；正文中系统美元符变量统一写作 <code>&#36;A_DBB[...]</code>，或在独立代码块内书写；严禁把行内反引号 `` ` `` 跨入 `<code>...</code>` 标签。
 3. **收尾必跑验证流水线**（每次修改完成后按序执行，不可跳过）：
-   1. `npm run build` → 确认全部章节（当前 40 页）无报错生成；
-   2. `python tools/audit_manual.py` → 确认全部 Markdown 与引用图片存在、无旧图、无敏感词、无散落 `$`、无表格断列、无裸数字下标缩写，且 `_book/**/*.html` 中 `<table>` 列数全部匹配（`td == th`）、零 `Bad <code> spans`、零残余反引号/星号与零 `katex-error`，输出 `ALL AUDITS PASSED!`；
-   3. Playwright 视口表格溢出检查 → 在 `1366/1024/800/660px` 视口扫描全部生成页，`overflows` 须为 `0`；
-   4. `npm run pdf` → **执行前必须先停止后台 `honkit serve` 进程**（防止 `chokidar` 监听 `_ebook_tmp` 触发 Node V8 堆内存 OOM），随后验证生成 `output.pdf`（大于 1 MB 且 `%PDF-` 头部有效）；
-   5. **GitHub Pages 发布核验**：推送 `main` 前确认 `git status` 中未暂存/跟踪 `tools/audit_manual.py`；推送后确认 `.github/workflows/deploy.yml` 运行成功并将静态站点部署至 `gh-pages`（保持根目录 `CNAME` 为 `hj-manual.niekun.net`）。
+   1. `npm run build` → 确认全部章节（当前 40 页 / 83 个资源文件）无报错生成；
+   2. `python tools/audit_manual.py` → 确认全部 Markdown（40 篇）与引用图片（81 处嵌入）存在、无旧图、无敏感词、无散落 `$`、无表格断列、无裸数字下标缩写，且 `_book/**/*.html` 中 `<table>` 列数全部匹配（`td == th`）、零 `Bad <code> spans`、零残余反引号/星号与零 `katex-error`，输出 `ALL AUDITS PASSED!`；
+   3. Playwright 视口表格溢出与图片加载检查 → 在 `1366/1024/800/660px` 视口扫描全部生成页，`overflows` 与 `broken_imgs`（校验 `img.complete && img.naturalWidth > 0`）均须为 `0`；
+   4. `npm run pdf` → **执行 `npm run pdf` 前，以及向 `tools/vm_bridge/packages/` 生成含 `.md` 文件的临时程序包前，均必须先停止后台 `honkit serve` 进程**（防止 `chokidar` 监听 `_ebook_tmp` 或临时包内 `Parameter_Index.md` 触发并发重建导致 Node V8 堆内存 OOM），随后验证生成 `output.pdf`（大于 1 MB、`%PDF-` 头部有效，且经 PyMuPDF 校验 `right_edge_warnings == 0`）；
+   5. **GitHub Pages 发布核验**：推送 `main` 前确认 `git status` 中未暂存/跟踪 `tools/audit_manual.py` 与 `tools/vm_bridge/packages/`；推送后确认 `.github/workflows/deploy.yml` 运行成功并将静态站点部署至 `gh-pages`（保持根目录 `CNAME` 为 `hj-manual.niekun.net`）。
 4. 工作流详细操作手册见项目 Skill：[horizon-juicer-manual-workflow](.agents/skills/horizon-juicer-manual-workflow/SKILL.md)。
