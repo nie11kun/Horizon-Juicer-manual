@@ -33,6 +33,8 @@
 | **4** | **金刚笔二（端面）** | `SERVICE_LIFE[3]` | `SERVICE_LIFE[13]` | `SERVICE_LIFE[8]` | `SERVICE_LIFE_TXT[3]` | 仅磨削中心（`;ifIsCenter`） |
 
 > **机型差异说明**：对于**普通外/内螺纹机型（`;ifIsNotCenter`）**，`Mask3` 表格仅显示前 2 行（**滚轮**与**夹具**），且底层 `B_SET_SERVICE_LIFE.SPF` 会自动裁剪跳过金刚笔一/二的寿命初始化、计数与报警检查。
+>
+> **配件编码登记与单行重置**：`Mask3` 表格下方提供 **`滚轮编号`**（NC：`SERVICE_LIFE_TXT[5]` / HMI：`SERVICE_LIFE_TXT[6]`）与 **`夹具编号`**（NC：`SERVICE_LIFE_TXT[6]` / HMI：`SERVICE_LIFE_TXT[7]`）登记框，并设有 **`报警提示信息`**（`SERVICE_LIFE[19]` = `1` 开启）开关；更换任一耗材后勾选该行右侧 **`重置`** 按钮，系统会立即将对应 `目前寿命` 清零并刷新 `重置时间`（`SERVICE_LIFE_TXT[0..3]`）。
 
 ### 自动累加与超限停机保护逻辑（`B_SET_SERVICE_LIFE.SPF`）
 

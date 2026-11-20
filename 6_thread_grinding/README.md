@@ -34,13 +34,15 @@
 
 - **自定义单道/专用程序入口（`USER_DIY.MPF`）**：当工艺界面启用 **`DIY` 模式** 时，系统按 `DIY[0..5]` 参数驱动用户定制工艺或调用现场非标节拍程序 `USER_DIY.MPF`，方便在不改动标准四道工艺逻辑下扩展特殊零件循环。
 - **C 轴点动/自动旋转测试（`B_C_MOV.SPF`）**：配合 MCP C 轴功能键（<code>&#36;A_DBB[6]==1</code>）与 `MD35000 $MA_SPIND_ASSIGN_TO_MACHAX[C]` 实现找正、校表时的连续或定量转动。
-- **自动上下料机械手联动（`A_JXS_MAIN.SPF` / `B_JXS_ZJ.SPF` / `B_JXS_TEST.SPF`）**：当设备选配机械手并在机床配置开启 **`机械手按钮开启`**（NC：`TOOL_SET[16]=1` / HMI：`TOOL_SET[17]`）后：
-  - 通过加工总开关 **`GRIND[8]`** 控制是否进入自动上下料流程；
-  - 依据 `PROCESS[122]`、`R102` 及安全上料位（外磨借用 `INI[28]` 区域字段）与外部机械手完成门开/卡盘松夹/料仓交换握手，`B_JXS_TEST.SPF` 用于单步调试联锁动作。
+- **自动上下料机械手联动（`A_JXS_MAIN.SPF` / `B_JXS_ZJ.SPF` / `B_JXS_TEST.SPF`）**：当设备选配机械手（`;ifIsHasLoadingArm`）并在机床配置开启 **`机械手按钮开启`**（NC：`TOOL_SET[16]=1` / HMI：`TOOL_SET[17]`）后：
+  - 通过加工画面 **`VS1 用机械手`**（NC：`INI[85]` / HMI：`INI[86]`，`0` 否 / `1` 是）控制是否进入自动上下料流程；
+  - 通过 **`VS2 模拟测试`**（NC：`GRIND[8]` / HMI：`GRIND[9]`，`0` 否 / `1` 是）启用单步/模拟联锁测试程序 `B_JXS_TEST.SPF`；
+  - 依据 `PROCESS[122]`、`R102` 及安全上料位（外磨借用 `INI[28]` 区域字段）与外部机械手完成门开/卡盘松夹/料仓交换握手。
 
 本章各节详解：
 
 - [6.1 主磨削参数与手动对刀操作](main_grinding.md)
 - [6.2 工艺参数表、附加配置、Y 轴与 UW 挡块](process_params.md)
 - [6.3 丝锥、蜗杆与环形槽专用功能](tap_worm_ring.md)
-- [6.4 高级模块：夹具自磨、倒角、空运行、变径与分段补偿](advanced_modules.md)
+- [6.4 高级模块（上）：夹具自磨、反向孔倒角、空运行与两端变径](advanced_modules.md)
+- [6.5 高级模块（下）：分段补偿与单/多段螺距变换](seg_comp_and_pitch.md)

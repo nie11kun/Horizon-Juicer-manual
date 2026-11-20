@@ -70,9 +70,9 @@ description: >-
    npm run build
    python tools/audit_manual.py
    ```
-   确认 39 页零报错生成、`SUMMARY.md` 无缺页/孤儿页、图片全存在、无旧图/敏感词/散落 `$`、无裸数字下标缩写、Markdown 表格列数一致，且 `_book/**/*.html` 中 `<table>` 列数完全匹配（`td == th`）、`<code>` 标签完整、零残余反引号/星号与零 `katex-error`，输出 `ALL AUDITS PASSED!`。
+   确认全部章节（当前 40 页）零报错生成、`SUMMARY.md` 无缺页/孤儿页、图片全存在、无旧图/敏感词/散落 `$`、无裸数字下标缩写、Markdown 表格列数一致，且 `_book/**/*.html` 中 `<table>` 列数完全匹配（`td == th`）、`<code>` 标签完整、零残余反引号/星号与零 `katex-error`，输出 `ALL AUDITS PASSED!`。
 2. **Playwright 多视口表格防溢出实测**：
-   - 使用 Python `playwright.sync_api` 打开 `_book/` 全部 39 个 HTML 页面，在 `1366px（带侧边栏）`、`1024px（带侧边栏）`、`800px`、`660px` 视口下检测 `.markdown-section table` 的 `getBoundingClientRect().right` 与 `scrollWidth` 是否超过 `.markdown-section`，确认溢出数为 `0`，并对复杂表格与最新改动页面截图 `read_file` 复查。
+   - 使用 Python `playwright.sync_api` 打开 `_book/` 全部生成 HTML 页面（当前 40 页），在 `1366px（带侧边栏）`、`1024px（带侧边栏）`、`800px`、`660px` 视口下检测 `.markdown-section table` 的 `getBoundingClientRect().right` 与 `scrollWidth` 是否超过 `.markdown-section`，确认溢出数为 `0`，并对复杂表格与最新改动页面截图 `read_file` 复查。
 3. **PDF 导出与检验（先停 Serve 防 OOM）**：
    ```powershell
    # 先停止端口 4000 / 35729 上运行的 honkit serve，避免 chokidar 监听 _ebook_tmp 触发堆溢出

@@ -33,3 +33,15 @@
   - 汇总全套报警代码对照表、M 代码与桁架机械手握手协议、PLC-NC 交互信号表、全局变量词典及条件编译标记索引。
 
 > **索引基准提醒**：西门子 EasyScreen `.com` 界面脚本对 NC 数组采用 **1-based** 索引（如 `INI[17]`），而 NC 子程序 `*.SPF`、`MGUD.DEF` 与 `Parameter_Index.md` 采用 **0-based** 索引（对应 `INI[16]`）。阅读参数对照表时请注意区分 **NC 索引** 与 **HMI 索引（NC + 1）**。
+
+## 4. 新机首次投产与日常换型标准路线图（SOP 速查）
+
+新机交付调试或现场批量换型时，推荐严格按以下 **7 步标准作业链路** 依次推进（点击章节链接直达操作细则）：
+
+1. **生成定制程序包**：在 `HorizonJuicerCreator` 核对机床型号、修整器构型、自动对刀/磨削中心及主轴驱动方式（[第 2 章 机床配置与程序生成](2_creator_machine_config/README.md)），一键导出 `NC-Data` 与 `System-CF-Card`；
+2. **部署激活与初始化**：按先 `MGUD.DEF`、再 `CMA/*.SPF` 与 `<机床型号>.MPF` 的顺序导入真机并拷入 `System-CF-Card`（[4.1 真机部署流程](4_deployment_and_sinutrain/real_machine_deploy.md)）；
+3. **口令解锁与配置重置（必做）**：用 [3.1 口令计算器](3_creator_tools/password_calculator.md) 解锁 **CUSTOM → 机床配置**，立即点击 **`VS3 重置数据 → Mask2 VS8 确认`** 写入驱动与权限基线（[5.2 机床系统配置](5_custom_and_system/machine_settings.md)）；
+4. **滚轮校准与新砂轮成型修整**：在 `HS3 修整参数` 标定 `修整中心` / `修整中心距`，切为 `0 新砂轮` 修出完整标准/双圆弧或平面轮廓（[7.1 修整主参数](7_dressing_and_shapes/dressing_main.md)、[7.2 滚轮校准](7_dressing_and_shapes/wheel_setup.md)）；
+5. **工件对刀寻位**：填写螺距/旋向/左右端坐标后，按需执行 `手动对刀 + DRF`（[6.1 手动对刀操作](6_thread_grinding/main_grinding.md)）或 `自动对刀` 测头/开关标定（[8.1 外螺纹对刀](8_auto_tool_setting/external_auto_set.md)、[8.2 内螺纹与中心对刀](8_auto_tool_setting/internal_auto_set.md)）；
+6. **四道工序试磨与尺寸补偿**：在 `HS2 工艺参数` 调整粗/半精/精/终磨余量与修整间隔（[6.2 工艺参数表](6_thread_grinding/process_params.md)），试磨首件并用 `中径调整`/`偏刀调整` 或分段补偿收敛精度；
+7. **参数备份归档**：试产合格后在 **CUSTOM → `VS2 备份恢复`** 导出整机工艺快照，并务必将 `模式选择` 切回 **`0 加工`**（[5.4 参数备份与恢复](5_custom_and_system/backup_and_restore.md)）。

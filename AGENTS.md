@@ -61,7 +61,7 @@
 2. **KaTeX 与 HTML 转义安全**：
    - 同一段落中避免出现未转义的双 `$`（如 `$A_DBB[...]` 与 `$MN_...`）；正文中系统美元符变量统一写作 <code>&#36;A_DBB[...]</code>，或在独立代码块内书写；严禁把行内反引号 `` ` `` 跨入 `<code>...</code>` 标签。
 3. **收尾必跑验证流水线**（每次修改完成后按序执行，不可跳过）：
-   1. `npm run build` → 确认 39 页无报错生成；
+   1. `npm run build` → 确认全部章节（当前 40 页）无报错生成；
    2. `python tools/audit_manual.py` → 确认全部 Markdown 与引用图片存在、无旧图、无敏感词、无散落 `$`、无表格断列、无裸数字下标缩写，且 `_book/**/*.html` 中 `<table>` 列数全部匹配（`td == th`）、零 `Bad <code> spans`、零残余反引号/星号与零 `katex-error`，输出 `ALL AUDITS PASSED!`；
    3. Playwright 视口表格溢出检查 → 在 `1366/1024/800/660px` 视口扫描全部生成页，`overflows` 须为 `0`；
    4. `npm run pdf` → **执行前必须先停止后台 `honkit serve` 进程**（防止 `chokidar` 监听 `_ebook_tmp` 触发 Node V8 堆内存 OOM），随后验证生成 `output.pdf`（大于 1 MB 且 `%PDF-` 头部有效）；
