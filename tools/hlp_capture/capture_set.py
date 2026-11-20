@@ -34,6 +34,8 @@ def com_sel(x, y, index):
 
 def to_welcome():
     hmi.key("CUSTOM", 1200)
+    hmi.recall(1000)          # leave any hung/blank OEM mask (e.g. auto tool-setting dispatcher)
+    hmi.key("CUSTOM", 1200)
     for _ in range(3):
         hmi.hs(8, 900)
 
@@ -112,6 +114,28 @@ def int_xz():
     hmi.vs(7, 1500); S("roller_form_int")
     hmi.hs(3, 1500); com_sel(365, 10, 0)
     hmi.hs(4, 1800); S("auto_int")
+
+
+def int_form():
+    prepare("int_xz", presets=(1,))
+    hmi.welcome_main_menu()
+    hmi.hs(7, 1800); hmi.hs(3, 1800)
+    com_sel(365, 10, 1)        # 修整器类型 -> 成型
+    hmi.vs(7, 1500); S("roller_form_int")
+    hmi.hs(3, 1500); com_sel(365, 10, 0)
+
+
+def ctr_auto():
+    prepare("ctr_u", presets=(1, 5))
+    hmi.welcome_main_menu()
+    hmi.hs(7, 1800)
+    for _ in range(3):
+        hmi.hs(4, 3000)
+        p = S("auto_center")
+        from PIL import Image
+        if len(set(Image.open(p).convert("L").crop((20, 80, 680, 520)).getdata())) > 20:   # page has content
+            return
+        to_welcome(); hmi.welcome_main_menu(); hmi.hs(7, 1800)
 
 
 def ctr_u():

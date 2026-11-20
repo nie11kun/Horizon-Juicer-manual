@@ -70,7 +70,7 @@ def vs(i, wait_ms=900):
 
 def recall(wait_ms=800):
     """'^' recall key at HMI bottom-left."""
-    click(9, 557, wait_ms)
+    click(13, 545, wait_ms)
 
 
 def key(name, wait_ms=700):

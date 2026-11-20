@@ -77,11 +77,15 @@ def _calc(challenge):
         g.click_rel(h, 0.50, 0.60, 1.5)       # 口令计算 card
         g.click_rel(h, 0.387, 0.42, 0.5)      # challenge input box
         _type_chars(h, challenge)
-        time.sleep(1.0)
-        win = g.print_window(h)
-        k = win.width / 1000.0                  # layout measured on a 1000px-wide capture
-        code = _ocr(win.crop((int(350 * k), int(465 * k), int(650 * k), int(535 * k))), dark_text=False)
-        del win
+        code = ""
+        for _ in range(4):                      # result appears after a short calculation delay
+            time.sleep(1.5)
+            win = g.print_window(h)
+            k = win.width / 1000.0              # layout measured on a 1000px-wide capture
+            code = _ocr(win.crop((int(350 * k), int(465 * k), int(650 * k), int(535 * k))), dark_text=False)
+            del win
+            if code.isdigit() and len(code) >= 4:
+                break
     finally:
         proc.kill()
     if not code.isdigit() or len(code) < 4:

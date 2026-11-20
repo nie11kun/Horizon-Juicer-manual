@@ -29,6 +29,13 @@ blocks:
   - img:
       src: grind_main_int.png
       h: 300
+    marks:
+    - ifIsInternal
+  - img:
+      src: grind_main_ext.png
+      h: 300
+    marks:
+    - ifIsExternal
   - note: '用户界面底部的水平软键切换各参数页面：
 
       **磨削参数**：工件与位置参数、补偿，及空运行/分段补偿/螺距变换等扩展功能
@@ -44,6 +51,12 @@ blocks:
       **返回**：回到欢迎页
 
       各页面中选中参数后按操作面板上的 **HELP** 键，可直接打开该参数的帮助说明
+
+      '
+  - img:
+      src: help_view.png
+      h: 300
+  - note: '上图：在自动对刀界面选中"测量水平距.Z"后按 HELP 键，下半屏直接显示该参数的帮助；右侧软键可切换全屏、目录、搜索，按"退出帮助"返回
 
       '
 - h3: 操作权限
