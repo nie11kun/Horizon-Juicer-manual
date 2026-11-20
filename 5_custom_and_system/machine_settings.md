@@ -148,3 +148,5 @@
 1. 在 `Mask1` 页面按下右侧垂直软键 **`VS3 重置数据`**，弹出 **`确认重置`** 对话框（`Mask2`）；
 2. 若误触该按钮，直接点击 **`VS7 取消`** 返回，不改写任何当前参数；
 3. 点击 **`VS8 确认`** 后，系统调用内置初始化子块 **`SUB(UP6)`**，依据当前代码包生成时的机型选配把所有 `INI`、`TECHNOLOGY`、`TOOL_SET`、`DRESSER`、`PROCESS` 配置位一次性写入标准出厂预设值，保证参数初始化完整正确。
+
+> **全量控件名与后台联动查询**：如需核对 `a_setting.com` 全部 `VAR_*` 控件编号、后台隐藏初始化项、`SUB(UP1)`～`SUB(UP9)` 读写联动以及 `HorizonJuicerCreator` 配置界面 31 个 JSON 字段的全量对应关系，请参阅附录 [10.3 全量配置界面对应变量表](../10_appendix_and_troubleshooting/config_ui_variables.md)。

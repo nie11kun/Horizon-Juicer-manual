@@ -50,5 +50,7 @@
 
 * [第 10 章 报警参考、信号定义与变量字典](10_appendix_and_troubleshooting/README.md)
   * [10.1 报警代码对照表与现场常见问题](10_appendix_and_troubleshooting/alarms_and_faq.md)
-  * [10.2 M 代码、PLC-NC 交互信号与机械手接口](10_appendix_and_troubleshooting/m_codes_and_signals.md)
-  * [10.3 MGUD 全局变量索引与条件编译标记](10_appendix_and_troubleshooting/variables_and_markers.md)
+  * [10.2 全量 M 代码表与 PLC-NC 交互信号](10_appendix_and_troubleshooting/m_codes_and_signals.md)
+  * [10.3 全量配置界面对应变量表](10_appendix_and_troubleshooting/config_ui_variables.md)
+  * [10.4 全量全局变量与 R 参数索引表](10_appendix_and_troubleshooting/full_variable_index.md)
+  * [10.5 条件编译与字符替换标记全表](10_appendix_and_troubleshooting/replace_markers.md)
