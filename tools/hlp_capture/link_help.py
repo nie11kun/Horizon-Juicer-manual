@@ -2,7 +2,8 @@
 
 For every visible DEF field the help field `"UserGuide/section_N.html","SnDm"` is set to the anchor whose YAML
 `var` matches the field's variable (same screen's section preferred, configuration markers used to pick between
-alternatives). Existing links are kept when their anchor still exists. Only the help field at the end of the
+alternatives). Existing links are kept when their anchor still exists and agrees with the field's var
+(a link to an anchor that documents a different var is re-pointed, except in a_setting.com). Only the help field at the end of the
 DEF body is touched; everything else in the line stays byte-identical.
 
 Usage: python tools/hlp_capture/link_help.py            (dry run, report)
@@ -165,11 +166,19 @@ def main():
             marks = list(stack) + MARK_RE.findall(p[2])
             cur = re.search(r'"UserGuide/(section_\d+)\.html"\s*,\s*"(S\d+D\d+)"', fields[10])
             target = None
+            cands = by_var.get(var, []) if var else []
             if cur and cur.group(2) in exists.get(cur.group(1), set()):
-                target = None  # keep
-                stats["kept"] += 1
+                # keep a valid link unless the parameter's var is documented under a different anchor
+                if fn == "a_setting.com" or not cands or (cur.group(1), cur.group(2)) in {(c[0], c[1]) for c in cands}:
+                    stats["kept"] += 1
+                    continue
+                target = choose(cands, sec, marks)
+                print(f"  relink {fn}:L{k + 1} {label or p[0]} {var}: {cur.group(2)} -> {target[1]}")
+                stats["relinked"] += 1
+                lines[k] = set_help(line, *target)
+                changed = True
                 continue
-            target = choose(by_var.get(var, []), sec, marks) if var else None
+            target = choose(cands, sec, marks) if var else None
             if not target:
                 for f, rx, tsec, tid in LABEL_RULES:
                     if f == fn and re.search(rx, label or p[0]):

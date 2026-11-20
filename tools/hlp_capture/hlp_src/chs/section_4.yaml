@@ -225,7 +225,7 @@ blocks:
       rec: 手动测量
       range: -500~500
       unit: mm
-      var: WHEEL[13] / WHEEL[14]
+      var: WHEEL[13] / WHEEL[14] / WHEEL[15]
       ac: 4
       text: '安装新砂轮后，移动 U 轴使修整轮刚好接触砂轮外圆最高点，记录此时 U 坐标
 
@@ -239,7 +239,7 @@ blocks:
       rec: 手动测量
       range: -500~500
       unit: mm
-      var: WHEEL[13] / WHEEL[14]
+      var: WHEEL[13] / WHEEL[14] / WHEEL[15]
       ac: 4
       text: '安装新砂轮后，移动 U 轴使修整轮刚好接触砂轮外圆最高点，记录此时 U 坐标
 
@@ -253,7 +253,7 @@ blocks:
       name: 初始接触.X（初始左端/右端接触）
       range: 自动计算
       unit: mm
-      var: WHEEL[13] / WHEEL[14]
+      var: WHEEL[13] / WHEEL[14] / WHEEL[15]
       ac: 4
       text: '新砂轮时修整轮接触砂轮外圆的 X 坐标，设置正确的修整中心距后自动计算
 
@@ -266,7 +266,7 @@ blocks:
       name: 初始接触.X（初始左端/右端接触）
       range: 自动计算
       unit: mm
-      var: WHEEL[13] / WHEEL[14]
+      var: WHEEL[13] / WHEEL[14] / WHEEL[15]
       ac: 4
       text: '新砂轮时修整轮接触砂轮外圆的 X 坐标，设置正确的修整中心距后自动计算
 
@@ -415,7 +415,7 @@ blocks:
   - params:
     - id: S4D22
       name: 液压左接触 / 液压右接触
-      range: 只读指示
+      range: 关/开（只读指示）
       var: WHEEL[17] / WHEEL[18]
       readonly: true
       text: '液压摆缸修整器左、右侧到位信号的状态指示，点亮表示对应侧已接触到位

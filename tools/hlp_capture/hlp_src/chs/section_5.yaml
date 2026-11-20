@@ -227,7 +227,7 @@ blocks:
     - id: S5D18
       name: 孔周探测 / 探测范围 / 探测步距
       rec: 范围 30°，步距 5°
-      range: 0~360
+      range: 孔周探测 关/开；探测范围、探测步距 0~360
       unit: °
       var: TECHNOLOGY[156] / TECHNOLOGY[157] / TECHNOLOGY[158]
       ac: 4

@@ -43,6 +43,7 @@
    - `capture_set.py <配置>`：在 SinuTrain 里截图。
    - `install_images.py`：裁剪、加框、压缩，然后装入帮助目录。
 6. **自查**：运行 `audit_hlp.py`，必须输出 `ALL HLP AUDITS PASSED`。加 `--delete-orphans` 会删除没人引用的图片。
+   - 再运行 `check_mapping.py`，必须输出 `TOTAL 0`。它逐个控件核对：帮助名称与界面标签、下拉选项是否都写进范围、修改权限、没有控件引用的参数条目，并严格扫描正文里的变量名。
 7. **实机核对**：
    - 用多种配置生成程序包，检查 Creator 处理后的帮助内容。
    - 在 SinuTrain 里选中一个参数按 **HELP**，确认跳转到正确的说明。
@@ -59,6 +60,7 @@
 | `build_hlp.py` | YAML → HTML / 目录 |
 | `link_help.py` | 自动挂接 / 修复 `.com` 帮助链接 |
 | `audit_hlp.py` | 链接、标记、图片、变量泄露自查 |
+| `check_mapping.py` | 帮助与界面逐项对应检查（标签、选项、权限、未引用条目、内部名称） |
 | `html2yaml.py` | 把旧帮助页一次性导入为 YAML |
 | `gen_package.py` | 调用 HorizonJuicerCreator 生成采图包（窗口在屏幕外后台运行，自动备份并还原 `~/HorizonJuicerCreator.json`） |
 | `hmi.py` | SinuTrain 操作封装：导入并刷新、软键与面板按键、截图 |
@@ -73,6 +75,8 @@
 - `params` 中每个参数：`id`、`name`、`rec`、`range`、`unit`、`ac`（修改权限级别）、`text`、`var`（只供维护参考，不输出）、`marks`。
 - 文本行写成 `?ifIsInternal: …`，就只在该配置下保留；步骤（`steps`）里同样支持。
 - 同一锚点在互斥配置下需要重复出现时，加 `dup: true`。
+- 只在表格或软键中出现、没有输入控件的参数，加 `nofield: true`（或在范围里写"软键"），check_mapping 不会把它当成未引用。
+- 控件的帮助链接以 `var` 为准：链接指向的条目的 `var` 与控件不一致时，`link_help.py` 会自动改指（机床配置页除外）。所以同一变量在多个页面有说明时，每个条目都要写上该 `var`。
 - 行内写法：`**强调**`、`[文字](section_3.html#S3D4)`。
 
 ## 6. VM / SinuTrain 注意事项
