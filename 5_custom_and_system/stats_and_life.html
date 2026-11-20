@@ -747,7 +747,7 @@
 <li><strong><code>VS1 重置统计</code></strong>（同样需 <strong><code>ac4</code> 钥匙开关 3 档</strong> 权限）：清空历史砂轮加工台账表格。</li>
 </ul>
 <h2 id="2-配件寿命管理表（mask3--bsetservicelifespf）">2. 配件寿命管理表（<code>Mask3</code> &amp; <code>B_SET_SERVICE_LIFE.SPF</code>）</h2>
-<p>当开启 <code>配件寿命界面显示</code>（NC：<code>TECHNOLOGY[368] = 1</code> / HMI：<code>369</code>）时，统计模块集成 <strong>配件寿命管理</strong> 子画面 <code>Mask3</code>，对现场 4 种核心易损件实施寿命预警与强制停机互锁：</p>
+<p>当开启 <code>配件寿命界面显示</code>（NC：<code>TECHNOLOGY[368] = 1</code> / HMI：<code>TECHNOLOGY[369]</code>）时，统计模块集成 <strong>配件寿命管理</strong> 子画面 <code>Mask3</code>，对现场 4 种核心易损件实施寿命预警与强制停机互锁：</p>
 <p><img src="../images/sinutrain/hmi_stats_life.png" alt="配件寿命管理界面实拍（Mask3）"></img></p>
 <table>
 <thead>
@@ -813,7 +813,7 @@
 </li>
 </ul>
 <h2 id="3-滚轮编号历史台账（mask4--vs1）">3. 滚轮编号历史台账（<code>Mask4</code> / <code>VS1</code>）</h2>
-<p>在 <code>Mask3</code> 按下 <strong><code>VS1</code></strong> 软键可进入 <strong>滚轮编号管理列表</strong> <code>Mask4</code>。系统支持记录并管理多达 <strong>100 个滚轮编号（<code>DRESS_WHEEL_NUM[0..99]</code>）</strong> 及其对应装机时间（<code>DRESS_WHEEL_DATE[0..99]</code>）。通过上方 <code>当前滚轮序号</code>（<code>INI[161]</code> / <code>1-based: INI[162]</code>）绑定当前机台正在使用的滚轮档案，实现单只滚轮从上线到报废的全程可追溯管理。</p>
+<p>在 <code>Mask3</code> 按下 <strong><code>VS1</code></strong> 软键可进入 <strong>滚轮编号管理列表</strong> <code>Mask4</code>。系统支持记录并管理多达 <strong>100 个滚轮编号（<code>DRESS_WHEEL_NUM[0..99]</code>）</strong> 及其对应装机时间（<code>DRESS_WHEEL_DATE[0..99]</code>）。通过上方 <code>当前滚轮序号</code>（NC：<code>INI[161]</code> / HMI：<code>INI[162]</code>）绑定当前机台正在使用的滚轮档案，实现单只滚轮从上线到报废的全程可追溯管理。</p>
 <p><img src="../images/sinutrain/hmi_stats_wheel_id.png" alt="滚轮编号历史台账界面实拍（Mask4）"></img></p>
 
                                 
@@ -858,7 +858,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"5.3 加工统计、砂轮记录与配件寿命管理","level":"3.2.3","depth":2,"next":{"title":"5.4 NC 全局参数备份与恢复","level":"3.2.4","depth":2,"path":"5_custom_and_system/backup_and_restore.md","ref":"5_custom_and_system/backup_and_restore.md","articles":[]},"previous":{"title":"5.2 机床系统配置与安全解锁","level":"3.2.2","depth":2,"path":"5_custom_and_system/machine_settings.md","ref":"5_custom_and_system/machine_settings.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","katex"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css"},"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"katex":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2}},"theme":"default","author":"Nie Kun","pdf":{"pageNumbers":true,"fontSize":11,"fontFamily":"Microsoft YaHei","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":48,"left":48,"top":48,"bottom":48},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Horizon-Juicer & HorizonJuicerCreator 用户与工程指南","language":"zh-hans","gitbook":"*","description":"HorizonJuicerCreator 配置软件与 Horizon-Juicer 西门子数控磨削程序包完整用户手册"},"file":{"path":"5_custom_and_system/stats_and_life.md","mtime":"2026-11-19T08:52:45.975Z","type":"markdown"},"gitbook":{"version":"6.2.6","time":"2026-11-19T08:52:51.800Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"5.3 加工统计、砂轮记录与配件寿命管理","level":"3.2.3","depth":2,"next":{"title":"5.4 NC 全局参数备份与恢复","level":"3.2.4","depth":2,"path":"5_custom_and_system/backup_and_restore.md","ref":"5_custom_and_system/backup_and_restore.md","articles":[]},"previous":{"title":"5.2 机床系统配置与安全解锁","level":"3.2.2","depth":2,"path":"5_custom_and_system/machine_settings.md","ref":"5_custom_and_system/machine_settings.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","katex"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css"},"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"katex":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2}},"theme":"default","author":"Nie Kun","pdf":{"pageNumbers":true,"fontSize":11,"fontFamily":"Microsoft YaHei","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":48,"left":48,"top":48,"bottom":48},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Horizon-Juicer & HorizonJuicerCreator 用户与工程指南","language":"zh-hans","gitbook":"*","description":"HorizonJuicerCreator 配置软件与 Horizon-Juicer 西门子数控磨削程序包完整用户手册"},"file":{"path":"5_custom_and_system/stats_and_life.md","mtime":"2026-11-20T00:29:53.722Z","type":"markdown"},"gitbook":{"version":"6.2.6","time":"2026-11-20T00:30:00.405Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
