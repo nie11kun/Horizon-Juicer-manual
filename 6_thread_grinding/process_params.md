@@ -55,3 +55,5 @@
 ![工艺附加配置界面实拍（Mask3：梯度进刀与 6 头分头微调）](../images/sinutrain/hmi_process_addon.png)
 
 ![工艺 Y 轴设置界面实拍（Mask4：A 轴回转偏心与 Y 轴自动计算）](../images/sinutrain/hmi_process_yaxis.png)
+
+![工艺 UW 挡块设置界面实拍（Mask5：力矩夹紧轴控制、夹紧/松开位与监控范围）](../images/sinutrain/hmi_process_uw_block.png)

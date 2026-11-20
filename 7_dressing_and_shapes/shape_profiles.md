@@ -13,6 +13,8 @@
 - **标准三角（`DRESSER[111] = 0`）**：设置 **`齿底圆弧半径`**（`SHAPE_MODEL[100]`）、**`左/右斜面角度`**（`SHAPE_MODEL[101]` / `SHAPE_MODEL[102]`，与垂线夹角，如 `60°` 公制螺纹单边输 `30°`）、**`左/右齿根圆弧半径`**（`SHAPE_MODEL[1]` / `SHAPE_MODEL[2]`）、**`齿高`**（`SHAPE_MODEL[103]`）、**`锥度`**（`SHAPE_MODEL[5]`）及 **`延长线角度`**（`SHAPE_MODEL[104]`）；
 - **带丝底凹槽（`Mask10`，当 `DRESSER[111] = 1` 且 `SHAPE_MODEL[6] = 1` 时）**：拆分为上下两段独立定义 **`上-左/右斜面角度 & 上-齿高`**（`SHAPE_MODEL[105]` / `SHAPE_MODEL[106]` / `SHAPE_MODEL[107]`）与 **`下-左/右斜面角度 & 总-齿高`**（`SHAPE_MODEL[101]` / `SHAPE_MODEL[102]` / `SHAPE_MODEL[103]`），专门用于带排屑凹槽或特殊顶角的三角螺纹。
 
+![SinuTrain 三角带丝底凹槽两段斜面齿形界面实拍（Mask10）](../images/sinutrain/hmi_shape_tri_groove.png)
+
 ### 1.2 梯形齿形（`Mask8` 标准 / `Mask1` 偏梯形 / `Mask3` 戴帽梯形）
 
 ![SinuTrain 梯形齿形参数界面实拍（Mask8）](../images/sinutrain/hmi_shape_trapezoid.png)
@@ -22,6 +24,10 @@
 1. **`0` 标准对称/等腰梯形（`Mask8`）**：设定 `齿底长度`（`SHAPE_MODEL[90]`）、`齿底左/右圆弧半径`（`SHAPE_MODEL[91]` / `SHAPE_MODEL[92]`）、`左/右斜面角度`（`SHAPE_MODEL[93]` / `SHAPE_MODEL[94]`）、`左/右齿根圆弧 R`（`SHAPE_MODEL[3]` / `SHAPE_MODEL[4]`）、`齿高`（`SHAPE_MODEL[95]`）、`锥度`（`SHAPE_MODEL[11]`）、`齿顶模式`（`SHAPE_MODEL[24]`：`0` 平顶 / `1` 锥顶）与 `延长线角度`（`SHAPE_MODEL[96]`）；
 2. **`1` 扩展偏梯形/锯齿形（`Mask1`）**：按螺距直接输入 `螺距`（`SHAPE_MODEL[10]`）、`中径宽度`（`SHAPE_MODEL[12]`）、`中径高度`（`SHAPE_MODEL[13]`）、`齿底高度`（`SHAPE_MODEL[14]`）、`左/右半角`（`SHAPE_MODEL[15]` / `SHAPE_MODEL[16]`）、`左/右齿尖 R`（`SHAPE_MODEL[17]` / `SHAPE_MODEL[18]`）、`左/右齿底 R`（`SHAPE_MODEL[19]` / `SHAPE_MODEL[20]`）与 `延长斜线角度`（`SHAPE_MODEL[21]`）；
 3. **`2` 戴帽梯形（`Mask3`）**：两段斜面结构，区分上斜面角度（`SHAPE_MODEL[97]` / `SHAPE_MODEL[98]`）与下斜面角度（`SHAPE_MODEL[93]` / `SHAPE_MODEL[94]`），及上齿高（`SHAPE_MODEL[99]`）与总齿高（`SHAPE_MODEL[95]`）。
+
+![SinuTrain 扩展偏梯形（锯齿形）齿形参数界面实拍（Mask1）](../images/sinutrain/hmi_shape_trap_ext.png)
+
+![SinuTrain 戴帽梯形双段斜面齿形参数界面实拍（Mask3）](../images/sinutrain/hmi_shape_trap_cap.png)
 
 ### 1.3 双圆弧（哥特式）滚道齿形（`Mask9`）
 
@@ -49,6 +55,8 @@ $$e = \left( R - \frac{D_b}{2} \right) \cdot \sin\left( \frac{\alpha}{180} \cdot
   3. **`齿底倒角方式`**（`SHAPE_MODEL[27]`）：选 `0 斜角` 配 **`过渡 1 斜线角度`**（`SHAPE_MODEL[84]`）与 **`过渡 2 斜线长度`**（`SHAPE_MODEL[87]`），或 `1 圆角` 配 **`齿底圆角半径`**（`SHAPE_MODEL[28]`，注意圆角半径需大于滚轮尖端圆弧半径）。
 
 ### 1.4 外磨行星齿与四大标准齿形对照（`Mask2`）
+
+![SinuTrain 外磨行星齿三列圆弧及偏心参数界面实拍（Mask2）](../images/sinutrain/hmi_shape_planet.png)
 
 ![四大标准齿形几何定义与滚珠双圆弧参数对比示意图](../images/diagrams/diag_tooth_profiles.png)
 

@@ -29,6 +29,10 @@
 
 - **输入模式切换（NC：`INI[86]` / HMI：`INI[87]`）**：支持在 **`0` 输入螺距（`INI[4]`）** 与 **`1` 输入模数（`INI[76]`）** 之间自由切换。选择模数后系统配合工件中径/分度圆直径与旋向自动核算导程及修整参数；
 - **蜗杆齿形与修整初始化（`WORM_SHAPE` / `INI[18]` / `C_DRESS_WORM_INIT.SPF`）**：在 `HS3 修整参数`（`a_dress.com` `Mask3`）中可动态录入 **`蜗杆齿形程序名`**（`WORM_SHAPE`）与 **`蜗杆齿高`**（NC：`INI[18]` / HMI：`INI[19]`）；修整初始化子程序 `DRESS_PART/Worm/C_DRESS_WORM_INIT.SPF` 利用临时 `R` 变量 **`R3 ~ R29`** 统一计算滚轮圆弧半径（`R29=DRESSER[32]`）、砂轮宽度与直径（`R8`/`R9`）、修整中心间距（`R10=DRESSER[34]-DRESSER[33]`）、高低差（`R11=WHEEL[15]`）及 VW/XZ 停留退回速度；
+
+![SinuTrain 蜗杆磨削模式与模数输入界面实拍（Mask1）](../images/sinutrain/hmi_worm_grind.png)
+
+![SinuTrain 蜗杆修整参数与齿形/齿高扩展区实拍（Mask3）](../images/sinutrain/hmi_worm_dress.png)
 - **OEM 扩展钩子（`M_OPEN.SPF` / `M_CLOSE.SPF`）与冷却/松夹 M 代码**：代码库 `DRESS_PART/Worm/` 下预留 `M_OPEN.SPF` 与 `M_CLOSE.SPF` 子程序挂钩（默认出厂基线为 `RET` 空占位，供设备厂按专机动作扩写）。整机磨削与修整流程涉及的配套 M 代码如下：
   - **`M8` / `M9`**：主磨削冷却开 / 关（内磨/常规冷却泵 1）；
   - **`M28` / `M29`**：修整冷却开 / 关（冷却泵 2，在 `B_DRESS` 修整循环及 `TECHNOLOGY[307]=1` 附加磨削冷却时启用）；

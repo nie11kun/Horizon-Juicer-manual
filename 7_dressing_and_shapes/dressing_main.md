@@ -45,6 +45,8 @@
 | **外部齿形扩展栏** | `DRESSER[139]` / `SHAPE_MODEL[0]` / `STRING_ADDON[0]` / `SHAPE_EXTERNAL` / `PROCESS[123]` / `PROCESS[124]` | 开启 `DRESSER[110]=1` 后显现：分别设置 `齿型调用选择`（`0` 否 / `1` 左右分开 / `2` 连续轨迹）、`存储位置`、`外部程序目录`、`外部齿型程序名`、`连续曲线齿高`（`PROCESS[123]`）与 `抬刀高度`（`PROCESS[124]`，详见 [7.3 节](shape_profiles.md)） |
 | **蜗杆专用扩展栏** | `WORM_SHAPE` / `INI[18]` | 配置 `;ifIsHasWorm` 时显现：设置蜗杆廓形子程序名 `WORM_SHAPE` 与 `蜗杆齿高`（NC：`INI[18]` / HMI：`INI[19]`） |
 
+![SinuTrain 外部齿形程序扩展栏界面实拍（Mask3，连续轨迹曲线模式）](../images/sinutrain/hmi_dress_external_curve.png)
+
 ## 5. 平面修砂轮（内孔磨砂轮平面与锥度修整，`F_COMMON_SHAPE_10.SPF`）
 
 针对仅需将内孔磨/平面砂轮外圆母线修直（或修出微量防干涉倒锥度）的场景，最新版 `Source_Library` 新增了 **平面修砂轮** 专用模式：
