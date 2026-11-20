@@ -442,7 +442,20 @@
                 <a href="advanced_modules.html">
             
                     
-                    6.4 高级模块：夹具自磨、倒角、空运行、变径与分段补偿
+                    6.4 高级模块（上）：夹具自磨、倒角、空运行与两端变径
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.5" data-path="seg_comp_and_pitch.html">
+            
+                <a href="seg_comp_and_pitch.html">
+            
+                    
+                    6.5 高级模块（下）：分段补偿与单/多段螺距变换
             
                 </a>
             
@@ -794,7 +807,14 @@
 <li><strong>粗磨自动计算（<code>TECHNOLOGY[233]=1</code>）</strong>：开启后操作员只需给定 <strong>设定磨削总量</strong> 与后三道光刀参数，程序自动算出 <strong>粗磨进给量/次数</strong> 补齐总余量；</li>
 <li><strong>按头数修整开关（<code>WORK[5]</code>）</strong>：多头螺纹开启 <code>WORK[4]=1</code> 后在右上角显示，可切换为“磨完所有头算 1 次”或“每磨完 1 个头单独计入修整计数”；</li>
 <li><strong>三线测量参数区（<code>INI[148]=1</code> 且内螺纹时左下角显示）</strong>：直接登记 <code>工件外径</code>（<code>INI[120]</code> / HMI：<code>INI[121]</code>）、<code>三线测量</code>（<code>INI[121]</code> / HMI：<code>INI[122]</code>）、<code>钢球直径</code>（<code>INI[122]</code> / HMI：<code>INI[123]</code>）与 <code>终尺寸H</code>（<code>INI[123]</code> / HMI：<code>INI[124]</code>）作为参考记录（四项均支持 <strong><code>ac7</code> 钥匙开关 0 档</strong> 查看录入；其中 <code>工件外径</code> 与 <code>三线测量</code> 已取消早期的 <code>300 mm</code> 上限限制，仅校验非负 <code>&gt;= 0</code>）；</li>
-<li><strong><code>VS7</code> 修砂轮后空切设置（<code>PROCESS[17]</code>）</strong>：切换为开启后，每次磨削途中修完砂轮回来首刀 <strong>不进刀空磨一次</strong>（按原切深位置走一刀消弹性让刀，按头数修整时无效）。</li>
+<li><strong><code>VS7</code> 修砂轮后空切设置（<code>PROCESS[17]</code>）</strong>：切换为开启后，每次磨削途中修完砂轮回来首刀 <strong>不进刀空磨一次</strong>（按原切深位置走一刀消弹性让刀，按头数修整时无效）；</li>
+<li><strong>断点接续（批量起始工序与起始循环选择，<code>SHAPE_MODEL[63]=1</code>）</strong>：<ul>
+<li>在 <strong>机床配置</strong> 开启 <code>SHAPE_MODEL[63]=1</code> 后，批量工艺表右上角动态显现 <strong><code>当前加工工序</code></strong>（只读，<code>STRING_ADDON[1]</code>）、<strong><code>起始工序选择</code></strong>（<code>SHAPE_MODEL[60]</code>：<code>0</code> 粗磨 / <code>1</code> 半精磨 / <code>2</code> 精磨 / <code>3</code> 终磨）与 <strong><code>起始循环选择</code></strong>（<code>SHAPE_MODEL[61]</code>）；</li>
+<li>适合中途停机续磨或半成品直接进入精磨：<strong>程序会自动将跳过的前序总切深直接累加进当前磨削接触位</strong>，随后从指定工序与循环号开始运行（若所填 <code>起始循环</code> 大于本工序设定总次数，则自动顺延跳入下一工序）；</li>
+</ul>
+</li>
+<li><strong><code>DIY</code> 工艺模式切换（<code>PROCESS[0]</code>：<code>0</code> 界面工艺 / <code>1</code> DIY）</strong>：位于工艺表右上角。切至 <strong><code>1 DIY</code></strong> 后，运行不再按标准四道工序表逐列走刀，而转由用户定制程序 <code>USER_DIY.MPF</code> 与 <code>DIY[0..5]</code> 变量组接管（参见 <a href="./">第 6 章首页</a>）；</li>
+<li><strong>实时压力监控信号区（<code>TECHNOLOGY[367]=1</code>）</strong>：开启后在工艺页左下角实时只读显示 <strong><code>头架压力</code></strong>（<code>$A_DBR[204]</code>）与 <strong><code>系统压力</code></strong>（<code>$A_DBR[200]</code>），用于巡检静压/液压系统供压状态（<em>注：该显示区与三线测量区共用左下角位置，请勿同时开启重叠显示</em>）。</li>
 </ol>
 <h2 id="3-垂直软键三大扩展配置子页（mask3--mask4--mask5）">3. 垂直软键三大扩展配置子页（<code>Mask3</code> / <code>Mask4</code> / <code>Mask5</code>）</h2>
 <p>在工艺参数界面右侧可根据机床硬件与授权选配打开三个专业设置页：</p>
@@ -869,7 +889,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"6.2 工艺参数表、附加配置、Y 轴与 UW 挡块","level":"4.1.2","depth":2,"next":{"title":"6.3 丝锥、蜗杆与环形槽专用功能","level":"4.1.3","depth":2,"path":"6_thread_grinding/tap_worm_ring.md","ref":"6_thread_grinding/tap_worm_ring.md","articles":[]},"previous":{"title":"6.1 主磨削参数与手动对刀操作","level":"4.1.1","depth":2,"path":"6_thread_grinding/main_grinding.md","ref":"6_thread_grinding/main_grinding.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","katex"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css"},"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"katex":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2}},"theme":"default","author":"Nie Kun","pdf":{"pageNumbers":true,"fontSize":11,"fontFamily":"Microsoft YaHei","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":48,"left":48,"top":48,"bottom":48},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Horizon-Juicer & HorizonJuicerCreator 用户与工程指南","language":"zh-hans","gitbook":"*","description":"HorizonJuicerCreator 配置软件与 Horizon-Juicer 西门子数控磨削程序包完整用户手册"},"file":{"path":"6_thread_grinding/process_params.md","mtime":"2026-11-20T00:29:53.722Z","type":"markdown"},"gitbook":{"version":"6.2.6","time":"2026-11-20T00:30:00.405Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"6.2 工艺参数表、附加配置、Y 轴与 UW 挡块","level":"4.1.2","depth":2,"next":{"title":"6.3 丝锥、蜗杆与环形槽专用功能","level":"4.1.3","depth":2,"path":"6_thread_grinding/tap_worm_ring.md","ref":"6_thread_grinding/tap_worm_ring.md","articles":[]},"previous":{"title":"6.1 主磨削参数与手动对刀操作","level":"4.1.1","depth":2,"path":"6_thread_grinding/main_grinding.md","ref":"6_thread_grinding/main_grinding.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","katex"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css"},"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"katex":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2}},"theme":"default","author":"Nie Kun","pdf":{"pageNumbers":true,"fontSize":11,"fontFamily":"Microsoft YaHei","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":48,"left":48,"top":48,"bottom":48},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Horizon-Juicer & HorizonJuicerCreator 用户与工程指南","language":"zh-hans","gitbook":"*","description":"HorizonJuicerCreator 配置软件与 Horizon-Juicer 西门子数控磨削程序包完整用户手册"},"file":{"path":"6_thread_grinding/process_params.md","mtime":"2026-11-20T01:12:34.252Z","type":"markdown"},"gitbook":{"version":"6.2.6","time":"2026-11-20T01:12:40.846Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

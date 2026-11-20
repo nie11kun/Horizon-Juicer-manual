@@ -442,7 +442,20 @@
                 <a href="../6_thread_grinding/advanced_modules.html">
             
                     
-                    6.4 高级模块：夹具自磨、倒角、空运行、变径与分段补偿
+                    6.4 高级模块（上）：夹具自磨、倒角、空运行与两端变径
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.5" data-path="../6_thread_grinding/seg_comp_and_pitch.html">
+            
+                <a href="../6_thread_grinding/seg_comp_and_pitch.html">
+            
+                    
+                    6.5 高级模块（下）：分段补偿与单/多段螺距变换
             
                 </a>
             
@@ -758,18 +771,27 @@
 <p><img src="../images/sinutrain/hmi_center_cyl_dress.png" alt="SinuTrain 外圆金刚笔修整与锥度微调实拍（Mask26）"></img></p>
 <ul>
 <li>设置 <strong><code>修整起点.Z</code>（<code>DRESSER[93]</code>）</strong> 与 <strong><code>修整终点.Z</code>（<code>DRESSER[72]</code>）</strong>（建议各自超出砂轮端缘约 <code>5 mm</code> 安全区间，若用液压外圆修整器需先伸出后再对位置）；</li>
+<li>标定金刚笔外圆接触的 <strong><code>初始修整接触.X</code></strong>（<code>DRESSER[119]</code>）与 <strong><code>当前修整接触.X</code></strong>（<code>DRESSER[88]</code>），并在上方设置 <strong><code>粗修整量</code>（<code>DRESSER[84]</code>）</strong> 与 <strong><code>精修整量</code>（<code>DRESSER[85]</code>）</strong>（以及对应粗/精修次数与速度）；</li>
 <li><strong><code>锥度微调</code>（<code>DRESSER[132]</code>）</strong>：仅用作外圆母线轻微锥度纠偏（建议在 <code>0 ~ 0.02 mm</code> 范围内微调）：<strong>实测工件“里大外小（左大右小）”输正值，反之输负值</strong>；</li>
 <li><strong><code>偏转补偿角</code>（<code>DRESSER[59]</code>）</strong>：默认 <code>0°</code>（外磨砂轮外圆和侧面均定期修整保持垂直 <code>90°</code> 夹角）。若设备采用斜置砂轮且从始至终 <strong>不修端面仅修外圆</strong>，必须填入实际倾斜装配角度，让系统每修一次外圆自动折算补偿左右端面 Z 初始接触坐标；</li>
 <li><strong><code>外磨修整头架固定角</code>（<code>DRESSER[54/55]</code>）</strong>：如需要求修整外磨砂轮时头架转至并锁在特定躲避角可开启使用。</li>
 </ul>
 <h2 id="4-外圆台阶一--台阶二加工（mask33--mask34）">4. 外圆台阶一 &amp; 台阶二加工（<code>Mask33</code> / <code>Mask34</code>）</h2>
 <p><img src="../images/sinutrain/hmi_center_step1.png" alt="SinuTrain 外圆台阶一独立使能与工艺参数实拍（Mask33）"></img></p>
-<p>当工件外圆存在一处或两处台肩需要单独清磨时，分别点击右侧 <strong><code>VS5 台阶一</code></strong> 或 <strong><code>VS6 台阶二</code></strong>：</p>
+<p>当工件外圆存在一处或两处台肩需要单独清磨时，分别点击右侧 <strong><code>VS5 台阶一</code></strong>（<code>Mask33</code>）或 <strong><code>VS6 台阶二</code></strong>（<code>Mask34</code>）：</p>
 <ol>
-<li>打开各自子画面左上角的红色 <strong><code>使能</code></strong>（台阶一 <code>PROCESS[24]</code> / 台阶二 <code>PROCESS[25]</code>）；</li>
-<li>设定 <strong><code>台阶一距左端面</code>（<code>PROCESS[55]</code>）</strong> 与 <strong><code>台阶长度</code></strong>（<code>INI[12]</code> / <code>TECHNOLOGY[185]</code>）以及各自的分段与 <code>台阶终点补偿</code>；</li>
-<li>选择台阶 <strong><code>初始接触模式</code></strong>（台阶一 <code>TECHNOLOGY[36]</code> / 台阶二 <code>TECHNOLOGY[184]</code>）：默认取 <strong><code>外圆当前</code></strong>（紧接外圆已磨到的最新接触位向里或沿面精修；因此常规顺序应在加工选择栏 <strong>先勾选外圆再/同时勾选台阶</strong>，或在未完全磨好外圆时切为 <code>外圆初始</code>）；</li>
-<li>独立填写下方简化的两列工艺表（<strong>粗磨</strong> 与 <strong>精磨</strong>）即可投入运行。</li>
+<li><strong>独立使能开关</strong>：打开各自子画面左上角的红色 <strong><code>使能</code></strong>（台阶一 <code>PROCESS[24]</code> / 台阶二 <code>PROCESS[25]</code>）；</li>
+<li><strong>轴向定位、长度与分段参数</strong>（两台阶各自独立）：<ul>
+<li><strong>台阶一（<code>Mask33</code>）</strong>：设定 <strong><code>距左端面</code></strong>（<code>PROCESS[55]</code>）、<strong><code>台阶长度</code></strong>（<code>INI[12]</code>）、<strong><code>保持分段</code></strong>（<code>INI[13]</code>）与 <strong><code>终点补偿</code></strong>（<code>TECHNOLOGY[47]</code>）；</li>
+<li><strong>台阶二（<code>Mask34</code>）</strong>：设定 <strong><code>距台阶一</code></strong>（NC：<code>TECHNOLOGY[178]</code> / HMI：<code>TECHNOLOGY[179]</code>）、<strong><code>台阶长度</code></strong>（<code>TECHNOLOGY[185]</code>）、<strong><code>保持分段</code></strong>（<code>TECHNOLOGY[186]</code>）与 <strong><code>终点补偿</code></strong>（<code>TECHNOLOGY[179]</code>）；</li>
+</ul>
+</li>
+<li><strong>级联 <code>初始接触模式</code>（注意台阶一与台阶二的参考基准不同！）</strong>：<ul>
+<li><strong>台阶一（<code>TECHNOLOGY[36]</code>）</strong>：可选 <strong><code>0 外圆当前接触</code></strong>（<code>PROCESS[20]</code>，紧接外圆已磨到的最新接触位精修，默认推荐；加工选择栏应同时勾选外圆）或 <strong><code>1 外圆初始接触</code></strong>（<code>PROCESS[46]</code>），其自身当前接触位记录在 <code>PROCESS[108]</code>；</li>
+<li><strong>台阶二（<code>TECHNOLOGY[184]</code>）</strong>：可选 <strong><code>0 台阶一当前接触</code></strong>（级联承接台阶一最新接触位 <code>PROCESS[108]</code>）或 <strong><code>1 台阶一初始接触</code></strong>（承接台阶一所选外圆基准位），其自身当前接触位记录在 <code>TECHNOLOGY[177]</code>；</li>
+</ul>
+</li>
+<li><strong>独立两列工艺表</strong>：下方简化提供 <strong>精磨（半精）</strong> 与 <strong>终磨（精）</strong> 两列参数（循环次数、进给深度、速度、线速度及转速），填写即可投入运行。</li>
 </ol>
 <h2 id="5-外圆在线量仪闭环控制（jgrindonlinespf）">5. 外圆在线量仪闭环控制（<code>J_GRIND_ONLINE.SPF</code>）</h2>
 <p>当设备配有外圆主动量仪并在 <strong>机床配置 → 第四类磨削中心配置</strong> 中开启 <strong><code>外圆在线测量显示</code></strong>（NC：<code>INI[149] = 1</code> / HMI：<code>INI[150]</code>）时，外圆切入阶段由 <code>J_GRIND_ONLINE.SPF</code> 执行三段闭环分级进给与退刀：</p>
@@ -821,7 +843,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"9.2 外圆与外圆台阶磨削及修整","level":"4.4.2","depth":2,"next":{"title":"9.3 左右端面磨削、修整及交叉补偿","level":"4.4.3","depth":2,"path":"9_grinding_center/endface_grinding.md","ref":"9_grinding_center/endface_grinding.md","articles":[]},"previous":{"title":"9.1 加工选择看板与多工序联合调度","level":"4.4.1","depth":2,"path":"9_grinding_center/center_overview.md","ref":"9_grinding_center/center_overview.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","katex"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css"},"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"katex":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2}},"theme":"default","author":"Nie Kun","pdf":{"pageNumbers":true,"fontSize":11,"fontFamily":"Microsoft YaHei","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":48,"left":48,"top":48,"bottom":48},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Horizon-Juicer & HorizonJuicerCreator 用户与工程指南","language":"zh-hans","gitbook":"*","description":"HorizonJuicerCreator 配置软件与 Horizon-Juicer 西门子数控磨削程序包完整用户手册"},"file":{"path":"9_grinding_center/cylindrical_and_step.md","mtime":"2026-11-20T00:29:53.723Z","type":"markdown"},"gitbook":{"version":"6.2.6","time":"2026-11-20T00:30:00.405Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"9.2 外圆与外圆台阶磨削及修整","level":"4.4.2","depth":2,"next":{"title":"9.3 左右端面磨削、修整及交叉补偿","level":"4.4.3","depth":2,"path":"9_grinding_center/endface_grinding.md","ref":"9_grinding_center/endface_grinding.md","articles":[]},"previous":{"title":"9.1 加工选择看板与多工序联合调度","level":"4.4.1","depth":2,"path":"9_grinding_center/center_overview.md","ref":"9_grinding_center/center_overview.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","katex"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css"},"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"katex":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2}},"theme":"default","author":"Nie Kun","pdf":{"pageNumbers":true,"fontSize":11,"fontFamily":"Microsoft YaHei","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":48,"left":48,"top":48,"bottom":48},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Horizon-Juicer & HorizonJuicerCreator 用户与工程指南","language":"zh-hans","gitbook":"*","description":"HorizonJuicerCreator 配置软件与 Horizon-Juicer 西门子数控磨削程序包完整用户手册"},"file":{"path":"9_grinding_center/cylindrical_and_step.md","mtime":"2026-11-20T01:12:34.252Z","type":"markdown"},"gitbook":{"version":"6.2.6","time":"2026-11-20T01:12:40.846Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

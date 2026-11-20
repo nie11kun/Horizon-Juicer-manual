@@ -442,7 +442,20 @@
                 <a href="../6_thread_grinding/advanced_modules.html">
             
                     
-                    6.4 高级模块：夹具自磨、倒角、空运行、变径与分段补偿
+                    6.4 高级模块（上）：夹具自磨、倒角、空运行与两端变径
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.5" data-path="../6_thread_grinding/seg_comp_and_pitch.html">
+            
+                <a href="../6_thread_grinding/seg_comp_and_pitch.html">
+            
+                    
+                    6.5 高级模块（下）：分段补偿与单/多段螺距变换
             
                 </a>
             
@@ -1212,35 +1225,98 @@
 <td style="text-align:left"><strong>参数备份恢复界面</strong></td>
 <td style="text-align:left"><code>TECHNOLOGY[56]</code></td>
 <td style="text-align:left"><code>TECHNOLOGY[57]</code></td>
-<td style="text-align:left"><code>0</code> 隐藏 / <code>1</code> 在 <code>CUSTOM</code> 主页激活 <strong>备份恢复</strong></td>
+<td style="text-align:left"><code>0</code> 隐藏 / <code>1</code> 在 <code>CUSTOM</code> 主页激活 <strong><code>VS2 备份恢复</code></strong></td>
 </tr>
 <tr>
 <td style="text-align:left"><strong>扩展界面</strong></td>
 <td style="text-align:left"><strong>加工统计界面</strong></td>
 <td style="text-align:left"><code>TECHNOLOGY[57]</code></td>
 <td style="text-align:left"><code>TECHNOLOGY[58]</code></td>
-<td style="text-align:left"><code>0</code> 隐藏 / <code>1</code> 在 <code>CUSTOM</code> 主页激活 <strong>加工统计</strong></td>
+<td style="text-align:left"><code>0</code> 隐藏 / <code>1</code> 在 <code>CUSTOM</code> 主页激活 <strong><code>VS5 加工统计</code></strong></td>
 </tr>
 <tr>
 <td style="text-align:left"><strong>扩展界面</strong></td>
 <td style="text-align:left"><strong>修整轮生命周期显示</strong></td>
 <td style="text-align:left"><code>TECHNOLOGY[134]</code></td>
 <td style="text-align:left"><code>TECHNOLOGY[135]</code></td>
-<td style="text-align:left"><code>0</code> 不显示 / <code>1</code> 在统计页开启滚轮次数/修整量生命上限</td>
+<td style="text-align:left"><code>0</code> 不显示 / <code>1</code> 在统计页开启滚轮次数与修整量生命上限</td>
 </tr>
 <tr>
 <td style="text-align:left"><strong>扩展界面</strong></td>
 <td style="text-align:left"><strong>机械手按钮开启</strong></td>
 <td style="text-align:left"><code>TOOL_SET[16]</code></td>
 <td style="text-align:left"><code>TOOL_SET[17]</code></td>
-<td style="text-align:left"><em>机械手选配</em>：<code>0</code> 关 / <code>1</code> 在加工页显示机械手开关</td>
+<td style="text-align:left"><em>机械手选配</em>：<code>0</code> 关 / <code>1</code> 在加工页显示 <code>VS1 用机械手</code> 与 <code>VS2 模拟测试</code></td>
 </tr>
 <tr>
 <td style="text-align:left"><strong>扩展界面</strong></td>
-<td style="text-align:left"><strong>螺距变换 / 自磨夹具 / 倒角 / 变径 / 空运行 / 分段补偿 / 附加配置 / Y轴 / 配件寿命</strong></td>
-<td style="text-align:left">对应独立标志位</td>
-<td style="text-align:left">对应 <code>.com</code> 入口变量</td>
-<td style="text-align:left"><code>0</code> 隐藏 / <code>1</code> 开启对应高级子页面（螺距变换支持 <code>0</code>隐藏/<code>1</code>单段/<code>2</code>多段）</td>
+<td style="text-align:left"><strong>螺距变换界面</strong></td>
+<td style="text-align:left"><code>TOOL_SET[61]</code></td>
+<td style="text-align:left"><code>TOOL_SET[62]</code></td>
+<td style="text-align:left"><code>0</code> 隐藏 / <code>1</code> 单段螺距变换（<code>Mask50</code>） / <code>2</code> 多段螺距变换（<code>Mask58</code>）</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>扩展界面</strong></td>
+<td style="text-align:left"><strong>自磨夹具界面</strong></td>
+<td style="text-align:left"><code>TECHNOLOGY[232]</code></td>
+<td style="text-align:left"><code>TECHNOLOGY[233]</code></td>
+<td style="text-align:left"><em>仅内螺纹</em>：<code>0</code> 隐藏 / <code>1</code> 开启 <code>VS6 自磨夹具</code>（<code>Mask53</code>）</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>扩展界面</strong></td>
+<td style="text-align:left"><strong>反向孔倒角界面</strong></td>
+<td style="text-align:left"><code>INI[21]</code></td>
+<td style="text-align:left"><code>INI[22]</code></td>
+<td style="text-align:left"><em>仅内螺纹</em>：<code>0</code> 隐藏 / <code>1</code> 开启 <code>VS7 反向孔倒角</code>（<code>Mask54</code>）</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>扩展界面</strong></td>
+<td style="text-align:left"><strong>倒角 X 向补偿参数显示</strong></td>
+<td style="text-align:left"><code>TECHNOLOGY[291]</code></td>
+<td style="text-align:left"><code>TECHNOLOGY[292]</code></td>
+<td style="text-align:left"><em>仅内螺纹</em>：<code>0</code> 隐藏 / <code>1</code> 在 <code>Mask54</code> 显示第 1～20 孔终磨 X 向补偿列</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>扩展界面</strong></td>
+<td style="text-align:left"><strong>两端变径磨削界面</strong></td>
+<td style="text-align:left"><code>TECHNOLOGY[108]</code></td>
+<td style="text-align:left"><code>TECHNOLOGY[109]</code></td>
+<td style="text-align:left"><code>0</code> 隐藏 / <code>1</code> 开启 <code>VS8 变径磨削</code>（<code>Mask56</code>）</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>扩展界面</strong></td>
+<td style="text-align:left"><strong>空运行热机界面</strong></td>
+<td style="text-align:left"><code>TECHNOLOGY[55]</code></td>
+<td style="text-align:left"><code>TECHNOLOGY[56]</code></td>
+<td style="text-align:left"><code>0</code> 隐藏 / <code>1</code> 开启 <code>VS3 空运行</code>（<code>Mask55</code>）</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>扩展界面</strong></td>
+<td style="text-align:left"><strong>分段补偿界面开启</strong></td>
+<td style="text-align:left"><code>TECHNOLOGY[309]</code></td>
+<td style="text-align:left"><code>TECHNOLOGY[310]</code></td>
+<td style="text-align:left"><code>0</code> 隐藏 / <code>1</code> 开启 <code>VS4 分段补偿</code>（<code>Mask57</code>；区别于画面内使能 <code>TECHNOLOGY[310]</code>）</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>扩展界面</strong></td>
+<td style="text-align:left"><strong>工艺附加配置界面</strong></td>
+<td style="text-align:left"><code>TECHNOLOGY[126]</code></td>
+<td style="text-align:left"><code>TECHNOLOGY[127]</code></td>
+<td style="text-align:left"><code>0</code> 隐藏 / <code>1</code> 在工艺表右侧开启 <code>VS4 附加配置</code>（<code>Mask3</code>：梯度进刀与分头补偿）</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>扩展界面</strong></td>
+<td style="text-align:left"><strong>Y 轴设置界面</strong></td>
+<td style="text-align:left"><code>TECHNOLOGY[359]</code></td>
+<td style="text-align:left"><code>TECHNOLOGY[360]</code></td>
+<td style="text-align:left"><code>0</code> 隐藏 / <code>1</code> 在工艺表右侧开启 <code>VS5 Y 轴设置</code>（<code>Mask4</code>）</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>扩展界面</strong></td>
+<td style="text-align:left"><strong>配件寿命界面显示</strong></td>
+<td style="text-align:left"><code>TECHNOLOGY[368]</code></td>
+<td style="text-align:left"><code>TECHNOLOGY[369]</code></td>
+<td style="text-align:left"><code>0</code> 隐藏 / <code>1</code> 在 <code>CUSTOM</code> 主页激活 <code>VS3 配件寿命</code>（<code>a_stats.com</code> <code>Mask3</code>）</td>
 </tr>
 <tr>
 <td style="text-align:left"><strong>输入限制</strong></td>
@@ -1272,10 +1348,17 @@
 </tr>
 <tr>
 <td style="text-align:left"><strong>输入限制</strong></td>
-<td style="text-align:left"><strong>修整进给量输入限值</strong></td>
-<td style="text-align:left"><code>TOOL_SET[13/14]</code></td>
-<td style="text-align:left"><code>TOOL_SET[14/15]</code></td>
-<td style="text-align:left">默认 <code>0</code> 时限制每次修整切深在 <strong><code>0 ~ 0.1 mm</code></strong> 之内</td>
+<td style="text-align:left"><strong>常规修整进给量限值</strong></td>
+<td style="text-align:left"><code>TOOL_SET[13]</code></td>
+<td style="text-align:left"><code>TOOL_SET[14]</code></td>
+<td style="text-align:left">默认 <code>0</code> 时限制螺纹砂轮每次修整切深在 <strong><code>0 ~ 0.1 mm</code></strong> 之内</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>输入限制</strong></td>
+<td style="text-align:left"><strong>磨削中心外圆/端面修整进给限值</strong></td>
+<td style="text-align:left"><code>TOOL_SET[14]</code></td>
+<td style="text-align:left"><code>TOOL_SET[15]</code></td>
+<td style="text-align:left">默认 <code>0</code> 时限制磨削中心外圆与端面每次修整进给量在 <strong><code>0 ~ 0.1 mm</code></strong> 之内</td>
 </tr>
 </tbody>
 </table>
@@ -1334,7 +1417,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"5.2 机床系统配置与安全解锁","level":"3.2.2","depth":2,"next":{"title":"5.3 加工统计、砂轮记录与配件寿命管理","level":"3.2.3","depth":2,"path":"5_custom_and_system/stats_and_life.md","ref":"5_custom_and_system/stats_and_life.md","articles":[]},"previous":{"title":"5.1 CUSTOM 主页导航与设备编号信息","level":"3.2.1","depth":2,"path":"5_custom_and_system/custom_home.md","ref":"5_custom_and_system/custom_home.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","katex"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css"},"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"katex":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2}},"theme":"default","author":"Nie Kun","pdf":{"pageNumbers":true,"fontSize":11,"fontFamily":"Microsoft YaHei","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":48,"left":48,"top":48,"bottom":48},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Horizon-Juicer & HorizonJuicerCreator 用户与工程指南","language":"zh-hans","gitbook":"*","description":"HorizonJuicerCreator 配置软件与 Horizon-Juicer 西门子数控磨削程序包完整用户手册"},"file":{"path":"5_custom_and_system/machine_settings.md","mtime":"2026-11-20T00:29:53.722Z","type":"markdown"},"gitbook":{"version":"6.2.6","time":"2026-11-20T00:30:00.405Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"5.2 机床系统配置与安全解锁","level":"3.2.2","depth":2,"next":{"title":"5.3 加工统计、砂轮记录与配件寿命管理","level":"3.2.3","depth":2,"path":"5_custom_and_system/stats_and_life.md","ref":"5_custom_and_system/stats_and_life.md","articles":[]},"previous":{"title":"5.1 CUSTOM 主页导航与设备编号信息","level":"3.2.1","depth":2,"path":"5_custom_and_system/custom_home.md","ref":"5_custom_and_system/custom_home.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-default","katex"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css"},"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"katex":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2}},"theme":"default","author":"Nie Kun","pdf":{"pageNumbers":true,"fontSize":11,"fontFamily":"Microsoft YaHei","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":48,"left":48,"top":48,"bottom":48},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Horizon-Juicer & HorizonJuicerCreator 用户与工程指南","language":"zh-hans","gitbook":"*","description":"HorizonJuicerCreator 配置软件与 Horizon-Juicer 西门子数控磨削程序包完整用户手册"},"file":{"path":"5_custom_and_system/machine_settings.md","mtime":"2026-11-20T01:12:34.251Z","type":"markdown"},"gitbook":{"version":"6.2.6","time":"2026-11-20T01:12:40.846Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

@@ -442,7 +442,20 @@
                 <a href="../6_thread_grinding/advanced_modules.html">
             
                     
-                    6.4 高级模块：夹具自磨、倒角、空运行、变径与分段补偿
+                    6.4 高级模块（上）：夹具自磨、倒角、空运行与两端变径
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.5" data-path="../6_thread_grinding/seg_comp_and_pitch.html">
+            
+                <a href="../6_thread_grinding/seg_comp_and_pitch.html">
+            
+                    
+                    6.5 高级模块（下）：分段补偿与单/多段螺距变换
             
                 </a>
             
@@ -778,10 +791,10 @@
 </table>
 <h2 id="3-粗修、精修与磨削中自动修整参数对照">3. 粗修、精修与磨削中自动修整参数对照</h2>
 <ul>
-<li><strong>纯修整（手动点亮修整键 <code>$A_DBB[0]</code> 启动）</strong>：顺序执行 <strong><code>粗修次数</code>（<code>DRESSER[25]</code>）× <code>粗修量/粗修速度</code></strong> ＋ <strong><code>精修次数</code>（<code>DRESSER[26]</code>）× <code>精修量/精修速度</code></strong>。</li>
-<li><strong>磨削中自动修整（工艺表 <code>修整设定</code> 或 <code>按件修整</code> 触发）</strong>：<strong>只调用此页面的 <code>精修次数</code>、<code>精修量</code>、<code>精修速度</code> 参数</strong>（<em>注：若系统开启了扩展工艺表 <code>Mask20/30</code>，则优先使用扩展工艺表内部各工序专设的精修进给/速度/转速！</em>）。</li>
+<li><strong>纯修整（手动点亮修整键 <code>$A_DBB[0]</code> 启动）</strong>：顺序执行 <strong><code>粗修次数</code>（<code>DRESSER[25]</code>）× <code>粗修整量</code>（<code>DRESSER[27]</code>）/ <code>粗修速度</code>（<code>DRESSER[29]</code>）</strong> ＋ <strong><code>精修次数</code>（<code>DRESSER[26]</code>）× <code>精修整量</code>（<code>DRESSER[28]</code>）/ <code>精修速度</code>（<code>DRESSER[30]</code>）</strong>。</li>
+<li><strong>磨削中自动修整（工艺表 <code>修整设定</code> 或 <code>按件修整</code> 触发）</strong>：<strong>只调用此页面的 <code>精修次数</code>（<code>DRESSER[26]</code>）、<code>精修整量</code>（<code>DRESSER[28]</code>）、<code>精修速度</code>（<code>DRESSER[30]</code>）参数</strong>（<em>注：若系统开启了扩展工艺表 <code>Mask20/30</code>，则优先使用扩展工艺表内部各工序专设的精修进给/速度/转速！</em>）。</li>
 </ul>
-<h2 id="4-砂轮直径护栏、线速度与干涉修整角">4. 砂轮直径护栏、线速度与干涉修整角</h2>
+<h2 id="4-砂轮直径护栏、线速度与扩展显示参数">4. 砂轮直径护栏、线速度与扩展显示参数</h2>
 <table>
 <thead>
 <tr>
@@ -822,9 +835,19 @@
 <td style="text-align:left">需配 <code>A</code> 轴并开启 <code>INI[154]=1</code> 后在左上角出现，范围 <code>-90° ~ 90°</code>（默认 <code>0°</code>）；当磨削大导程/大螺旋升角需要消除干涉修整时设入该角度</td>
 </tr>
 <tr>
-<td style="text-align:left"><strong>加工中修整补偿</strong></td>
-<td style="text-align:left"><code>DRESSER[70]</code></td>
-<td style="text-align:left">当开启 <code>DRESSER[58]=1</code> 后显示在左上区（<code>-0.5 ~ 0.5 mm</code>）：每完成一次 <strong>磨削中修整</strong>，除了正常的砂轮半径补偿外，额外把磨削接触位朝坐标轴方向再微补此数值，常用于消除热膨胀造成的批产尺寸单向漂移</td>
+<td style="text-align:left"><strong>加工中修整补偿 / 累计</strong></td>
+<td style="text-align:left"><code>DRESSER[70]</code> / <code>DRESSER[71]</code></td>
+<td style="text-align:left">当开启 <code>DRESSER[58]=1</code> 后显示在左上区（<code>-0.5 ~ 0.5 mm</code>）：每完成一次 <strong>磨削中修整</strong>，除了正常的砂轮半径补偿外，额外把磨削接触位朝坐标轴方向再微补 <code>DRESSER[70]</code>（其总累计值只读显示在 <code>DRESSER[71]</code>），常用于消除热膨胀造成的批产尺寸单向漂移</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>外部齿形扩展栏</strong></td>
+<td style="text-align:left"><code>DRESSER[139]</code> / <code>SHAPE_MODEL[0]</code> / <code>STRING_ADDON[0]</code> / <code>SHAPE_EXTERNAL</code> / <code>PROCESS[123]</code> / <code>PROCESS[124]</code></td>
+<td style="text-align:left">开启 <code>DRESSER[110]=1</code> 后显现：分别设置 <code>齿型调用选择</code>（<code>0</code> 否 / <code>1</code> 左右分开 / <code>2</code> 连续轨迹）、<code>存储位置</code>、<code>外部程序目录</code>、<code>外部齿型程序名</code>、<code>连续曲线齿高</code>（<code>PROCESS[123]</code>）与 <code>抬刀高度</code>（<code>PROCESS[124]</code>，详见 <a href="shape_profiles.html">7.3 节</a>）</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>蜗杆专用扩展栏</strong></td>
+<td style="text-align:left"><code>WORM_SHAPE</code> / <code>INI[18]</code></td>
+<td style="text-align:left">配置 <code>;ifIsHasWorm</code> 时显现：设置蜗杆廓形子程序名 <code>WORM_SHAPE</code> 与 <code>蜗杆齿高</code>（NC：<code>INI[18]</code> / HMI：<code>INI[19]</code>）</td>
 </tr>
 </tbody>
 </table>
@@ -892,7 +915,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"7.1 砂轮修整主参数与新/旧砂轮策略","level":"4.2.1","depth":2,"next":{"title":"7.2 滚轮类型与修整中心校准方法","level":"4.2.2","depth":2,"path":"7_dressing_and_shapes/wheel_setup.md","ref":"7_dressing_and_shapes/wheel_setup.md","articles":[]},"previous":{"title":"第 7 章 砂轮修整、滚轮与齿形模型","level":"4.2","depth":1,"path":"7_dressing_and_shapes/README.md","ref":"7_dressing_and_shapes/README.md","articles":[{"title":"7.1 砂轮修整主参数与新/旧砂轮策略","level":"4.2.1","depth":2,"path":"7_dressing_and_shapes/dressing_main.md","ref":"7_dressing_and_shapes/dressing_main.md","articles":[]},{"title":"7.2 滚轮类型与修整中心校准方法","level":"4.2.2","depth":2,"path":"7_dressing_and_shapes/wheel_setup.md","ref":"7_dressing_and_shapes/wheel_setup.md","articles":[]},{"title":"7.3 齿形参数、通用齿形模型与多线/外部轨迹","level":"4.2.3","depth":2,"path":"7_dressing_and_shapes/shape_profiles.md","ref":"7_dressing_and_shapes/shape_profiles.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["theme-default","katex"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css"},"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"katex":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2}},"theme":"default","author":"Nie Kun","pdf":{"pageNumbers":true,"fontSize":11,"fontFamily":"Microsoft YaHei","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":48,"left":48,"top":48,"bottom":48},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Horizon-Juicer & HorizonJuicerCreator 用户与工程指南","language":"zh-hans","gitbook":"*","description":"HorizonJuicerCreator 配置软件与 Horizon-Juicer 西门子数控磨削程序包完整用户手册"},"file":{"path":"7_dressing_and_shapes/dressing_main.md","mtime":"2026-11-20T00:29:53.723Z","type":"markdown"},"gitbook":{"version":"6.2.6","time":"2026-11-20T00:30:00.405Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"7.1 砂轮修整主参数与新/旧砂轮策略","level":"4.2.1","depth":2,"next":{"title":"7.2 滚轮类型与修整中心校准方法","level":"4.2.2","depth":2,"path":"7_dressing_and_shapes/wheel_setup.md","ref":"7_dressing_and_shapes/wheel_setup.md","articles":[]},"previous":{"title":"第 7 章 砂轮修整、滚轮与齿形模型","level":"4.2","depth":1,"path":"7_dressing_and_shapes/README.md","ref":"7_dressing_and_shapes/README.md","articles":[{"title":"7.1 砂轮修整主参数与新/旧砂轮策略","level":"4.2.1","depth":2,"path":"7_dressing_and_shapes/dressing_main.md","ref":"7_dressing_and_shapes/dressing_main.md","articles":[]},{"title":"7.2 滚轮类型与修整中心校准方法","level":"4.2.2","depth":2,"path":"7_dressing_and_shapes/wheel_setup.md","ref":"7_dressing_and_shapes/wheel_setup.md","articles":[]},{"title":"7.3 齿形参数、通用齿形模型与多线/外部轨迹","level":"4.2.3","depth":2,"path":"7_dressing_and_shapes/shape_profiles.md","ref":"7_dressing_and_shapes/shape_profiles.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["theme-default","katex"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css"},"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"katex":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2}},"theme":"default","author":"Nie Kun","pdf":{"pageNumbers":true,"fontSize":11,"fontFamily":"Microsoft YaHei","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":48,"left":48,"top":48,"bottom":48},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Horizon-Juicer & HorizonJuicerCreator 用户与工程指南","language":"zh-hans","gitbook":"*","description":"HorizonJuicerCreator 配置软件与 Horizon-Juicer 西门子数控磨削程序包完整用户手册"},"file":{"path":"7_dressing_and_shapes/dressing_main.md","mtime":"2026-11-20T01:12:34.252Z","type":"markdown"},"gitbook":{"version":"6.2.6","time":"2026-11-20T01:12:40.846Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

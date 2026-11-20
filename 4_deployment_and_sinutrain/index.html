@@ -442,7 +442,20 @@
                 <a href="../6_thread_grinding/advanced_modules.html">
             
                     
-                    6.4 高级模块：夹具自磨、倒角、空运行、变径与分段补偿
+                    6.4 高级模块（上）：夹具自磨、倒角、空运行与两端变径
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.1.5" data-path="../6_thread_grinding/seg_comp_and_pitch.html">
+            
+                <a href="../6_thread_grinding/seg_comp_and_pitch.html">
+            
+                    
+                    6.5 高级模块（下）：分段补偿与单/多段螺距变换
             
                 </a>
             
@@ -732,6 +745,43 @@
 <li><a href="real_machine_deploy.html">4.1 真机 NC-Data 与 CF 卡部署流程</a> —— 面向 SINUMERIK 828D（老版/新版）、Sinumerik ONE 及 840D sl 实机的系统导入、GUD 内存参数调整（<code>MD18120</code>）、USB 逻辑驱动器配置与缓存清除方法；</li>
 <li><a href="sinutrain_simulation.html">4.2 SinuTrain 4.8 SP4 仿真导入与缓存刷新</a> —— 面向 VM 虚拟机或本机 <code>SinuTrain for SINUMERIK Operate 4.8 SP4</code> 的一键界面导入、语言切换热刷新与实时效果查验。</li>
 </ul>
+<h2 id="部署前-5-项必检清单（现场通用）">部署前 5 项必检清单（现场通用）</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">检查序号</th>
+<th style="text-align:left">核心核对项</th>
+<th style="text-align:left">标准要求 / 操作提醒</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>1</strong></td>
+<td style="text-align:left"><strong>NC 内存参数</strong></td>
+<td style="text-align:left">激活新版 <code>MGUD.DEF</code> 前确保 <code>MD18120 &gt;= 70</code>（<code>MM_NUM_GUD_NAMES_NCK</code>），避免全局变量内存不足报错</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>2</strong></td>
+<td style="text-align:left"><strong>旧版 GUD 备份</strong></td>
+<td style="text-align:left">若将旧控制器升级至含 <code>TECHNOLOGY[500]</code> 的新版 <code>MGUD.DEF</code>，重新激活前务必先<strong>备份原有 GUD 数据</strong>，防止已有标定参数清零</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>3</strong></td>
+<td style="text-align:left"><strong>严格导入顺序</strong></td>
+<td style="text-align:left">先导入并 <strong>激活</strong> <code>NC-Data/DEF/MGUD.DEF</code>，随后才导入 <code>NC-Data/CMA/*.SPF</code> 与 <code>NC-Data/MPF/&lt;机床型号&gt;.MPF</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>4</strong></td>
+<td style="text-align:left"><strong>首次重置（必做）</strong></td>
+<td style="text-align:left">新设备或重建 <code>MGUD.DEF</code> 后，必须解锁 <strong>机床配置</strong> 执行一次 <strong><code>VS3 重置数据 → Mask2 VS8 确认</code></strong>，写入驱动类型（<code>INI[36]</code>/<code>INI[37]</code>/<code>INI[91]</code>）与权限锁</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>5</strong></td>
+<td style="text-align:left"><strong>缓存与外设接口</strong></td>
+<td style="text-align:left">更新 <code>hlp</code> 后清理 <code>sys_cache/hmi/hlp</code> 并用 <code>VS3 Change language</code> 刷新；前置 USB 须配置 <code>extdev.ini</code>，后置 USB 逻辑名须设为 <code>//DEV_3</code></td>
+</tr>
+</tbody>
+</table>
 
                                 
                                 </section>
@@ -775,7 +825,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"第 4 章 真机部署与 SinuTrain 仿真","level":"3.1","depth":1,"next":{"title":"4.1 真机 NC-Data 与 CF 卡部署流程","level":"3.1.1","depth":2,"path":"4_deployment_and_sinutrain/real_machine_deploy.md","ref":"4_deployment_and_sinutrain/real_machine_deploy.md","articles":[]},"previous":{"title":"3.2 批量删除程序注释工具","level":"2.3.2","depth":2,"path":"3_creator_tools/remove_comments.md","ref":"3_creator_tools/remove_comments.md","articles":[]},"articles":[{"title":"4.1 真机 NC-Data 与 CF 卡部署流程","level":"3.1.1","depth":2,"path":"4_deployment_and_sinutrain/real_machine_deploy.md","ref":"4_deployment_and_sinutrain/real_machine_deploy.md","articles":[]},{"title":"4.2 SinuTrain 4.8 SP4 仿真导入与缓存刷新","level":"3.1.2","depth":2,"path":"4_deployment_and_sinutrain/sinutrain_simulation.md","ref":"4_deployment_and_sinutrain/sinutrain_simulation.md","articles":[]}],"dir":"ltr"},"config":{"plugins":["theme-default","katex"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css"},"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"katex":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2}},"theme":"default","author":"Nie Kun","pdf":{"pageNumbers":true,"fontSize":11,"fontFamily":"Microsoft YaHei","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":48,"left":48,"top":48,"bottom":48},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Horizon-Juicer & HorizonJuicerCreator 用户与工程指南","language":"zh-hans","gitbook":"*","description":"HorizonJuicerCreator 配置软件与 Horizon-Juicer 西门子数控磨削程序包完整用户手册"},"file":{"path":"4_deployment_and_sinutrain/README.md","mtime":"2026-11-20T00:29:53.722Z","type":"markdown"},"gitbook":{"version":"6.2.6","time":"2026-11-20T00:30:00.405Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"第 4 章 真机部署与 SinuTrain 仿真","level":"3.1","depth":1,"next":{"title":"4.1 真机 NC-Data 与 CF 卡部署流程","level":"3.1.1","depth":2,"path":"4_deployment_and_sinutrain/real_machine_deploy.md","ref":"4_deployment_and_sinutrain/real_machine_deploy.md","articles":[]},"previous":{"title":"3.2 批量删除程序注释工具","level":"2.3.2","depth":2,"path":"3_creator_tools/remove_comments.md","ref":"3_creator_tools/remove_comments.md","articles":[]},"articles":[{"title":"4.1 真机 NC-Data 与 CF 卡部署流程","level":"3.1.1","depth":2,"path":"4_deployment_and_sinutrain/real_machine_deploy.md","ref":"4_deployment_and_sinutrain/real_machine_deploy.md","articles":[]},{"title":"4.2 SinuTrain 4.8 SP4 仿真导入与缓存刷新","level":"3.1.2","depth":2,"path":"4_deployment_and_sinutrain/sinutrain_simulation.md","ref":"4_deployment_and_sinutrain/sinutrain_simulation.md","articles":[]}],"dir":"ltr"},"config":{"plugins":["theme-default","katex"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css"},"pluginsConfig":{"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"katex":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2}},"theme":"default","author":"Nie Kun","pdf":{"pageNumbers":true,"fontSize":11,"fontFamily":"Microsoft YaHei","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":48,"left":48,"top":48,"bottom":48},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Horizon-Juicer & HorizonJuicerCreator 用户与工程指南","language":"zh-hans","gitbook":"*","description":"HorizonJuicerCreator 配置软件与 Horizon-Juicer 西门子数控磨削程序包完整用户手册"},"file":{"path":"4_deployment_and_sinutrain/README.md","mtime":"2026-11-20T01:12:34.251Z","type":"markdown"},"gitbook":{"version":"6.2.6","time":"2026-11-20T01:12:40.846Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
