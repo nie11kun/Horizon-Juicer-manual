@@ -61,10 +61,14 @@ public static class VmWin32 {
     public const uint MOUSEEVENTF_LEFTDOWN = 0x0002;
     public const uint MOUSEEVENTF_LEFTUP   = 0x0004;
 
+    [DllImport("user32.dll")]
+    public static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
+
+    // Prefer the HMI window (title contains 840D); in split-window mode the panel window lacks it.
     public static IntPtr FindSinuTrainWindow(out string title, out RECT rect) {
-        IntPtr found = IntPtr.Zero;
-        string foundTitle = "";
-        RECT foundRect = new RECT();
+        IntPtr found = IntPtr.Zero, fallback = IntPtr.Zero;
+        string foundTitle = "", fallbackTitle = "";
+        RECT foundRect = new RECT(), fallbackRect = new RECT();
         EnumWindows((hWnd, lParam) => {
             if (!IsWindowVisible(hWnd)) return true;
             StringBuilder sb = new StringBuilder(512);
@@ -72,17 +76,17 @@ public static class VmWin32 {
             string t = sb.ToString();
             if (t.Contains("SinuTrain for SINUMERIK Operate") || t.Contains("SINUMERIK Operate")) {
                 RECT r;
-                if (GetWindowRect(hWnd, out r)) {
-                    if ((r.Right - r.Left) > 600 && (r.Bottom - r.Top) > 400) {
-                        found = hWnd;
-                        foundTitle = t;
-                        foundRect = r;
+                if (GetWindowRect(hWnd, out r) && (r.Right - r.Left) > 600 && (r.Bottom - r.Top) > 400) {
+                    if (t.Contains("840D")) {
+                        found = hWnd; foundTitle = t; foundRect = r;
                         return false;
                     }
+                    if (fallback == IntPtr.Zero) { fallback = hWnd; fallbackTitle = t; fallbackRect = r; }
                 }
             }
             return true;
         }, IntPtr.Zero);
+        if (found == IntPtr.Zero) { found = fallback; foundTitle = fallbackTitle; foundRect = fallbackRect; }
         title = foundTitle;
         rect = foundRect;
         return found;
@@ -270,6 +274,16 @@ function Invoke-BridgeCommand($cmdObj) {
                 [System.Windows.Forms.SendKeys]::SendWait($cmdObj.keys)
                 $waitMs = if ($cmdObj.waitMs) { [int]$cmdObj.waitMs } else { 300 }
                 Start-Sleep -Milliseconds $waitMs
+            }
+            "move_window" {
+                $info = Get-ScreenAndWindowInfo
+                $hwnd = [IntPtr][int64]$info.sinutrainHwnd
+                if ($hwnd -eq [IntPtr]::Zero) { throw "SinuTrain window not found" }
+                [void][VmWin32]::ShowWindow($hwnd, 9)
+                [void][VmWin32]::MoveWindow($hwnd, [int]$cmdObj.x, [int]$cmdObj.y, [int]$cmdObj.w, [int]$cmdObj.h, $true)
+                [void][VmWin32]::SetForegroundWindow($hwnd)
+                Start-Sleep -Milliseconds 600
+                $result.data = Get-ScreenAndWindowInfo
             }
             "maximize" {
                 $info = Get-ScreenAndWindowInfo
