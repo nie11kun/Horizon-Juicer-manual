@@ -19,6 +19,7 @@
   "license": "ISC",
   "devDependencies": {
     "honkit": "^6.1.7",
+    "honkit-plugin-image-lightbox": "file:./tools/honkit-plugin-image-lightbox",
     "honkit-plugin-katex": "^1.1.7"
   }
 }

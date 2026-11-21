@@ -1,0 +1,11 @@
+{
+  "name": "honkit-plugin-image-lightbox",
+  "version": "1.0.0",
+  "description": "Lightweight zero-dependency click-to-zoom image lightbox for HonKit websites",
+  "main": "index.js",
+  "engines": {
+    "honkit": ">=4.0.0",
+    "gitbook": ">=2.0.0"
+  },
+  "license": "ISC"
+}
