@@ -223,6 +223,12 @@ CREATOR_SPECS = {
         ([240, 582, 1792, 768], "top_r", "6 位挑战码输入：支持手动输入、剪贴板自动识别粘贴与一键清空"),
         ([240, 796, 1792, 1274], "bot_l", "解锁口令结果区：输入 6 位即秒算，支持一键复制或 Enter 复制"),
     ],
+    "web_password_calc.png": [
+        ([516, 6, 737, 39], "out_l", "账号认证与会话栏：网页版需凭管理员分配的账号密码登录；支持自助修改密码与安全退出"),
+        ([288, 74, 497, 105], (392, 58), "算法版本切换：默认「新版算法 ≥3.29.0」用于 6 位挑战码，历史老机型可切至「老版算法 <3.29.0」"),
+        ([204, 122, 597, 251], "out_l", "6 位挑战码输入与快捷栏：支持键盘输入、剪贴板「粘贴」提取及「清空」重置"),
+        ([263, 258, 537, 498], "out_r", "触控数字盘与计算按钮：适配手机/平板现场输入（右上可隐藏数字盘），输满后点「计算解锁口令」"),
+    ],
     "creator_remove_comments.png": [
         ([256, 300, 1776, 526], "top_r", "目标目录选择：务必指向已生成的交付副本，严禁直选 Source_Library"),
         ([256, 566, 1776, 882], "bot_r", "格式与安全规则：递归扫描 .COM/.SPF/.MPF，保留 ;* 与 ;\" 标记"),
@@ -714,7 +720,8 @@ def build_sheet(paths, dest_path, cols=4, tw=360):
 def main():
     creator_out = []
     for name, callouts in CREATOR_SPECS.items():
-        src = os.path.join(RAW_CREATOR, name)
+        override_src = os.path.join(RAW_OVERRIDES, name)
+        src = override_src if os.path.exists(override_src) else os.path.join(RAW_CREATOR, name)
         dst = os.path.join(MANUAL_DIR, "images", name)
         assert os.path.exists(src), f"Missing raw creator file: {src}"
         annotate_image(src, dst, callouts)
