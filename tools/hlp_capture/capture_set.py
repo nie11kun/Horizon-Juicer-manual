@@ -196,8 +196,19 @@ def def_ext():
     for key, vs, name in (("VS3", 3, "grind_dryrun"), ("VS4", 4, "grind_segcomp"), ("VS5", 5, "grind_pitch"),
                           ("VS6", 5, "grind_multipitch"), ("VS7", 7, "grind_chamfer"), ("HS1", 8, "grind_diachange")):
         preset(key); hmi.vs(vs, 1500); S(name)
-    preset("HS2"); com_sel(250, 60, 1); S("grind_ring"); com_sel(490, 10, 0)
+    preset("HS2"); com_sel(140, 60, 1); S("grind_ring"); com_sel(490, 10, 0)
     preset("HS6"); hmi.hs(3, 1800); hmi.vs(8, 1200); hmi.vs(1, 1500); S("shape_planet")
+    preset("VS1")
+    finish("ext_min")
+
+
+def def_ext_fix():
+    """Process pages on the 批量 table, and the ring page (磨削类型 field sits higher without 丝锥磨削)."""
+    prepare_default("ext_min")
+    preset("VS1")
+    hmi.hs(2, 1800); hmi.vs(1, 1500); S("process_batch")
+    preset("VS2"); hmi.hs(2, 1800); hmi.vs(1, 1500); S("process_ext")
+    preset("HS2"); com_sel(140, 60, 1); S("grind_ring"); com_sel(490, 10, 0)
     preset("VS1")
     finish("ext_min")
 
@@ -219,6 +230,41 @@ def def_int():
     preset("HS3"); hmi.vs(6, 1500); S("grind_fixture")
     preset("VS1")
     finish("int_min")
+
+
+def def_ctr():
+    prepare_default("ctr_u")
+    preset("VS1")
+    S("center_select")
+    hmi.hs(5, 1800); S("center_od_grind")
+    hmi.vs(2, 1500); S("center_od_process")
+    hmi.vs(3, 1500); S("center_od_dress")
+    hmi.vs(5, 1500); S("center_step")
+    hmi.hs(6, 1800); S("center_face_grind")
+    hmi.vs(2, 1500); S("center_face_process")
+    hmi.vs(3, 1500); S("center_face_dress")
+    hmi.hs(4, 3000); S("auto_center")
+    finish("ctr_u")
+
+
+def def_ctr_auto():
+    """Center auto tool-setting page: the dispatcher mask sometimes stays blank -> retry."""
+    from PIL import Image
+    prepare_default("ctr_u")
+    for _ in range(4):
+        preset("VS1")
+        hmi.hs(4, 4000)
+        p = S("auto_center")
+        if len(set(Image.open(p).convert("L").crop((20, 80, 680, 520)).getdata())) > 20:
+            break
+    finish("ctr_u")
+
+
+def def_hyd():
+    prepare_default("ext_hyd")
+    preset("VS1")
+    hmi.hs(3, 1800); S("roller_hyd")
+    finish("ext_hyd")
 
 
 if __name__ == "__main__":

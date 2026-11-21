@@ -87,10 +87,10 @@ def build():
     lines.append("")
     lines.append('\tHS8=("返回",ac7,se1);')
     for k, (title, _) in PRESETS.items():
-        lines.append(f'\tVS{k}=("{title}",ac7,se1);')
+        lines.append(f'\t{k}=("{title}",ac7,se1);')
     lines += ["", "\tPRESS(HS8)", "\t\tEXIT", "\tEND_PRESS"]
     for k, (title, items) in PRESETS.items():
-        lines.append(f"\tPRESS(VS{k})")
+        lines.append(f"\tPRESS({k})")
         for var, v in items:
             lines.append(f"\t\t{names[var]}.VAL={v}")
         lines.append(f'\t\tMSG.VAL="{title} OK"')
