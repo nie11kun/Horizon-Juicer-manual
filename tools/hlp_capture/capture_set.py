@@ -251,8 +251,10 @@ def def_ctr_auto():
     """Center auto tool-setting page: the dispatcher mask sometimes stays blank -> retry."""
     from PIL import Image
     prepare_default("ctr_u")
-    for _ in range(4):
+    for n in range(4):
         preset("VS1")
+        if n:
+            hmi.hs(1, 2000)   # 磨削参数 first, then 自动对刀
         hmi.hs(4, 4000)
         p = S("auto_center")
         if len(set(Image.open(p).convert("L").crop((20, 80, 680, 520)).getdata())) > 20:
@@ -267,8 +269,10 @@ def _auto_presets(presets):
 
 def _shot_auto(key, name, tries=4):
     from PIL import Image
-    for _ in range(tries):
+    for n in range(tries):
         preset(key)
+        if n:                 # blank last time: open 磨削参数 (HS1) first, then 自动对刀 - reliably loads the page
+            hmi.hs(1, 2000)
         hmi.hs(4, 4000)
         p = S(name)
         if len(set(Image.open(p).convert("L").crop((20, 80, 680, 520)).getdata())) > 20:

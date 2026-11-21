@@ -37,6 +37,25 @@ KEYS = {
 }
 
 
+# SinuTrain keyboard shortcuts (SinuTrain manual, "使用计算机标准键盘进行操作"), SendKeys syntax:
+# + = Shift, ^ = Ctrl, % = Alt. Work while the SinuTrain machine window has focus (send_keys focuses it).
+SHORTCUTS = {
+    **{f"HS{i}": f"{{F{i}}}" for i in range(1, 9)},          # horizontal softkeys 1-8
+    **{f"VS{i}": f"+{{F{i}}}" for i in range(1, 9)},         # vertical softkeys 1-8
+    "RECALL": "{F9}", "ETC": "+{F9}", "MENU_SELECT": "{F10}", "MACHINE": "+{F10}",
+    "CHANNEL": "{F11}", "HELP": "{F12}", "PAGE_UP": "{PGUP}", "PAGE_DOWN": "{PGDN}",
+    "INPUT": "{ENTER}", "INSERT": "{INSERT}", "ALARM_CANCEL": "{ESC}",   # SELECT = numpad 5 (not sendable)
+    "JOG": "^%+1", "CLOSE_MACHINE": "^%+2", "RESET": "^%+3", "CYCLE_START": "^%+4", "CYCLE_STOP": "^%+5",
+    "MDA": "^%+6", "SINGLE_BLOCK": "^%+7", "AUTO": "^%+8",
+}
+
+
+def hotkey(name, wait_ms=700):
+    """Press a panel key / softkey via the keyboard shortcut instead of a mouse click (not used by the
+    capture flows yet; CLOSE_MACHINE shuts the SinuTrain machine down - never send it during captures)."""
+    keys(SHORTCUTS[name], wait_ms)
+
+
 def _rect():
     return bridge.send_cmd("status")["data"]["sinutrainRect"]
 

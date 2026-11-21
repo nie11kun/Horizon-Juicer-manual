@@ -97,6 +97,15 @@
 - **欢迎页菜单**：VS8 在主菜单和扩展菜单之间切换。
 - **新导入的程序包**：必须先执行"机床配置 → 重置数据"。
 - **界面卡在空白页**：按左下角 **^**（RECALL）退出。
+- **自动对刀界面空白**：先点 **磨削参数**（HS1），再点 **自动对刀**（HS4），一般就能正常显示（`capture_set._shot_auto` 重试时已这样做）。
+- **键盘快捷键**（SinuTrain 手册，`hmi.SHORTCUTS` / `hmi.hotkey()`，经 vm_agent 的 send_keys 发送）：
+  - F1–F8 = 水平软键 1–8；Shift+F1–F8 = 垂直软键 1–8；F9 = RECALL（^）；Shift+F9 = ETC（>）
+  - F10 = MENU SELECT；Shift+F10 = MACHINE；F11 = CHANNEL；F12 = HELP；PgUp/PgDn = 翻页
+  - Enter = INPUT；Insert = INSERT；小键盘 5 = SELECT；Esc = ALARM CANCEL
+  - Ctrl+Alt+Shift+1 = JOG，3 = RESET，4 = CYCLE START，5 = CYCLE STOP，6 = MDA，7 = SINGLE BLOCK，8 = AUTO
+  - **Ctrl+Alt+Shift+2 = 关闭 SinuTrain 机床**，采图时不要发送
+  - 机床概览：Enter 启动所选机床，Del 删除，Ctrl+C 复制，Ctrl+T 创建用户模板
+- **SinuTrain 菜单**：机床 → 启动/关闭/重启/导入/导出；视图 → 划分为小窗口（拆分）/显示控制面板；工具 → 用户模板、HMI 附加语言。
 - **GUD 预设**：变量名不能用 `G0…`，会被 EasyScreen 拒绝；隐藏字段（位置 0,0,0）的写入不会生效。
 - **Creator 生成**：必须等它写完程序包、标记处理完毕再结束进程，`gen_package.py` 已经处理了这一点。
 - **与用户共用机器**：采图期间用户可以照常使用宿主机，但不能操作虚拟机，SinuTrain 也不能最小化。开始采图前先确认 VM 空闲。
