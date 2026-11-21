@@ -26,7 +26,7 @@ _book
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
 
 # Thumbnails
 ._*
@@ -237,3 +237,4 @@ tools/hlp_capture/__pycache__/
 
 # hlp_capture 原始截图
 tools/hlp_capture/raw/
+tools/hlp_capture/raw_old/
