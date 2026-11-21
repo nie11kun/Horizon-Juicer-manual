@@ -260,6 +260,60 @@ def def_ctr_auto():
     finish("ctr_u")
 
 
+def _auto_presets(presets):
+    """Use a small custom preset table (auto tool-setting mode values only; settings come from 重置数据)."""
+    gud_helper.PRESETS = presets
+
+
+def _shot_auto(key, name, tries=4):
+    from PIL import Image
+    for _ in range(tries):
+        preset(key)
+        hmi.hs(4, 4000)
+        p = S(name)
+        if len(set(Image.open(p).convert("L").crop((20, 80, 680, 520)).getdata())) > 20:
+            return
+    print("  WARNING blank page", name)
+
+
+def def_auto_int():
+    hole = [("TECHNOLOGY[159]", 1), ("TOOL_SET[23]", 0), ("TECHNOLOGY[129]", 0), ("TECHNOLOGY[128]", 0)]
+    mode = lambda m: [("TECHNOLOGY[159]", 1), ("TOOL_SET[23]", 0), ("TECHNOLOGY[129]", 1), ("TECHNOLOGY[128]", m)]
+    _auto_presets({
+        "VS1": ("反向孔", hole),
+        "VS2": ("腰形孔", [("TECHNOLOGY[159]", 1), ("TOOL_SET[23]", 1), ("TECHNOLOGY[129]", 0), ("TECHNOLOGY[128]", 0)]),
+        "VS3": ("内滚道", [("TECHNOLOGY[159]", 0), ("TOOL_SET[23]", 0), ("TECHNOLOGY[129]", 0), ("TECHNOLOGY[128]", 0)]),
+        "VS4": ("右端台阶", mode(1)),
+        "VS5": ("右端孔", mode(2)),
+        "VS6": ("外圆右端反", mode(3)),
+    })
+    prepare_default("int_xz")
+    for key, name in (("VS1", "auto_int"), ("VS2", "auto_int_slot"), ("VS3", "auto_int_groove"),
+                      ("VS4", "auto_int_step"), ("VS5", "auto_int_hole"), ("VS6", "auto_int_flat")):
+        _shot_auto(key, name)
+    preset("VS1")
+    finish("int_xz")
+
+
+def def_auto_ext():
+    _auto_presets({"VS1": ("默认", [("TECHNOLOGY[128]", 0)])})
+    prepare_default("ext_vw")
+    _shot_auto("VS1", "auto_ext")
+    finish("ext_vw")
+
+
+def def_auto_ctr():
+    _auto_presets({
+        "VS1": ("全部测量", [("TECHNOLOGY[159]", 1), ("TOOL_SET[23]", 0), ("TECHNOLOGY[129]", 0), ("TECHNOLOGY[128]", 0),
+                         ("TECHNOLOGY[176]", 1), ("INI[139]", 1), ("TOOL_SET[45]", 1)]),
+        "VS2": ("复位", [("INI[139]", 0), ("TOOL_SET[45]", 0)]),
+    })
+    prepare_default("ctr_u")
+    _shot_auto("VS1", "auto_center")
+    preset("VS2")
+    finish("ctr_u")
+
+
 def def_hyd():
     prepare_default("ext_hyd")
     preset("VS1")

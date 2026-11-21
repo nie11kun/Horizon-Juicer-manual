@@ -203,7 +203,14 @@ def emit_blocks(o, d, blocks, ids):
             o.w(d, '<table class="tableStyle" border="1" cellspacing="0" cellpadding="2" width="100%">')
             for i, row in enumerate(b["table"]):
                 tag = "th" if i == 0 else "td"
+                row = [str(c) for c in row]
+                cm = COND_LINE.match(row[0])          # "?ifIsA: cell" -> whole row only for that config
+                rmarks = cm.group(1).split(",") if cm else []
+                if cm:
+                    row[0] = cm.group(2)
+                open_marks(o, d + 1, rmarks)
                 o.w(d + 1, "<tr>" + "".join(f"<{tag}>{inline(c)}</{tag}>" for c in row) + "</tr>")
+                close_marks(o, d + 1, rmarks)
             o.w(d, "</table>")
         elif "alarm" in b:
             o.w(d, f'<div class="alarm1">{inline(b["alarm"])}')

@@ -49,6 +49,9 @@ LABEL_RULES = [
     ("a_shapecommon.com", r"齿高补偿", "section_6", "S6D33"),
     ("a_centerwaiyuan.com", r"磨削起点|磨削终点", "section_26", "S26D56"),
 ]
+# pages with no help on purpose: a_dressware Mask15 = 摆缸 (hydraulic swing dresser, an obsolete mode that
+# cannot be opened from the dressing screen)
+SKIP_MASKS = {("a_dressware.com", "Mask15")}
 SETTING_GROUPS = [("磨削相关", "S7D2"), ("修整相关", "S7D3"), ("对刀相关", "S7D4"),
                   ("磨削中心相关", "S7D5"), ("隐藏界面激活", "S7D6"), ("输入范围限制", "S7D7")]
 
@@ -139,8 +142,14 @@ def main():
         lines = text.split(nl)
         stack, group = [], None
         changed = False
+        mask = ""
         for k, line in enumerate(lines):
             s = line.strip()
+            mm = re.match(r"//M\((\w+)", s)
+            if mm:
+                mask = mm.group(1)
+            if (fn, mask) in SKIP_MASKS:
+                continue
             for mk in re.findall(r";\s*(ifIs[A-Za-z0-9]+?)(Begin|End)\b", s):
                 if not s.startswith("DEF"):
                     if mk[1] == "Begin":
