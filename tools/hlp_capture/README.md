@@ -47,6 +47,7 @@
    - `gen_package.py <配置>`：生成采图包（老版 828D 模式）。
    - `capture_set.py <配置>`：在 SinuTrain 里截图。
    - `install_images.py`：裁剪、加框、压缩，然后装入帮助目录。
+   - **最后用 `tinifier.bat <文件或目录>` 压缩新增或更新的图片**（用户自带的 TinyPNG 压缩脚本，在 PATH 中，直接命令行调用；目录会递归处理）。只传本次改动的文件，避免重复消耗额度。手册 `images/` 下新增或更新的截图同样处理。
 6. **自查**：运行 `audit_hlp.py`，必须输出 `ALL HLP AUDITS PASSED`。加 `--delete-orphans` 会删除没人引用的图片。
    - `check_config.py` 必须 `TOTAL 0`：配置标记与机床配置开关的说明是否齐全。
    - 再运行 `check_mapping.py`，必须输出 `TOTAL 0`。它逐个控件核对：帮助名称与界面标签、下拉选项是否都写进范围、修改权限、没有控件引用的参数条目，并严格扫描正文里的变量名。
