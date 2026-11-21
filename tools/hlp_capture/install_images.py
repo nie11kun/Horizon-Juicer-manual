@@ -21,14 +21,12 @@ UG = os.path.dirname(os.path.dirname(DST))
 
 ALIAS = {"setting_password": "_pw", "setting_list": "int_setting_p1"}
 MASKS = {"setting_password": [(600, 505, 700, 532)]}           # random challenge code
-FRAMES = {                                                     # (x0, y0, x1, y1)
-    "grind_main_ext": [(700, 128, 800, 545)],
-    "grind_main_int": [(0, 455, 360, 532), (440, 480, 700, 532)],
-    "dress_main_int": [(400, 140, 698, 308)],
+FRAMES = {                                                     # (x0, y0, x1, y1); every framed image needs a
+    "dress_main_int": [(400, 140, 698, 308)],                  # caption in hlp_src/<lang>/img_caps.yaml
     "dress_main_ext": [(400, 140, 698, 308)],
     "welcome_main": [(700, 42, 800, 545), (600, 552, 700, 600)],
-    "process_batch": [(15, 130, 690, 335)],
-    "center_select": [(700, 128, 800, 545)],
+    "process_batch": [(36, 128, 664, 350)],
+    "center_select": [(702, 163, 798, 487)],
 }
 RED = (230, 30, 30)
 

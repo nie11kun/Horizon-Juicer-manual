@@ -5,6 +5,7 @@ refs: |
 blocks:
   - h3: 环形槽磨削
     body:
+      - p: 需在机床配置中开启 **环形槽加工** 后才能使用
       - steps:
           - t: 在磨削界面将 [磨削类型](section_1.html#S1D31) 选为 **环形槽**，自动进入环形槽界面
             img: {src: grind_ring.png, h: 300}
@@ -23,6 +24,7 @@ blocks:
           - 对刀时同时调整 B 轴使铲背动作正确；按加工结果调整 [加工起始角.B](section_1.html#S1D42)
   - h3: 螺距变换
     body:
+      - p: 需在机床配置中开启 **螺距变换（单 或 多）** 后才能使用
       - steps:
           - t: 点击磨削界面右侧 **螺距变换**，打开 [变螺距](section_1.html#S1D60)
             img: {src: grind_pitch.png, h: 300}
@@ -34,6 +36,7 @@ blocks:
       - img: {src: grind_multipitch.png, h: 300}
   - h3: 反向孔倒角
     body:
+      - p: 需在机床配置中开启 **反向孔倒角** 后才能使用
       - steps:
           - t: 点击磨削界面右侧 **反向孔倒角**，打开倒角使能
             img: {src: grind_chamfer.png, h: 300}
@@ -42,6 +45,7 @@ blocks:
           - 磨削后检查倒角位置与深度，必要时用位置补偿和倒角终点补偿微调
   - h3: 变径磨削
     body:
+      - p: 需在机床配置中开启 **变径磨削** 后才能使用
       - steps:
           - t: 点击磨削界面右侧 **变径磨削**，打开变径磨削使能
             img: {src: grind_diachange.png, h: 300}
@@ -49,6 +53,7 @@ blocks:
           - 选择磨削模式：每刀螺纹+变径，或螺纹完成后单独磨变径段
   - h3: 分段补偿
     body:
+      - p: 需在机床配置中开启 **分段补偿中径/导程** 后才能使用
       - steps:
           - t: 点击磨削界面右侧 **分段补偿**，打开分段补偿使能并设置分段数
             img: {src: grind_segcomp.png, h: 300}
@@ -56,6 +61,7 @@ blocks:
           - 补偿在自动磨削中生效，手动对刀时不生效
   - h3: 空运行热机
     body:
+      - p: 需在机床配置中开启 **空运行热机** 后才能使用
       - steps:
           - t: 点击磨削界面右侧 **空运行**，打开空运行使能
             img: {src: grind_dryrun.png, h: 300}
@@ -64,6 +70,7 @@ blocks:
   - h3: 自磨夹具
     marks: [ifIsInternal]
     body:
+      - p: 需在机床配置中开启 **自磨夹具** 后才能使用
       - steps:
           - t: 点击磨削界面右侧 **自磨夹具**，打开自磨夹具
             img: {src: grind_fixture.png, h: 300}

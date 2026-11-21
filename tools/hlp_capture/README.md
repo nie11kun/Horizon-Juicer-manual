@@ -15,7 +15,12 @@
 - **格式保持西门子原样**：HTML/XML 结构和 `main.css` 里的 class 都不能改。由 `build_hlp.py` 负责输出：UTF-8 BOM、CRLF 换行；`user_guide.xml` 用 Tab 缩进。
 - **配置差异**：只能用 `Source_Library/ReplaceMarker.md` 里定义的标记，形式为 `<!--ifIsXxxBegin/End-->`。
 - **锚点**：原有锚点（如 `S1D1`）一律保留，新增参数在后面续号，避免已发出的程序包里的帮助链接失效。
-- **截图**：全部来自 SinuTrain 实机。可以按用途裁剪、加红框；挑战码之类的随机数据要遮掉。
+- **截图**：全部来自 SinuTrain 实机，挑战码之类的随机数据要遮掉。
+  - 总览界面（磨削、工艺、修整、齿形等）一律用**出厂默认状态**截图：最小配置程序包（`ext_min` / `int_min`）+“重置数据”+ GUD 预设“默认”，不开任何隐藏界面，齿形保持普通模式。
+  - 隐藏功能界面单独截图，且**只打开该功能自己的开关**（`gud_helper.py` 里每个功能一个预设）。
+  - 红框只在需要时加，且必须在 `hlp_src/chs/img_caps.yaml` 写说明，构建时自动输出在图下方；`audit_hlp.py` 会检查。
+- **隐藏功能要交代**：由机床配置开关控制显示的参数或界面，正文必须写“需在机床配置中开启 **xxx** 后显示”（`check_config.py` 会检查）。
+- **Creator 不处理的标记**：`ifIsHasA`、`ifIsHasLoadingArm`、`ifIsHasWorm` 在帮助页面里不会被删除；`ifIsHasReOperate` 只在外螺纹机型里处理。这些内容要写成条件句（“带 A 轴的机床…”），二次对刀相关内容要再套一层 `ifIsExternal`。
 - **"机床配置"界面**：在功能介绍章节里只说明它是配置管理界面、要访问需联系制造商，不展开细节。
 
 ## 2. 目录
@@ -43,9 +48,10 @@
    - `capture_set.py <配置>`：在 SinuTrain 里截图。
    - `install_images.py`：裁剪、加框、压缩，然后装入帮助目录。
 6. **自查**：运行 `audit_hlp.py`，必须输出 `ALL HLP AUDITS PASSED`。加 `--delete-orphans` 会删除没人引用的图片。
+   - `check_config.py` 必须 `TOTAL 0`：配置标记与机床配置开关的说明是否齐全。
    - 再运行 `check_mapping.py`，必须输出 `TOTAL 0`。它逐个控件核对：帮助名称与界面标签、下拉选项是否都写进范围、修改权限、没有控件引用的参数条目，并严格扫描正文里的变量名。
 7. **实机核对**：
-   - 用多种配置生成程序包，检查 Creator 处理后的帮助内容。
+   - `gen_package.py all` 生成全部配置的程序包，再运行 `verify_package.py`：确认没有该机型不具备的功能内容残留（ERROR 必须为 0）。
    - 在 SinuTrain 里选中一个参数按 **HELP**，确认跳转到正确的说明。
 8. **恢复环境**：导回基线程序包 `SKR7620B(#02-Latest20261119)`。
 9. **提交**：Horizon-Juicer 在 `niekun` 分支按阶段提交；本仓库提交但不推送，除非明确要求。
@@ -60,6 +66,8 @@
 | `build_hlp.py` | YAML → HTML / 目录 |
 | `link_help.py` | 自动挂接 / 修复 `.com` 帮助链接 |
 | `audit_hlp.py` | 链接、标记、图片、变量泄露自查 |
+| `check_config.py` | 配置标记与“机床配置开关”说明检查 |
+| `verify_package.py` | 检查各配置 Creator 生成包里的帮助是否残留不具备的功能 |
 | `check_mapping.py` | 帮助与界面逐项对应检查（标签、选项、权限、未引用条目、内部名称） |
 | `html2yaml.py` | 把旧帮助页一次性导入为 YAML |
 | `gen_package.py` | 调用 HorizonJuicerCreator 生成采图包（窗口在屏幕外后台运行，自动备份并还原 `~/HorizonJuicerCreator.json`） |

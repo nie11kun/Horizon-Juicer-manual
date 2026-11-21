@@ -409,9 +409,6 @@ blocks:
   marks:
   - ifIsVH
   body:
-  - img:
-      src: roller_hyd.png
-      h: 300
   - params:
     - id: S4D22
       name: 液压左接触 / 液压右接触

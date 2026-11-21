@@ -152,6 +152,75 @@ def ctr_u():
     hmi.hs(4, 1800); S("auto_center")
 
 
+# ---------------------------------------------------------------------------------------------------------
+# Default-state captures (2026-11 rework): overview pages show the machine exactly as delivered (every hidden
+# screen off, shape modes normal); each optional screen is captured with ONLY its own switch on.
+# The GUD helper stays loaded (a_info.com is never captured) and is removed by finish().
+
+def prepare_default(cfg):
+    pkg = PKG[cfg]
+    hmi.import_package(pkg)
+    to_welcome()
+    if not unlock_setting.unlock():
+        raise SystemExit("unlock failed")
+    hmi.vs(3, 1500)          # 重置数据 -> factory defaults of every 机床配置 item
+    hmi.vs(8, 4000)
+    to_welcome()
+    gud_helper.build()
+    hmi.import_package(gud_helper.PKG)
+    to_welcome()
+
+
+def preset(key):
+    to_welcome()
+    gud_helper.press(key)
+    to_welcome()
+    hmi.welcome_main_menu()
+    hmi.hs(7, 1800)          # 用户界面 -> 磨削参数
+
+
+def finish(cfg):
+    hmi.import_package(PKG[cfg])   # restores the real a_info.com
+    to_welcome()
+
+
+def def_ext():
+    prepare_default("ext_min")
+    preset("VS1")
+    S("grind_main_ext")
+    hmi.hs(2, 1800); S("process_batch")
+    hmi.hs(3, 1800); S("dress_main_ext")
+    preset("VS2"); hmi.hs(2, 1800); S("process_ext")
+    preset("HS4"); hmi.hs(2, 1800); hmi.vs(4, 1500); S("process_addon")
+    preset("HS5"); hmi.hs(2, 1800); hmi.vs(5, 1500); S("process_yaxis")
+    for key, vs, name in (("VS3", 3, "grind_dryrun"), ("VS4", 4, "grind_segcomp"), ("VS5", 5, "grind_pitch"),
+                          ("VS6", 5, "grind_multipitch"), ("VS7", 7, "grind_chamfer"), ("HS1", 8, "grind_diachange")):
+        preset(key); hmi.vs(vs, 1500); S(name)
+    preset("HS2"); com_sel(250, 60, 1); S("grind_ring"); com_sel(490, 10, 0)
+    preset("HS6"); hmi.hs(3, 1800); hmi.vs(8, 1200); hmi.vs(1, 1500); S("shape_planet")
+    preset("VS1")
+    finish("ext_min")
+
+
+def def_tap():
+    prepare_default("ext_tap")
+    preset("VS1")
+    com_sel(115, 60, 1); S("grind_tap"); com_sel(115, 60, 0)
+    finish("ext_tap")
+
+
+def def_int():
+    prepare_default("int_min")
+    preset("VS1")
+    S("grind_main_int")
+    hmi.hs(3, 1800); S("dress_main_int")
+    for vs, name in ((1, "shape_tri_int"), (2, "shape_trap_int"), (3, "shape_arc_int")):
+        hmi.vs(vs, 1500); S(name); hmi.hs(3, 1500)
+    preset("HS3"); hmi.vs(6, 1500); S("grind_fixture")
+    preset("VS1")
+    finish("int_min")
+
+
 if __name__ == "__main__":
     for name in sys.argv[1:]:
         t0 = time.time()

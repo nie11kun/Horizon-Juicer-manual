@@ -3,6 +3,7 @@ head1: HMI界面参数定义
 blocks:
 - h3: 参数备份恢复界面
   body:
+  - p: 需在机床配置中开启 **参数备份恢复** 后，欢迎页右侧才显示 **备份恢复** 软键
   - img:
       src: backup_restore.png
       h: 300

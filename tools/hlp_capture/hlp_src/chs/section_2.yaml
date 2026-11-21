@@ -90,7 +90,7 @@ blocks:
 
         非恒转速模式下输入线速度，界面按当前砂轮直径自动换算砂轮转速：转速 = 线速度 × 60000 / (π × 砂轮直径)
 
-        恒转速模式下此值只读，由砂轮转速反算
+        机床配置开启 **恒转速模式** 后此值只读，由输入的砂轮转速反算
 
         '
     - id: S2D8
@@ -259,6 +259,8 @@ blocks:
       var: WHEEL_LINESPEED_DRESS[24]~WHEEL_LINESPEED_DRESS[27]（批量）/ WHEEL_LINESPEED_DRESS[34]~WHEEL_LINESPEED_DRESS[37]（单件）；转速 TECHNOLOGY[75]~TECHNOLOGY[78] / TECHNOLOGY[25]~TECHNOLOGY[28]
       ac: 4
       text: '该工序修整时砂轮线速度（m/s），修整砂轮转速按当前砂轮直径自动换算并只读显示
+
+        机床配置开启 **恒转速模式** 后改为直接输入修整砂轮转速，线速度只读显示
 
         '
 - h3: 三线测量与压力显示

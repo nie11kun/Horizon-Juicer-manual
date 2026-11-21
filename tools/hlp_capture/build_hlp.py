@@ -91,11 +91,18 @@ def text_lines(o, d, text):
             o.w(d, inline(raw) + "<br>")
 
 
+IMG_CAPS = {}   # captions for annotated (red-framed) screenshots: hlp_src/<lang>/img_caps.yaml
+
+
 def img_tag(img):
     if isinstance(img, str):
         img = {"src": img}
     h = img.get("h", 300)
-    return f'<img src="resources/img/{img["src"]}" height="{h}">'
+    tag = f'<img src="resources/img/{img["src"]}" height="{h}">'
+    cap = img.get("cap") or IMG_CAPS.get(img["src"])
+    if cap:   # explain what the red frame marks, directly under the picture
+        tag += f'<br><span class="parameterExplain">{inline(cap)}</span>'
+    return tag
 
 
 def nc_of(var):
@@ -190,8 +197,6 @@ def emit_blocks(o, d, blocks, ids):
             o.w(d, "</p>")
         elif "img" in b:
             o.w(d, f"{img_tag(b['img'])}<br>")
-            if isinstance(b["img"], dict) and b["img"].get("cap"):
-                o.w(d, f'<p class="parameterExplain">{inline(b["img"]["cap"])}</p>')
         elif "steps" in b:
             emit_steps(o, d, b["steps"], ids)
         elif "table" in b:
@@ -302,9 +307,12 @@ def main():
     a = ap.parse_args()
     sdir = os.path.join(SRC, a.lng)
     ddir = os.path.join(DST, a.lng, "UserGuide")
+    capp = os.path.join(sdir, "img_caps.yaml")
+    if os.path.exists(capp):
+        IMG_CAPS.update(yaml.safe_load(open(capp, encoding="utf-8")) or {})
     all_ids = {}
     for fn in sorted(os.listdir(sdir)):
-        if not fn.endswith(".yaml") or fn == "toc.yaml":
+        if not fn.startswith("section_") or not fn.endswith(".yaml"):
             continue
         name = fn[:-5]
         if a.only and name != a.only:

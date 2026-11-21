@@ -14,6 +14,8 @@ import glob
 import os
 import re
 
+HERE = os.path.dirname(os.path.abspath(__file__))
+
 import inventory
 
 SL = os.path.join(inventory.ROOT, "Source_Library")
@@ -71,6 +73,13 @@ def main():
         body = re.sub(r"<[^>]+>", " ", body)
         for leak in re.findall(r"\b(?:INI|TECHNOLOGY|PROCESS|DRESSER|TOOL_SET|SHAPE_MODEL|GRIND|RING|WORK|WHEEL|SCREW_TAP|SERVICE_LIFE)\[\d+\]|HMI ?= ?NC|NC 程序中为", body):
             errors.append(f"[leak] {f}: {leak}")
+    # every red-framed screenshot must explain its frame (caption printed under the picture)
+    import install_images
+    import yaml
+    caps = yaml.safe_load(open(os.path.join(HERE, "hlp_src", "chs", "img_caps.yaml"), encoding="utf-8")) or {}
+    for name in install_images.FRAMES:
+        if name + ".png" in used_imgs and name + ".png" not in caps:
+            errors.append(f"[frame] {name}.png has red frames but no caption in img_caps.yaml")
     orphans = sorted(set(os.listdir(IMG)) - used_imgs)
     print(f"images referenced: {len(used_imgs)}, orphans: {len(orphans)}")
     if a.delete_orphans:

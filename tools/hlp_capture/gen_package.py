@@ -58,6 +58,10 @@ CONFIGS = {
     "int_xback": ("HLPINT2", "内螺纹磨床", {"machineType": 1, "wareType": 3,
                                           "ifOperation": 0, "measureMethord": 0, "probePos": 1}),
     "int_uw": ("HLPINT3", "内螺纹磨床", {"machineType": 1, "wareType": 6, "wheelType": 1}),
+    # minimal (factory-default) machines: no optional functions -> used for overview screenshots
+    "ext_min": ("HLPEXT6", "外螺纹磨床", {"machineType": 0, "wareType": 0, "wheelType": 0}),
+    "int_min": ("HLPINT4", "内螺纹磨床", {"machineType": 1, "wareType": 2, "wheelType": 0}),
+    "ext_tap": ("HLPEXT7", "外螺纹磨床", {"machineType": 0, "wareType": 0, "wheelType": 0, "ifHasScrewTap": 0}),
     # internal grinding centers
     "ctr_u": ("HLPCTR1", "内螺纹磨削中心", {"machineType": 1, "wareType": 2, "ifCenter": 0, "ifHasU": 0,
                                          "ifOperation": 0, "measureMethord": 1, "ifHasLoadingArm": 1}),
