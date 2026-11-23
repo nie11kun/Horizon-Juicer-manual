@@ -1,13 +1,13 @@
 # 10.4 全量全局变量与 R 参数索引表
 
-本节汇集 `MGUD.DEF` 全部 60 条自定义全局变量声明、`Parameter_Index.md` 全部 30 个分类共 1,553 条变量明细（对应 `Parameter_Index.md` 全部 1,561 个非空表格行中的 8 个子分组标题与 1,553 个独立条目），以及 `Parameter_Index.md` 未展开的 22 项系统/备份统计变量。
+本节汇集 `MGUD.DEF` 全部 60 条自定义全局变量声明、`Parameter_Index.md` 全部 30 个分类共 1,554 条变量明细（对应 `Parameter_Index.md` 全部 1,561 个非空表格行中的 8 个子分组标题与 1,554 个独立条目），以及 `Parameter_Index.md` 未展开的 22 项系统/备份统计变量。
 
 > **0-based（NC）与 1-based（HMI ACX）下标偏移铁律**：<br>• `.SPF` / `.MPF` 子程序、`MGUD.DEF` 与 `Parameter_Index.md` 使用 **0-based** 下标（例如 `DRESSER[0]`、`INI[36]`）；<br>• EasyScreen `.com` 界面脚本（`/NC/_N_NC_GD2_ACX/...`）使用 **1-based** 下标（**HMI 下标 = NC 下标 + 1**，例如 `DRESSER[1]`、`INI[37]`）；<br>• `MGUD.DEF` 自定义变量名超过 60 个，激活前必须确保通用机床数据 **`MD18120 >= 70`**。若将早期 `TECHNOLOGY[420]` 控制器升级至 `TECHNOLOGY[500]` 新版 `MGUD.DEF`，激活前务必先备份原 GUD 数据，激活后执行 `VS3 重置数据` 并恢复业务参数。
 
 ### 快速分类导航目录
 
 - [1. `MGUD.DEF` 全局变量声明总表（60 项）](#mgud-def-list)
-- **2. `Parameter_Index.md` 全量明细（30 类 / 1,553 项）**：[PLC_NC交换变量（33 项）](#pi-sec-1) · [与桁架机器人交互相关的信号（13 项）](#pi-sec-2) · [快速输入输出信号（8 项）](#pi-sec-3) · [自动测量信号（6 项）](#pi-sec-4) · [修整主参数(DRESSER)（146 项）](#pi-sec-5) · [初始化参数(INI)（163 项）](#pi-sec-6) · [对刀(TOOL_SET)（70 项）](#pi-sec-7) · [滚轮参数(WHEEL)（20 项）](#pi-sec-8) · [磨削参数(GRIND)（10 项）](#pi-sec-9) · [工序基本参数（130 项）](#pi-sec-10) · [工艺表格参数（432 项）](#pi-sec-11) · [DIY参数（14 项）](#pi-sec-12) · [工件头数参数（8 项）](#pi-sec-13) · [当前磨削次数参数（10 项）](#pi-sec-14) · [修整进给量参数（29 项）](#pi-sec-15) · [修整速度参数（29 项）](#pi-sec-16) · [修整轮线速度参数（35 项）](#pi-sec-17) · [磨削修整次数参数（29 项）](#pi-sec-18) · [R参数使用情况（7 项）](#pi-sec-19) · [内螺纹反相孔倒角参数（28 项）](#pi-sec-20) · [内螺纹夹具自磨R参数版程序参数（22 项）](#pi-sec-21) · [蜗杆用R参数（23 项）](#pi-sec-22) · [通用齿形模型变量（78 项）](#pi-sec-23) · [SHAPE MODEL（136 项）](#pi-sec-24) · [RING GROOVE（31 项）](#pi-sec-25) · [SCREW TAP（19 项）](#pi-sec-26) · [SERVICE_LIFE（15 项）](#pi-sec-27) · [SERVICE_LIFE_TXT（7 项）](#pi-sec-28) · [DRESS_WHEEL_NUM（1 项）](#pi-sec-29) · [DRESS_WHEEL_DATE（1 项）](#pi-sec-30)
+- **2. `Parameter_Index.md` 全量明细（30 类 / 1,554 项）**：[PLC_NC交换变量（33 项）](#pi-sec-1) · [与桁架机器人交互相关的信号（13 项）](#pi-sec-2) · [快速输入输出信号（8 项）](#pi-sec-3) · [自动测量信号（6 项）](#pi-sec-4) · [修整主参数(DRESSER)（146 项）](#pi-sec-5) · [初始化参数(INI)（163 项）](#pi-sec-6) · [对刀(TOOL_SET)（70 项）](#pi-sec-7) · [滚轮参数(WHEEL)（20 项）](#pi-sec-8) · [磨削参数(GRIND)（10 项）](#pi-sec-9) · [工序基本参数（130 项）](#pi-sec-10) · [工艺表格参数（433 项）](#pi-sec-11) · [DIY参数（14 项）](#pi-sec-12) · [工件头数参数（8 项）](#pi-sec-13) · [当前磨削次数参数（10 项）](#pi-sec-14) · [修整进给量参数（29 项）](#pi-sec-15) · [修整速度参数（29 项）](#pi-sec-16) · [修整轮线速度参数（35 项）](#pi-sec-17) · [磨削修整次数参数（29 项）](#pi-sec-18) · [R参数使用情况（7 项）](#pi-sec-19) · [内螺纹反相孔倒角参数（28 项）](#pi-sec-20) · [内螺纹夹具自磨R参数版程序参数（22 项）](#pi-sec-21) · [蜗杆用R参数（23 项）](#pi-sec-22) · [通用齿形模型变量（78 项）](#pi-sec-23) · [SHAPE MODEL（136 项）](#pi-sec-24) · [RING GROOVE（31 项）](#pi-sec-25) · [SCREW TAP（19 项）](#pi-sec-26) · [SERVICE_LIFE（15 项）](#pi-sec-27) · [SERVICE_LIFE_TXT（7 项）](#pi-sec-28) · [DRESS_WHEEL_NUM（1 项）](#pi-sec-29) · [DRESS_WHEEL_DATE（1 项）](#pi-sec-30)
 - [3. `MGUD.DEF` 补充系统与备份变量表（22 项）](#mgud-extra-vars)
 
 <a id="mgud-def-list"></a>
@@ -77,7 +77,7 @@
 | `DRESS_WHEEL_NUM[100]` | `STRING[30]` | NC `DRESS_WHEEL_NUM[0]`～`DRESS_WHEEL_NUM[99]`<br>HMI `DRESS_WHEEL_NUM[1]`～`DRESS_WHEEL_NUM[100]` | 100 组金刚石滚轮编号档案数组 |
 | `DRESS_WHEEL_DATE[100]` | `STRING[30]` | NC `DRESS_WHEEL_DATE[0]`～`DRESS_WHEEL_DATE[99]`<br>HMI `DRESS_WHEEL_DATE[1]`～`DRESS_WHEEL_DATE[100]` | 100 组金刚石滚轮上线启用日期档案数组 |
 
-## 2. `Parameter_Index.md` 全量变量明细表（30 类 / 1,553 项）
+## 2. `Parameter_Index.md` 全量变量明细表（30 类 / 1,554 项）
 
 <a id="pi-sec-1"></a>
 
@@ -755,7 +755,7 @@
 
 <a id="pi-sec-11"></a>
 
-### 2.11 工艺表格参数（432 项）
+### 2.11 工艺表格参数（433 项）
 
 | NC 变量（0-based） | HMI 引用（1-based） | 变量含义 | 备注 |
 | :--- | :--- | :--- | :--- |
@@ -1191,6 +1191,7 @@
 | `TECHNOLOGY[429]` | `TECHNOLOGY[430]` | 多螺距变换-螺距变换值-螺距4 | — |
 | `TECHNOLOGY[430]` | `TECHNOLOGY[431]` | 多螺距变换-螺距变换值-螺距5 | — |
 | `TECHNOLOGY[431]` | `TECHNOLOGY[432]` | 是否显示平面修修整 | — |
+| `TECHNOLOGY[432]` | `TECHNOLOGY[433]` | 自动对刀-测量外圆直线及右端面内壁-是否跳过测量外圆面(0否1是) | — |
 
 <a id="pi-sec-12"></a>
 

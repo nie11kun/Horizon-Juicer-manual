@@ -411,10 +411,25 @@ blocks:
 
         3. The measured face position (minus Compensation) plus **Inner track distance from end** is converted to the angle from the wheel to the raceway start, giving the start angle
 
+        With **Skip Ext Meas** switched on, step 1 is left out: the headstock turns from Outer circular leveling.C directly by End reverse angle.C, and 0° is used as angle reference
+
         If the flat or the end face is not found the machine stops with "Measuring error, no probe signal!"
 
         '
     - params:
+      - id: S5D46
+        name: Skip Ext Meas (skip outer flat measurement)
+        rec: OFF (when the part has a flat)
+        range: OFF/ON
+        var: TECHNOLOGY[433]
+        ac: 4
+        text: '**OFF** (default): the flat on the outer diameter is measured first for the angle, then the end face of the right return piece, as described above
+
+          **ON**: the flat is not measured and Outer circular leveling.C / .Z / .X are hidden on the screen; the headstock stays at the Outer circular leveling.C set before and turns further by **End reverse angle.C**, and the probe goes directly to the end reverse position to touch the end face. The start angle uses 0° as angle reference and is calculated only from the measured end face position
+
+          Use it for parts without a flat, or when the fixture locates every part at the same angle; before switching on make sure that Outer circular leveling.C plus End reverse angle.C lets the probe reach the end reverse position. Correct any offset of the ground part with **Compensation**
+
+          '
       - id: S5D43
         name: Outer circular leveling.C / .Z / .X
         range: none
@@ -423,6 +438,8 @@ blocks:
         text: 'Measuring position of the probe on the flat of the outer diameter: the headstock first turns to Outer circular leveling.C, the probe moves to .Z and .X (close to the flat), and C turns forward and backward to find both sides of the flat
 
           Move the probe by hand to the middle of the flat, at the position where the signal just appears, and record the Z and X coordinates
+
+          When **Skip Ext Meas** is on these three fields are hidden; .Z and .X are no longer used, .C is still the start angle of the headstock
 
           '
       - id: S5D44
