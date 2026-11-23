@@ -14,7 +14,7 @@ blocks:
   - h3: New wheel dressing
     body:
       - steps:
-          - t: "?ifIsCenter: Grinding center: light **Start** (internal thread) on the right of the **main** (process selection) screen so that the internal grinding wheel is dressed"
+          - t: "?ifIsCenter: Grinding center: light **Int Thread** on the right of the **main** (process selection) screen so that the internal grinding wheel is dressed"
             marks: [ifIsCenter]
           - t: After mounting the new wheel, click **dress** at the bottom of the screen to open the dressing screen
             img: {src: dress_main_int.png, h: 300}

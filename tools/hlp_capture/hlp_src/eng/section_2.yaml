@@ -169,15 +169,15 @@ blocks:
 
         '
     - id: S2D12
-      name: dressing mode (Cycle / Screw)
-      range: Cycle / Screw
+      name: dressing mode (Cycle / Starts)
+      range: Cycle / Starts
       var: WORK[6]
       ac: 4
       text: 'How dressing during grinding is counted for multi-start threads (must be enabled in the machine configuration)
 
         **Cycle**: one count after all starts have been ground
 
-        **Screw**: one count after each start, so the wheel is dressed more often
+        **Starts**: one count after each start, so the wheel is dressed more often
 
         '
     - id: S2D13
@@ -280,12 +280,10 @@ blocks:
 
         '
     - id: S2D20
-      name: headstock pressure / system pressure (头架压力 / 系统压力)
+      name: Headstock Press. / System Press.
       range: read-only
       readonly: true
-      text: 'On the screen these two labels are shown in Chinese: 头架压力 = headstock pressure, 系统压力 = system pressure
-
-        Shown after the pressure display is enabled in the machine configuration; shows the headstock and hydraulic system pressure in real time to monitor clamping
+      text: 'Shown after the pressure display is enabled in the machine configuration; shows the headstock and hydraulic system pressure in real time to monitor clamping
 
         '
 - h3: Addon settings screen

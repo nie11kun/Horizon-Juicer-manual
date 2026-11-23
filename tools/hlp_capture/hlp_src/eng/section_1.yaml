@@ -49,7 +49,7 @@ blocks:
 
         '
     - id: S1D9
-      name: Start (number of thread starts)
+      name: Starts (number of thread starts)
       range: 1~100
       var: WORK[1]
       ac: 4

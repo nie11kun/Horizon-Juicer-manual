@@ -7,11 +7,11 @@ blocks:
   - h3: Manual tool setting
     body:
       - steps:
-          - "?ifIsCenter: Grinding center: light **Start** (internal thread) on the right of the main (process selection) screen"
-          - t: "Open the grinding screen and set the basic workpiece data: [Pitch](section_1.html#S1D4), [Handedness](section_1.html#S1D8), [Start](section_1.html#S1D9) (number of starts), [Taper](section_1.html#S1D16), [Helix Angle](section_1.html#S1D20)"
+          - "?ifIsCenter: Grinding center: light **Int Thread** on the right of the main (process selection) screen"
+          - t: "Open the grinding screen and set the basic workpiece data: [Pitch](section_1.html#S1D4), [Handedness](section_1.html#S1D8), [Starts](section_1.html#S1D9), [Taper](section_1.html#S1D16), [Helix Angle](section_1.html#S1D20)"
             img: {src: grind_main_int.png, h: 300}
             marks: [ifIsInternal]
-          - t: "Open the grinding screen and set the basic workpiece data: [Pitch](section_1.html#S1D4), [Handedness](section_1.html#S1D8), [Start](section_1.html#S1D9) (number of starts), [Taper](section_1.html#S1D16), [Helix Angle](section_1.html#S1D20)"
+          - t: "Open the grinding screen and set the basic workpiece data: [Pitch](section_1.html#S1D4), [Handedness](section_1.html#S1D8), [Starts](section_1.html#S1D9), [Taper](section_1.html#S1D16), [Helix Angle](section_1.html#S1D20)"
             img: {src: grind_main_ext.png, h: 300}
             marks: [ifIsExternal]
           - "?ifIsInternal: Set [Work Center.X](section_1.html#S1D28): the wheel enters and leaves the bore here, so set it accurately with the measuring method"
@@ -67,10 +67,10 @@ blocks:
           - ["?ifIsExternal: it is to far from measuring head to workpiece!", "No flank detected within 300° forward and backward: check the coincidence position, whether the device is fully extended and whether the part is mounted"]
           - ["?ifIsExternal: Probe back error,check needed", "The switch sits on a crest and has not left it after 3 forward steps of 5°: check switch position and workpiece"]
           - ["?ifIsInternal: Error in setting to measuring pisition!", "Inner raceway: no flank found on either side along Z; check that the measuring position Z is inside the groove and measure pos.X goes beyond the bore wall"]
-          - ["?ifIsInternal: 测量失败, 请检查测量位置设置是否合适 (shown in Chinese: measurement failed, check the measuring position settings)", "Inner raceway: the switch hits a crest repeatedly (after 5 shifts): check that the measuring position Z is aligned with the thread groove"]
+          - ["?ifIsInternal: Measuring failed, check measuring position settings!", "Inner raceway: the switch hits a crest repeatedly (after 5 shifts): check that the measuring position Z is aligned with the thread groove"]
           - ["?ifIsInternal: Error in setting to outer diameter, check again!", "The probe does not find the right face, hole wall or step at the expected position: check work Dia, ball in center.X, ball R and hole Pos.Z"]
           - ["?ifIsInternal: Measuring Head can not move into hole, check parameters!", "The probe cannot enter the reverse hole or right face hole: check hole Pos.Z, hole Ang.C and hole Compensation; switch on Hole Pos Meas if necessary"]
-          - ["?ifIsInternal: 测量错误,测头未检测到信号 (shown in Chinese: measuring error, no probe signal)", "Outer face right end reverse: the flat or the end face of the right return piece is not found; check the leveling and end reverse positions"]
+          - ["?ifIsInternal: Measuring error, no probe signal!", "Outer face right end reverse: the flat or the end face of the right return piece is not found; check the leveling and end reverse positions"]
           - ["?ifIsInternal: Error in position of right side, check if workpiece is not setup correctly", "The measured right face deviates from right side base.Z by more than the threshold: check clamping, or measure again and change the setting"]
           - ["?ifIsCenter: Error in position of lift side, check if workpiece is not setup correctly", "The measured left face deviates from Left set.Z by more than the threshold: check clamping, or measure again and change the setting"]
           - ["?ifIsCenter: Length of workpiece going to wrong!", "Left side measurement does not find the left face along Z: check work surf length, left Height and side meas Ang.C"]

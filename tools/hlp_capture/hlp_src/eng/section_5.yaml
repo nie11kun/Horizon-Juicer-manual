@@ -188,7 +188,7 @@ blocks:
 
         '
     - id: S5D7
-      name: measuring position Z (Meas Init Pos.Z on screen)
+      name: Meas Pos.Z (measuring position Z)
       rec: switch inside the first thread groove
       range: none
       unit: mm
@@ -411,7 +411,7 @@ blocks:
 
         3. The measured face position (minus Compensation) plus **Inner track distance from end** is converted to the angle from the wheel to the raceway start, giving the start angle
 
-        If the flat or the end face is not found the machine stops with "测量错误,测头未检测到信号" (measuring error, no probe signal; this message is shown in Chinese)
+        If the flat or the end face is not found the machine stops with "Measuring error, no probe signal!"
 
         '
     - params:

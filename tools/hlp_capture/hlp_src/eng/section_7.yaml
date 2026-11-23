@@ -20,7 +20,7 @@ blocks:
       ac: 3
       text: 'Click the third softkey on the right; a 6-digit challenge code is shown in the lower right corner. Give the challenge code to the manufacturer, enter the unlock password received into this field and press INPUT
 
-        Every click of the softkey shows a new challenge code; a wrong password gives a message
+        Every click of the softkey shows a new challenge code; a wrong password shows "Wrong password" in red
 
         '
 - h3: Configuration list

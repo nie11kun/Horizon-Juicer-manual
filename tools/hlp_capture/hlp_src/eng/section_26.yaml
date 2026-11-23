@@ -416,12 +416,12 @@ blocks:
     - id: S26D42
       name: Grind Pos Choice (initial contact mode)
       rec: none
-      range: 'Stair 1: Ext Curr / Ext Init; Stair 2: Stair 1 init / Stair 1 curr'
+      range: 'Stair 1: Ext Curr / Ext Init; Stair 2: Stair 1 curr / Stair 1 init'
       text: 'Decides where the initial contact position of the step face comes from when grinding a step
 
         Stair 1 page: **Ext Curr** (default) uses the current contact after external cylinder grinding as initial contact of step 1; if the cylinder is not fully ground to size select **Ext Init** to start from the external initial contact
 
-        Stair 2 page: by default the current contact after grinding step 1 is used; if step 1 is not fully ground to size, select the initial contact of step 1. Note: in the English screen the two options are labelled the other way round — **Stair 1 init** means the current contact of step 1 (default), **Stair 1 curr** means the initial contact of step 1
+        Stair 2 page: **Stair 1 curr** (default) uses the current contact after grinding step 1; if step 1 is not fully ground to size select **Stair 1 init** to start from the initial contact of step 1
 
         '
     - id: S26D43

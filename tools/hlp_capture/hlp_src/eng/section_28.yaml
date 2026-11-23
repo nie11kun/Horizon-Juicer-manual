@@ -8,7 +8,7 @@ blocks:
       h: 300
   - note: 'The grinding center can grind the external cylinder, left/right end faces, external steps and the internal thread one after another in one clamping. This page summarises machining mode, grinding amounts and contact positions of each operation
 
-      The softkeys **External / Left Face / Right Face / Stair / Start** on the right select the operations included in this run when lit; click again to deselect. Note: in the English screen the internal thread softkey is labelled **Start**
+      The softkeys **External / Left Face / Right Face / Stair / Int Thread** on the right select the operations included in this run when lit; click again to deselect.
 
       ?ifIsHasLoadingArm: On machines with a loading robot, **Auto Pair** lit on the right uses the robot for automatic loading and unloading, and **Test** lit runs the robot sequence without parts for testing
 
@@ -26,7 +26,7 @@ blocks:
 
         '
     - id: S28D6
-      name: operation selected indicators (External / Right Face / Left Face / Stair / Start)
+      name: operation selected indicators (External / Right Face / Left Face / Stair / Int Thread)
       range: read-only
       readonly: true
       var: PROCESS[44]、PROCESS[46]、PROCESS[45]、PROCESS[95]、PROCESS[42]
