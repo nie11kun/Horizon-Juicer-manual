@@ -1,0 +1,40 @@
+title: External Cylinder and End Face Dressing
+head1: Machine Functions
+refs: |
+  For the parameters see [External Cylinder Parameters](section_26.html) and [End Face Parameters](section_27.html)
+  For dressing the internal thread wheel see [Wheel Dressing](section_10.html)
+blocks:
+  - h3: External wheel dressing
+    body:
+      - steps:
+          - t: Open **external** and click **Dress** on the right
+            img: {src: center_od_dress.png, h: 300}
+          - "New wheel: set the wheel status to **New W.**"
+          - Set passes, infeed and speed for rough and fine dressing (the speed is the horizontal speed of the diamond)
+          - "Hydraulic dresser: extend the dresser by hand and check that the diamond is fully extended"
+          - Move the diamond by hand to the left edge of the external wheel and record the Z coordinate as **start Pos.Z** (dressing start point)
+          - Move the diamond by hand to the right edge of the external wheel and record the Z coordinate as **end Pos.Z** (dressing end point)
+          - "?ifIsHasU: Let the diamond touch the highest point of the wheel lightly at the dressing start point and set the U coordinate as **Init Touch** (initial dressing contact)"
+          - "?ifIsNotHasU: Let the diamond touch the highest point of the wheel lightly at the dressing start point and set the X coordinate as **Init Touch** (initial dressing contact)"
+          - Set the new wheel diameter and other parameters from measurement
+          - Return to the main (process selection) screen and light only **External** on the right
+          - Light the **Dressing** key and press CYCLE START
+      - note: |
+          Used wheel dressing: set the rough and fine passes, light the dressing key and start
+          Dressing during grinding uses only the fine passes
+          If dressing does not start, check whether the dressing start/end points are suitable and whether the diamond extension detection works
+  - h3: End face wheel dressing
+    body:
+      - steps:
+          - t: Open **side face** and click **Dress** on the right
+            img: {src: center_face_dress.png, h: 300}
+          - "New wheel: set the wheel status to **New W.** and set the rough and fine dressing parameters"
+          - Extend the hydraulic dresser by hand and check that it is in position
+          - "?ifIsHasU: Align the diamond with the front and rear edge of the face wheel and record the U coordinates as dressing start and end point"
+          - "?ifIsNotHasU: Align the diamond with the front and rear edge of the face wheel and record the X coordinates as dressing start and end point"
+          - Let the diamond touch the face of the wheel lightly and set the Z coordinate as **Init Touch.Z** (initial dressing contact)
+          - Return to the main (process selection) screen and light only **Left Face** or **Right Face** on the right
+          - Light the **Dressing** key and press CYCLE START
+      - note: |
+          After changing a wheel the dressing positions must always be calibrated again
+          Each dressing of the external wheel moves the external grinding start and end points accordingly; dressing start/end points that become unsuitable because of this are also adjusted automatically

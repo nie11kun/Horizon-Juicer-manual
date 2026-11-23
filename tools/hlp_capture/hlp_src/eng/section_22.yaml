@@ -1,0 +1,33 @@
+title: External Cylinder and End Face Tool Setting
+head1: Machine Functions
+refs: |
+  For the parameters see [External Cylinder Parameters](section_26.html), [End Face Parameters](section_27.html) and [Automatic Tool Setting Screen](section_5.html)
+blocks:
+  - h3: External cylinder manual tool setting
+    body:
+      - steps:
+          - Clamp the workpiece and check that its run-out is within the permitted range
+          - Move the machine by hand so that the external wheel is close to the workpiece outer diameter (gap about 0.05 mm)
+          - "?ifIsHasU: Record the current U coordinate as **Init Touch** (external initial grinding contact) on the external parameter screen"
+          - "?ifIsNotHasU: Record the current X coordinate as **Init Touch** (external initial grinding contact) on the external parameter screen"
+      - note: |
+          Leave a gap of about 0.05 mm between the initial grinding contact and the real contact point
+  - h3: End face manual tool setting
+    body:
+      - steps:
+          - Clamp the workpiece and check that its run-out is within the permitted range
+          - Move the machine by hand so that the wheel is close to the left (or right) end face of the workpiece, gap about 0.05 mm
+          - Record the current Z coordinate as **L-face / R-face Init Touch.Z** on the end face parameter screen
+  - h3: Automatic tool setting (workpiece measurement)
+    marks: [ifIsAuto]
+    body:
+      - steps:
+          - t: Open the automatic tool setting screen and calibrate **Meas-ball wheel Dis.Z** and **ball in center.X**
+            img: {src: auto_center.png, h: 300}
+          - Set the workpiece position and probe radius according to the workpiece
+          - Extend the probe, touch the right end face of the workpiece by hand and enter the contact coordinate and a suitable angle on the screen
+          - "Set the measuring threshold: an alarm is given if the measured right face position differs from the setting by more than the threshold"
+          - To measure run-out or the left face, light **External Meas** / **Left Side Meas** on the right of the automatic tool setting screen (Right Side Meas is lit at the same time) and set the run-out threshold, side meas Ang.C, left Height and Left set.Z
+          - "Light the automatic tool setting key and start; the selected items are measured: with inner raceway the groove first, then right face, run-out, left face; with the probe right face, run-out, reverse hole, left face (run-out and left face only in Reverse Hole mode). Afterwards machining starts automatically with the operations selected on the main (process selection) screen"
+      - note: |
+          After external cylinder and faces have been measured automatically, the actual grinding positions of cylinder and faces are still taken from the initial grinding contacts on their screens

@@ -1,0 +1,34 @@
+language: rus
+book: Руководство пользователя
+header:
+  - "Модель станка: machineName"
+  - "Название станка: machineCHS"
+  - "Версия ПО: softwareVersion"
+parts:
+  - title: Параметры экранов HMI
+    entries:
+      - {ref: section_9.html, title: Стартовая страница и навигация}
+      - {ref: section_1.html, title: Экран шлифования}
+      - {ref: section_2.html, title: Экран процесса}
+      - {ref: section_3.html, title: Экран правки}
+      - {ref: section_4.html, title: Экран правящего круга}
+      - {ref: section_6.html, title: Экран профиля зуба}
+      - {ref: section_5.html, title: Экран автоматической наладки, marks: [ifIsAuto]}
+      - {ref: section_26.html, title: Параметры наружного цилиндра, marks: [ifIsCenter]}
+      - {ref: section_27.html, title: Параметры торцов, marks: [ifIsCenter]}
+      - {ref: section_28.html, title: Выбор обработки, marks: [ifIsCenter]}
+      - {ref: section_8.html, title: Экраны статистики и ресурса комплектующих}
+      - {ref: section_31.html, title: Экран резервного копирования и восстановления}
+      - {ref: section_7.html, title: Экран конфигурации станка}
+  - title: Функции станка
+    entries:
+      - {ref: section_10.html, title: Правка шлифовального круга}
+      - {ref: section_11.html, title: Наладка инструмента}
+      - {ref: section_12.html, title: Шлифование}
+      - {ref: section_13.html, title: Расширенные функции шлифования}
+      - {ref: section_20.html, title: Правка кругов для наружного цилиндра и торцов, marks: [ifIsCenter]}
+      - {ref: section_22.html, title: Наладка на наружный цилиндр и торцы, marks: [ifIsCenter]}
+      - {ref: section_24.html, title: Шлифование наружного цилиндра и торцов, marks: [ifIsCenter]}
+      - {ref: section_15.html, title: Статистика и ресурс комплектующих}
+      - {ref: section_30.html, title: Резервное копирование и восстановление параметров}
+      - {ref: section_16.html, title: Управление конфигурацией станка}

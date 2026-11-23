@@ -1,0 +1,77 @@
+title: Tool Setting
+head1: Machine Functions
+refs: |
+  For the parameters see [Grinding Screen](section_1.html) and [Automatic Tool Setting Screen](section_5.html)
+  Purpose of tool setting: the wheel must enter the existing thread groove of the workpiece exactly (or the start angle of the first grinding must be determined); from this the program calculates **Init Pos.C** and **Initial Pos.X**
+blocks:
+  - h3: Manual tool setting
+    body:
+      - steps:
+          - "?ifIsCenter: Grinding center: light **Start** (internal thread) on the right of the main (process selection) screen"
+          - t: "Open the grinding screen and set the basic workpiece data: [Pitch](section_1.html#S1D4), [Handedness](section_1.html#S1D8), [Start](section_1.html#S1D9) (number of starts), [Taper](section_1.html#S1D16), [Helix Angle](section_1.html#S1D20)"
+            img: {src: grind_main_int.png, h: 300}
+            marks: [ifIsInternal]
+          - t: "Open the grinding screen and set the basic workpiece data: [Pitch](section_1.html#S1D4), [Handedness](section_1.html#S1D8), [Start](section_1.html#S1D9) (number of starts), [Taper](section_1.html#S1D16), [Helix Angle](section_1.html#S1D20)"
+            img: {src: grind_main_ext.png, h: 300}
+            marks: [ifIsExternal]
+          - "?ifIsInternal: Set [Work Center.X](section_1.html#S1D28): the wheel enters and leaves the bore here, so set it accurately with the measuring method"
+          - "?ifIsExternal: Move X by hand to a safe position close to the workpiece outer diameter and record the X coordinate in [Measure start.X](section_1.html#S1D12) (tool setting start position)"
+          - Move X by hand back to a safe position without collision and record the X coordinate in [Safe Pos.X](section_1.html#S1D14)
+          - Move Z to the left and right ends of the thread and record them in [Grinding Left.Z](section_1.html#S1D10) and [Grinding Right.Z](section_1.html#S1D11)
+          - "?ifIsInternal: Set [Safe Pos.Z](section_1.html#S1D30) (wheel completely outside the workpiece)"
+          - "?ifIsExternal: Select the [Measure Position](section_1.html#S1D6) (Starting / Middle / Random)"
+          - Light the **Manual tool setting** key on the operator panel and press **CYCLE START**
+          - Light the **DRF** (handwheel) key, select a suitable handwheel increment (×1 / ×10 / ×100) and turn the feed override to minimum
+          - "?ifIsExternal: The program first moves Z to the selected tool setting position, X to the tool setting start position and turns the headstock to the start angle"
+          - "?ifIsInternal: The program first moves Z to Safe Pos.Z, X to Work Center.X, then Z into the grinding start point of the workpiece and turns the headstock to the start angle"
+          - When the wheel starts moving along the thread synchronously with the headstock, fine-adjust X (and Z if necessary) with the handwheel until the wheel sits exactly in the thread groove without pressing on either side
+          - "?ifIsScrewTap: For tap grinding also adjust the B axis with the handwheel so that X touches the workpiece and the relief motion is correct"
+          - "When the wheel sits in the groove, press the **Retract** key on the operator panel: the program records the current position immediately, calculates the start angle, leaves the workpiece and ends; without the Retract key the wheel runs through the whole thread and the end position is used. Finally switch the manual tool setting key off"
+          - The program calculates and saves [Init Pos.C](section_1.html#S1D24) and [Initial Pos.X](section_1.html#S1D26) automatically
+      - note: |
+          Tips:
+          Turn the feed override to minimum while using the handwheel; after the wheel is in the groove you can retract X by about 0.1 mm, increase the override and watch whether the wheel presses on the flanks further along
+          The wheel speed during tool setting is set by the machine program; contact the manufacturer if it must be changed
+          The machine configuration selects **interpolation tool setting** (headstock and wheel moving synchronously) or **static tool setting**; in static tool setting the program pauses after positioning, adjust with the handwheel and press CYCLE START again — the program records the position and ends
+          For the first part the headstock turns to the current start angle (the machine configuration can also start at 0°); for further parts the machine configuration can move X directly to Initial Pos.X to reduce handwheel adjustment
+          ?ifIsExternal,ifIsHasReOperate: This machine supports second tool setting: when a part that has already been ground is re-clamped, set [tool setting type](section_1.html#S1D5) to re-Opera; the wheel goes directly into the existing groove and only fine adjustment is needed
+          ?ifIsScrewTap: If the relief is small and the B-axis angle is hard to judge during tool setting, grind one part, measure it and then adjust [Init Pos.B](section_1.html#S1D42)
+  - h3: Tool setting in batch production
+    body:
+      - steps:
+          - Before tool setting of the first part set [first part of the batch](section_1.html#S1D27) to **1st work**; after tool setting Initial Pos.X and the start angle are saved
+          - "If every following part still needs manual tool setting, set **not 1st**: tool setting updates only the start angle and Initial Pos.X keeps the value of the first part, so the batch size stays the same"
+  - h3: Automatic tool setting
+    marks: [ifIsAuto]
+    body:
+      - steps:
+          - t: Click **measure** at the bottom of the screen to open the automatic tool setting screen
+            img: {src: auto_int.png, h: 300}
+            marks: [ifIsInternal]
+          - t: Click **measure** at the bottom of the screen to open the automatic tool setting screen
+            img: {src: auto_ext.png, h: 300}
+            marks: [ifIsExternal]
+          - "?ifIsExternal: Calibrate the [switch/probe-wheel coincidence position](section_5.html#S5D2): align the switch (probe) centre with the wheel tip by hand and record Z; with both switch and probe also enter [Probe-Switch Dis.](section_5.html#S5D4)"
+          - "?ifIsInternal: Select [Structure](section_5.html#S5D41) according to the locating feature: **inner raceway** for locating on the thread groove, **reverse hole** for a reverse hole etc.; select the [Measure Mode](section_5.html#S5D42) if necessary"
+          - "?ifIsInternal: Calibrate [Meas-ball wheel Dis.Z](section_5.html#S5D6) (once for a new machine or after changing the measuring device); for reverse hole also calibrate [ball in center.X](section_5.html#S5D24)"
+          - "?ifIsInternal: Inner raceway: move the switch by hand into the first thread groove and record the [measuring position Z](section_5.html#S5D7); move towards the bore wall until the signal just appears, go about 0.2 mm further and record [measure pos.X](section_5.html#S5D9)"
+          - "?ifIsInternal: Reverse hole: enter probe radius, outer diameter, reverse hole position etc., touch the right end face with the probe by hand and enter [right side base.Z](section_5.html#S5D37)"
+          - Grind one part with manual tool setting first and make sure there is no offset before using automatic tool setting
+          - "Light the **Automatic tool setting** key on the operator panel and press **CYCLE START**: the measuring device extends, measures automatically and calculates the start angle, then retracts"
+          - If the part is ground with an offset, correct it in [Compensation](section_5.html#S5D1); the correction is added to every following automatic tool setting
+          - "?ifIsNotCenter: With **Direct grinding after automatic tool setting** enabled in the machine configuration, grinding starts directly after measuring; otherwise the program ends after measuring and grinding is started with CYCLE START"
+          - "?ifIsCenter: On the grinding center machining starts automatically after automatic tool setting, with the operations selected on the main (process selection) screen"
+      - p: "Common messages of automatic tool setting:"
+      - table:
+          - [Message, Cause and remedy]
+          - ["?ifIsExternal: it is to far from measuring head to workpiece!", "No flank detected within 300° forward and backward: check the coincidence position, whether the device is fully extended and whether the part is mounted"]
+          - ["?ifIsExternal: Probe back error,check needed", "The switch sits on a crest and has not left it after 3 forward steps of 5°: check switch position and workpiece"]
+          - ["?ifIsInternal: Error in setting to measuring pisition!", "Inner raceway: no flank found on either side along Z; check that the measuring position Z is inside the groove and measure pos.X goes beyond the bore wall"]
+          - ["?ifIsInternal: 测量失败, 请检查测量位置设置是否合适 (shown in Chinese: measurement failed, check the measuring position settings)", "Inner raceway: the switch hits a crest repeatedly (after 5 shifts): check that the measuring position Z is aligned with the thread groove"]
+          - ["?ifIsInternal: Error in setting to outer diameter, check again!", "The probe does not find the right face, hole wall or step at the expected position: check work Dia, ball in center.X, ball R and hole Pos.Z"]
+          - ["?ifIsInternal: Measuring Head can not move into hole, check parameters!", "The probe cannot enter the reverse hole or right face hole: check hole Pos.Z, hole Ang.C and hole Compensation; switch on Hole Pos Meas if necessary"]
+          - ["?ifIsInternal: 测量错误,测头未检测到信号 (shown in Chinese: measuring error, no probe signal)", "Outer face right end reverse: the flat or the end face of the right return piece is not found; check the leveling and end reverse positions"]
+          - ["?ifIsInternal: Error in position of right side, check if workpiece is not setup correctly", "The measured right face deviates from right side base.Z by more than the threshold: check clamping, or measure again and change the setting"]
+          - ["?ifIsCenter: Error in position of lift side, check if workpiece is not setup correctly", "The measured left face deviates from Left set.Z by more than the threshold: check clamping, or measure again and change the setting"]
+          - ["?ifIsCenter: Length of workpiece going to wrong!", "Left side measurement does not find the left face along Z: check work surf length, left Height and side meas Ang.C"]
+          - ["?ifIsCenter: External run-out: … mm, bigger than setting: … mm", "Run-out of the 3 points exceeds the run-out threshold: check clamping and fixture"]

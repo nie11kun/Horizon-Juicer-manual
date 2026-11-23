@@ -1,0 +1,438 @@
+title: Process Screen
+head1: HMI Screen Parameters
+refs: 'For the operating steps see [Grinding](section_12.html)
+
+  On the user screens press the **process** softkey at the bottom to open this page
+
+  '
+blocks:
+- h3: Process table
+  body:
+  - img:
+      src: process_batch.png
+      h: 300
+  - note: 'The columns of the process table are the four steps **Rough / Medium Fine / Fine / Finish**; the program runs them in this order and repeats each step for its number of cycles
+
+      The **Mass** / **Single** softkeys on the right switch between two independent process tables, used for the Mass and Single machining modes of the grinding screen
+
+      With the expanded process configured in the machine configuration, the table additionally contains dressing parameters for each step (see Expanded process parameters below)
+
+      When the process mode is DIY, grinding follows the user DIY program and the whole table is read-only; the table is also read-only while the program is running
+
+      '
+  - params:
+    - id: S2D3
+      name: One-Way / Two-Way (grinding direction)
+      rec: none
+      range: One-Way / Two-Way
+      var: TECHNOLOGY[111]~TECHNOLOGY[114]（批量）/ TECHNOLOGY[171]~TECHNOLOGY[174]（单件）
+      ac: 4
+      text: '**One-Way**: grinds in one direction only; no infeed and no grinding on the return stroke
+
+        **Two-Way**: grinds in both directions with one infeed at each end, which is more efficient
+
+        '
+    - id: S2D4
+      name: cycles (number of passes)
+      range: ≥ 0
+      var: TECHNOLOGY[121]~TECHNOLOGY[124]（批量）/ TECHNOLOGY[181]~TECHNOLOGY[184]（单件）
+      ac: 4
+      text: 'Number of grinding passes of each step, according to the process; set 0 for a step that is not needed
+
+        '
+    - id: S2D5
+      name: infeed depth
+      rec: 0.005~0.05
+      range: Rough unlimited, other steps default ±0.1 (the limit can be changed in the machine configuration)
+      unit: mm
+      var: TECHNOLOGY[131]~TECHNOLOGY[134] 或 TECHNOLOGY[371]~TECHNOLOGY[374]（批量）/ TECHNOLOGY[191]~TECHNOLOGY[194] 或 TECHNOLOGY[375]~TECHNOLOGY[378]（单件）
+      ac: 4
+      text: 'X infeed per pass (radial, half of the diameter change). Normally Rough has the largest infeed and it decreases from step to step; Finish can use a small value or 0 for spark-out
+
+        For Two-Way grinding the meaning of the infeed is set in the machine configuration:
+
+        **Two-way total** mode: the value is the total infeed of one back-and-forth stroke
+
+        **Single infeed** mode: the value is the infeed in each direction, so one back-and-forth stroke feeds twice the value
+
+        If automatic Rough calculation is switched on in the machine configuration, the Rough infeed is read-only and is calculated back from Set Amount
+
+        '
+    - id: S2D59
+      name: grinding speed
+      range: read-only
+      unit: mm/min
+      var: TECHNOLOGY[141]~TECHNOLOGY[144]（批量）/ TECHNOLOGY[201]~TECHNOLOGY[204]（单件）
+      readonly: true
+      text: 'Z grinding feed rate, calculated automatically from the headstock speed: grinding speed = headstock speed × pitch × starts
+
+        '
+    - id: S2D6
+      name: dress setting (dress after n passes)
+      range: ≥ 0
+      var: TECHNOLOGY[151]~TECHNOLOGY[154]（批量）/ TECHNOLOGY[211]~TECHNOLOGY[214]（单件）
+      ac: 4
+      text: 'The wheel is dressed automatically after every n passes of this step; 0 means no dressing in this step
+
+        Example: Rough with 5 passes and setting 2 → dressing after pass 2 and pass 4
+
+        Dressing during grinding uses the fine dressing parameters of the dressing screen (passes / infeed / speed)
+
+        '
+    - id: S2D7
+      name: wheel surface speed
+      rec: 25 m/s
+      range: 15~50
+      unit: m/s
+      var: TECHNOLOGY[161]~TECHNOLOGY[164]（批量）/ TECHNOLOGY[221]~TECHNOLOGY[224]（单件）
+      ac: 4
+      text: 'Peripheral speed of the wheel when grinding. The best value differs a lot between wheel materials; CBN wheels usually need a higher speed
+
+        In non-constant-speed mode enter the surface speed; the screen converts it to the wheel speed using the current wheel diameter: speed = surface speed × 60000 / (π × wheel diameter)
+
+        With **constant speed mode** switched on in the machine configuration this value is read-only and is calculated back from the entered wheel speed
+
+        '
+    - id: S2D8
+      name: headstock speed
+      range: default not more than 60 (the limit can be changed in the machine configuration)
+      unit: r/min
+      var: TECHNOLOGY[61]~TECHNOLOGY[64]（批量）/ TECHNOLOGY[268]~TECHNOLOGY[271]（单件）
+      ac: 4
+      text: 'Headstock (C axis) speed when grinding; it determines the grinding speed. A higher speed is more efficient but gives a worse surface
+
+        Normally Rough uses a higher speed and Fine / Finish a lower speed
+
+        '
+    - id: S2D10
+      name: grinding wheel speed
+      range: converted from the surface speed
+      unit: r/min
+      var: TECHNOLOGY[71]~TECHNOLOGY[74]（批量）/ TECHNOLOGY[17]~TECHNOLOGY[20]（单件）
+      ac: 4
+      text: 'In non-constant-speed mode it is calculated from the surface speed and the current wheel diameter and is read-only
+
+        With constant wheel speed configured in the machine configuration the speed is entered directly and the surface speed changes with the wheel diameter
+
+        '
+- h3: Total grinding amount and dressing count
+  body:
+  - params:
+    - id: S2D9
+      name: Set Amount / Total Amount
+      rec: according to the stock allowance
+      range: none
+      unit: mm
+      var: PROCESS[13]、PROCESS[15]、PROCESS[114]
+      ac: 4
+      text: '**Set Amount**: total amount to be removed from one part starting at Initial Pos.X; by default it is summed automatically as passes × infeed of every step
+
+        With automatic Rough calculation switched on in the machine configuration the total can be entered directly, and the Rough infeed is calculated back as (total - infeed of the other steps) / Rough passes
+
+        **Total Amount**: amount actually fed into the current part so far, read-only
+
+        In DIY process mode calculate it yourself from the DIY program
+
+        '
+    - id: S2D1
+      name: Completed (parts machined)
+      rec: '0'
+      range: counted automatically
+      unit: parts
+      var: INI[74]
+      ac: 4
+      text: 'Part counter; in Mass mode it increases by 1 after every finished part and is used for dressing after a number of parts
+
+        It can be reset by hand to restart counting
+
+        '
+    - id: S2D2
+      name: Dress Set - large wheel
+      rec: according to the process
+      range: ≥ 0
+      unit: parts
+      var: PROCESS[126]
+      ac: 4
+      text: 'When the wheel diameter is larger than the critical diameter, the wheel is dressed automatically before the next part after this number of parts; 0 means no dressing by part count
+
+        The critical diameter is set in the machine configuration; dressing uses the fine dressing parameters of the dressing screen
+
+        '
+    - id: S2D11
+      name: Dress Set - small wheel
+      rec: according to the process
+      range: ≥ 0
+      unit: parts
+      var: PROCESS[127]
+      ac: 4
+      text: 'Dressing interval by part count when the wheel diameter is not larger than the critical diameter. Small wheels wear faster, so a smaller interval than for the large wheel is usual
+
+        '
+    - id: S2D12
+      name: dressing mode (Cycle / Screw)
+      range: Cycle / Screw
+      var: WORK[6]
+      ac: 4
+      text: 'How dressing during grinding is counted for multi-start threads (must be enabled in the machine configuration)
+
+        **Cycle**: one count after all starts have been ground
+
+        **Screw**: one count after each start, so the wheel is dressed more often
+
+        '
+    - id: S2D13
+      name: fine grind after dress (one pass without infeed after dressing)
+      range: on / off (softkey lit = on)
+      var: PROCESS[18]
+      ac: 7
+      text: 'When the **fine grind after dress** softkey on the right is lit, after each dressing during grinding the next pass is ground once without infeed to remove the dressing error; not effective with dressing counted per start (Screw)
+
+        '
+    - id: S2D14
+      name: Select starting process / Select starting loop
+      range: Rough / Medium Fine / Fine / Finish; pass number
+      var: SHAPE_MODEL[61]、SHAPE_MODEL[62]、STRING_ADDON[2]
+      ac: 7
+      text: 'In Mass production, machining starts from the given pass of the given step (must be enabled in the machine configuration); the infeed of the previous steps is added to the current position automatically
+
+        Used to continue after an interruption; if the start pass is larger than the number of passes of the step, machining continues with the next step
+
+        The step currently being ground is also shown in the upper right corner
+
+        '
+    - id: S2D34
+      name: Mode (process mode)
+      range: On-Screen Process / DIY
+      ac: 4
+      var: PROCESS[1]
+      text: '**On-Screen Process**: grinding follows the process table on this page
+
+        **DIY**: grinding follows the DIY program written by the user and the process table is read-only; in DIY mode calculate the Set Amount yourself from the program
+
+        '
+    - id: S2D35
+      name: Type (process type)
+      range: Simplify / EXpand
+      ac: 4
+      var: PROCESS[16]
+      text: 'Shows whether the standard process table (Simplify) or the expanded process table with dressing parameters per step (EXpand) is used; set by the machine configuration
+
+        '
+- h3: Expanded process parameters
+  body:
+  - img:
+      src: process_ext.png
+      h: 300
+  - note: 'With the expanded process configured in the machine configuration, every step in the table has its own dressing parameters; dressing during grinding uses the parameters of the current step instead of the fine dressing parameters of the dressing screen
+
+      '
+  - params:
+    - id: S2D15
+      name: dressing passes
+      range: ≥ 0
+      var: TECH_DRESS_TIME[21]~TECH_DRESS_TIME[24]（批量）/ TECH_DRESS_TIME[31]~TECH_DRESS_TIME[34]（单件）
+      ac: 4
+      text: 'Number of dressing strokes each time the wheel is dressed in this step
+
+        '
+    - id: S2D16
+      name: dressing infeed
+      range: ≥ 0
+      unit: mm
+      var: TECH_DRESS_DEEP[22]~TECH_DRESS_DEEP[25]（批量）/ TECH_DRESS_DEEP[32]~TECH_DRESS_DEEP[35]（单件）
+      ac: 4
+      text: 'Infeed per dressing stroke in this step (radial, half of the diameter change); wheel diameter and grinding position are compensated automatically
+
+        '
+    - id: S2D17
+      name: dressing speed
+      range: greater than 0
+      unit: mm/min
+      var: TECH_DRESS_FEED[22]~TECH_DRESS_FEED[25]（批量）/ TECH_DRESS_FEED[32]~TECH_DRESS_FEED[35]（单件）
+      ac: 4
+      text: 'Speed at which the dressing axes follow the profile when dressing in this step
+
+        '
+    - id: S2D18
+      name: dressing wheel surface speed / dressing wheel speed
+      range: surface speed ≥ 0
+      var: WHEEL_LINESPEED_DRESS[24]~WHEEL_LINESPEED_DRESS[27]（批量）/ WHEEL_LINESPEED_DRESS[34]~WHEEL_LINESPEED_DRESS[37]（单件）；转速 TECHNOLOGY[75]~TECHNOLOGY[78] / TECHNOLOGY[25]~TECHNOLOGY[28]
+      ac: 4
+      text: 'Grinding wheel surface speed (m/s) when dressing in this step; the wheel speed is converted from the current wheel diameter and shown read-only
+
+        With **constant speed mode** switched on in the machine configuration, the wheel speed for dressing is entered directly and the surface speed is shown read-only
+
+        '
+- h3: Three-wire measurement and pressure display
+  body:
+  - params:
+    - id: S2D19
+      name: outer Dia / Measure (three-wire) / ball Dia / Final-H
+      range: none
+      unit: mm
+      var: INI[121] / INI[122] / INI[123] / INI[124]
+      ac: 7
+      text: 'Shown after the three-wire measurement display is enabled in the machine configuration; used to convert measurement results at the machine
+
+        Enter the workpiece outer diameter, the three-wire (pin) measurement and the ball diameter; the screen calculates Final-H = (outer diameter - three-wire measurement) / 2 + ball diameter
+
+        ?ifIsCenter: On the main screen of the grinding center these values need key switch position 3 or higher to change
+
+        '
+    - id: S2D20
+      name: headstock pressure / system pressure (头架压力 / 系统压力)
+      range: read-only
+      readonly: true
+      text: 'On the screen these two labels are shown in Chinese: 头架压力 = headstock pressure, 系统压力 = system pressure
+
+        Shown after the pressure display is enabled in the machine configuration; shows the headstock and hydraulic system pressure in real time to monitor clamping
+
+        '
+- h3: Addon settings screen
+  body:
+  - img:
+      src: process_addon.png
+      h: 300
+  - note: 'After it is enabled in the machine configuration, an **Addon Settings** softkey appears on the right of the process screen
+
+      '
+  - params:
+    - id: S2D21
+      name: Gradient.Rough Part / Gradient.Med fine Part (infeed gradient)
+      range: OFF / ON
+      var: TECHNOLOGY[119] / TECHNOLOGY[125]
+      ac: 4
+      text: 'When switched on, the infeed of the Rough (or Medium Fine) passes is no longer constant but decreases linearly from large to small with the same total, reducing the grinding force towards the end
+
+        '
+    - id: S2D22
+      name: Variation Range (total infeed change)
+      range: -1~1
+      unit: mm
+      var: TECHNOLOGY[120]
+      ac: 4
+      text: 'Difference between the infeed of the first and the last pass with gradient infeed; if the total change is more than twice the set infeed, no gradient is applied
+
+        '
+    - id: S2D23
+      name: thread Compensate (per-start position compensation)
+      range: OFF / ON
+      var: TECHNOLOGY[126]
+      ac: 4
+      text: 'Switch on when the starts of a multi-start thread differ in size or position; starts 1 to 6 are compensated individually with the table below
+
+        '
+    - id: S2D24
+      name: thread No.1 ~ thread No.6 compensation (infeed.X / angle.C / taper.X)
+      range: -1~1
+      var: 进刀 TECHNOLOGY[145]~TECHNOLOGY[150]；角度 TECHNOLOGY[343]~TECHNOLOGY[348]；锥度 TECHNOLOGY[381]~TECHNOLOGY[386]
+      ac: 4
+      text: '**infeed.X**: compensation of the X start position of this start (mm), to correct pitch diameter differences between starts
+
+        **angle.C**: compensation of the indexing angle of this start (°), to correct indexing errors
+
+        **taper.X**: full-length taper compensation of this start (mm), to correct taper differences between starts
+
+        '
+- h3: Y axis settings screen
+  body:
+  - img:
+      src: process_yaxis.png
+      h: 300
+  - note: 'For machines with a Y axis (wheel head movable in Y). After it is enabled in the machine configuration, a **Y Axis Settings** softkey appears on the right of the process screen
+
+      When the A axis swivels to the helix angle, the wheel centre moves off; the program calculates the Y compensation position from the centre distances so that the grinding point and the dressing point stay centred
+
+      '
+  - params:
+    - id: S2D25
+      name: Has Y Axis
+      range: OFF / ON
+      var: TECHNOLOGY[353]
+      ac: 4
+      text: 'When switched on, the Y axis moves automatically to the calculated position for grinding and dressing
+
+        '
+    - id: S2D26
+      name: Auto Calculate
+      range: OFF / ON
+      var: TECHNOLOGY[357]
+      ac: 4
+      text: '**ON**: Grinding Actual.Y and Dressing Actual.Y are calculated from the wheel/A axis centre distances and the A0 reference positions
+
+        **OFF**: Grinding Actual.Y and Dressing Actual.Y are entered by hand
+
+        '
+    - id: S2D27
+      name: Wheel/A Axis Center Distance
+      range: none
+      unit: mm
+      var: TECHNOLOGY[354] / TECHNOLOGY[361] / TECHNOLOGY[366]
+      ac: 4
+      text: 'In order: distance from the spindle end face to the A-axis rotation centre (positive when the wheel is left of A), quill length, and distance from the wheel dressing centre to the quill end face; used for automatic calculation
+
+        '
+    - id: S2D28
+      name: A0 Grinding Reference.Y / A0 Dressing Reference.Y
+      range: none
+      unit: mm
+      var: TECHNOLOGY[355] / TECHNOLOGY[356]
+      ac: 4
+      text: 'Y coordinates at which the wheel is aligned with the workpiece centre and with the dresser centre when the A axis is at 0°
+
+        '
+    - id: S2D29
+      name: Grinding Actual.Y (Current Actual.Y) / Dressing Actual.Y
+      range: none
+      unit: mm
+      var: TECHNOLOGY[358] / TECHNOLOGY[359]
+      ac: 4
+      text: 'Positions to which the Y axis actually moves for grinding and dressing; read-only showing the calculated result when Auto Calculate is on
+
+        '
+- h3: Block settings screen
+  marks:
+  - ifIsUW
+  body:
+  - img:
+      src: process_stop.png
+      h: 300
+  - note: 'For the torque clamping axis of UW dressers: the dresser is held by motor torque instead of a mechanical lock while dressing. On machines with a UW dresser the **Block Setting** softkey is on the right of the process screen
+
+      '
+  - params:
+    - id: S2D30
+      name: Torque Clamping Axis Control
+      range: OFF / ON
+      var: TECHNOLOGY[365]
+      ac: 4
+      text: 'When switched on, the torque clamping/releasing motion is executed when dressing with the UW axes
+
+        '
+    - id: S2D31
+      name: Clamping Position / Release Position
+      range: none
+      unit: mm
+      var: TECHNOLOGY[362] / TECHNOLOGY[363]
+      ac: 4
+      text: 'Coordinates to which the torque clamping axis moves for clamping and releasing
+
+        '
+    - id: S2D32
+      name: Clamping Torque
+      range: 0~100
+      unit: '%'
+      var: TECHNOLOGY[364]
+      ac: 4
+      text: 'Motor torque during clamping, in percent of the rated torque
+
+        '
+    - id: S2D33
+      name: Monitor Range
+      range: 0~20
+      unit: mm
+      var: TECHNOLOGY[367]
+      ac: 4
+      text: 'Permitted deviation from the clamping position; outside this range clamping is judged as failed and an alarm is given
+
+        '

@@ -56,8 +56,12 @@ def send_cmd(action, timeout=30.0, **kwargs):
     while time.time() - t0 < timeout:
         if os.path.exists(resp_path):
             time.sleep(0.05)
-            with open(resp_path, "r", encoding="utf-8-sig") as f:
-                resp = json.load(f)
+            try:                                  # the VM agent may still be writing the file -> retry
+                with open(resp_path, "r", encoding="utf-8-sig") as f:
+                    resp = json.load(f)
+            except (ValueError, OSError):
+                time.sleep(0.2)
+                continue
             try:
                 os.remove(resp_path)
             except OSError:

@@ -1,0 +1,6 @@
+# captions for red-framed screenshots, printed under the picture (key = image file name)
+welcome_main.png: "Red frames: the function softkeys of the welcome page on the right (Backup Restore, Accessory life and Stats can be opened only after they are enabled in the machine configuration); the **custom** softkey at the bottom opens the machining parameter screens"
+dress_main_ext.png: "Red frame: rough and fine dressing parameters used for separate dressing"
+dress_main_int.png: "Red frame: rough and fine dressing parameters used for separate dressing"
+process_batch.png: "Red frame: process table of the steps (Rough, Medium Fine, Fine, Finish)"
+center_select.png: "Red frame: select the operations included in this run (external cylinder, right end face, left end face, external step, internal thread); a lit softkey means selected"

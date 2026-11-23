@@ -1,0 +1,137 @@
+title: Statistics and Accessory Life Screens
+head1: HMI Screen Parameters
+refs: 'For operation see [Statistics and Accessory Life](section_15.html)
+
+  The **Stats** and **Accessory life** softkeys on the right of the welcome page are always shown, but the screens open only after they are enabled in the machine configuration; otherwise clicking does nothing
+
+  '
+blocks:
+- h3: Stats (machining statistics)
+  body:
+  - img:
+      src: stats.png
+      h: 300
+  - note: 'Records for each grinding wheel the number of parts ground and the change date, for evaluating wheel life. Key switch position 3 is needed to open it
+
+      '
+  - params:
+    - id: S8D1
+      name: Grinded / Dress Date (parts per wheel / wheel change date)
+      range: read-only
+      readonly: true
+      nofield: true
+      text: 'Each row of the table is one grinding wheel: number of parts ground, and date and time the wheel was put into use (changed)
+
+        When the wheel status on the dressing screen is switched to New W. and dressing is started, recording of the next wheel begins automatically; only parts finished in Mass mode are counted, Single mode is not counted
+
+        Up to 99 wheels are recorded; after that the table is overwritten from row 1
+
+        '
+      var: WHEEL_GRIND_CUMU、WHEEL_CHANGED_DATA
+    - id: S8D2
+      name: current wheel No.
+      range: read-only
+      readonly: true
+      text: 'Row number of the wheel currently in use
+
+        '
+      var: CUR_WHEEL
+    - id: S8D3
+      name: Dressware life cycle (dress times setting / dress times count / dress amount count)
+      range: limit ≥ 0
+      ac: 4
+      text: 'Shown after dressing wheel life cycle statistics is enabled in the machine configuration:
+
+        **dress times setting**: number of dressings allowed for the dressing wheel; when reached, a replacement message is given (click the lock icon (Var Locker) first to unlock)
+
+        **dress times count / dress amount count**: number of dressings and total dressing amount of the current dressing wheel
+
+        '
+      var: TECHNOLOGY[136]、TECHNOLOGY[137]、TECHNOLOGY[138]
+    - id: S8D4
+      name: Reset Stat / Reset Count
+      range: softkey
+      ac: 4
+      text: '**Reset Stat** (first softkey on the right): clears the records of all wheels; wheel numbering starts again
+
+        **Reset Count** (fourth softkey on the right): clears the dressing count and amount after changing the dressing wheel
+
+        Both open a confirmation window: ok executes, cancel aborts; key switch position 3 is needed
+
+        '
+- h3: Accessory life
+  body:
+  - img:
+      src: parts_life.png
+      h: 300
+  - note: 'Shown after **Parts life interface display** is enabled in the machine configuration
+
+      Records the usage counts of wear parts (dressing roller, fixture, etc.) and reminds you to replace them when the alarm limit is reached
+
+      '
+  - params:
+    - id: S8D10
+      name: Set Life
+      range: 0~1000000
+      unit: cycles
+      ac: 4
+      text: 'Roller Life, Fixture Life, Diamond Pen 1 OD, Diamond Pen 2 Face: rated number of uses of each part, set from the supplier data as replacement reference
+
+        '
+      var: SERVICE_LIFE[1]~SERVICE_LIFE[4]
+    - id: S8D11
+      name: Current Life
+      range: read-only
+      unit: cycles
+      readonly: true
+      text: 'Number of uses so far, counted automatically by the program: roller life counts 1 per dressing pass, fixture life counts 1 per clamping by the robot
+
+        '
+      var: SERVICE_LIFE[11]~SERVICE_LIFE[14]
+    - id: S8D12
+      name: Alarm Threshold (Cycles)
+      range: 0~1000000
+      unit: cycles
+      ac: 4
+      text: 'When Current Life exceeds this value, the machine pauses at every CYCLE START with a message that the part life has expired (Alarm Message must be on); after replacing and resetting the part, operation is normal again
+
+        '
+      var: SERVICE_LIFE[6]~SERVICE_LIFE[9]
+    - id: S8D13
+      name: Reset Time / Reset
+      range: read-only / button
+      ac: 4
+      text: 'After replacing a part click the ↺ icon at the right of its row; Current Life is cleared and Reset Time is updated to the current date and time
+
+        '
+      var: SERVICE_LIFE_TXT[1]~SERVICE_LIFE_TXT[4]
+    - id: S8D14
+      name: Roller ID / Fixture ID
+      range: text
+      ac: 4
+      text: 'ID of the roller and fixture currently used, for traceability
+
+        '
+      var: SERVICE_LIFE_TXT[6]、SERVICE_LIFE_TXT[7]
+    - id: S8D15
+      name: Alarm Message
+      range: ON / OFF
+      ac: 4
+      text: 'When on, the machine stops with a message when a part exceeds its alarm limit; when off, the counts are only recorded
+
+        '
+      var: SERVICE_LIFE[20]
+- h3: Roller log
+  body:
+  - img:
+      src: roller_record.png
+      h: 300
+  - params:
+    - id: S8D20
+      name: Roller ID / Roller Replace Date / Current Roller No.
+      range: read-only
+      readonly: true
+      text: 'Click **Roller Log** on the right of the accessory life screen: the roller IDs and change dates are listed by number, and the number of the roller in use is shown on the right
+
+        '
+      var: INI[162]

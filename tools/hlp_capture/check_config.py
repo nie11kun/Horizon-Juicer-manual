@@ -20,7 +20,8 @@ import inventory
 from inventory import parse_def_line, split_fields
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SRC = os.path.join(HERE, "hlp_src", "chs")
+SRC = os.path.join(HERE, "hlp_src", inventory.LANG)
+CFG_WORD = {"chs": "机床配置", "eng": "machine configuration", "rus": "конфигурац"}[inventory.LANG]
 TEXTS = inventory.load_texts()
 
 # a marker is satisfied by itself or by a narrower marker that implies it
@@ -157,7 +158,7 @@ def main():
         if key not in cells or key[0] == "section_7":
             continue
         txt = " ".join(f'{p.get("text", "")} {p.get("range", "")}' for _, p in cells[key])
-        if "机床配置" not in txt:
+        if CFG_WORD not in txt.lower():
             issues["switch"].append(f"{key[0]}#{key[1]} 「{cells[key][0][1]['name']}」 由机床配置 {sorted(labs)} 控制显示，帮助未说明")
     for cat, items in issues.items():
         print(f"== {cat}: {len(items)}")

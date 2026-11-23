@@ -1,0 +1,76 @@
+title: Wheel Dressing
+head1: Machine Functions
+refs: |
+  For the parameters see [Dressing Screen](section_3.html), [Dressing Wheel Screen](section_4.html) and [Tooth Profile Screen](section_6.html)
+blocks:
+  - h3: Dressing types
+    body:
+      - table:
+          - [Dressing type, When it runs, Parameters used]
+          - [New wheel dressing, once separately after a wheel change, "rough + fine parameters of the dressing screen (the new wheel is dressed layer by layer from the periphery until the complete profile is formed)"]
+          - [Used wheel dressing, separately when the wheel profile must be restored, rough + fine parameters of the dressing screen]
+          - [Dressing during grinding, automatically during grinding according to the dress setting of the process screen, "fine parameters of the dressing screen (with the expanded process: dressing parameters of each step in the process table)"]
+          - [Dressing by part count, automatically before the next part after the set number of parts, fine parameters of the dressing screen]
+  - h3: New wheel dressing
+    body:
+      - steps:
+          - t: "?ifIsCenter: Grinding center: light **Start** (internal thread) on the right of the **main** (process selection) screen so that the internal grinding wheel is dressed"
+            marks: [ifIsCenter]
+          - t: After mounting the new wheel, click **dress** at the bottom of the screen to open the dressing screen
+            img: {src: dress_main_int.png, h: 300}
+            marks: [ifIsInternal]
+          - t: After mounting the new wheel, click **dress** at the bottom of the screen to open the dressing screen
+            img: {src: dress_main_ext.png, h: 300}
+            marks: [ifIsExternal]
+          - t: "Select [Ware type](section_3.html#S3D2): **X-W** for interpolation dressing with a disc dressing wheel, **Roll-X** for a form roller"
+            marks: [ifIsDressWare3]
+          - t: "Select [Ware type](section_3.html#S3D1): **U-W** for interpolation dressing with a disc dressing wheel, **Roll-U** for a form roller"
+            marks: [ifIsDressWare1]
+          - t: "Interpolation dressing: select [Wheel type](section_3.html#S3D3) and [Shape Type](section_3.html#S3D4), then click the corresponding profile softkey on the right to set the profile parameters"
+            img: {src: shape_tri_int.png, h: 300}
+          - t: "Click the corresponding dressing wheel softkey on the right (Single W. / Round W. / Double W. / Roll W.) and enter the dressing wheel diameter, radii or tooth height from the drawing"
+            img: {src: roller_single_int.png, h: 300}
+          - t: "Locate the dressing wheel: set [wheel distance](section_4.html#S4D12) (dressing centre distance) and [Dress Pos.W](section_4.html#S4D13) (dressing centre)"
+            marks: [ifIsInternal]
+            note: |
+              Dressing centre distance: measure the new wheel diameter D1 and enter it as New Wheel-D on the dressing screen; enter the dressing wheel diameter D2; move X until the wheel just touches the dressing wheel periphery and enter the X coordinate X1 as **curt Touch.X**
+              ?ifIsFrontDress: dressing centre distance = |X1 + D1/2 + D2/2|
+              ?ifIsBackDress: dressing centre distance = |X1 - D1/2 - D2/2|
+              After setting, **init Touch.X** on the dressing wheel page must equal the X1 just entered; if equal, it is correct
+              Dressing centre: touch both wheel faces with the left and right side faces of the dressing wheel, record Z1 and Z2; dressing centre = (Z1 + Z2) / 2
+          - t: "Locate the dressing wheel: set [Dress Pos.W](section_4.html#S4D6) (dressing centre) and enter the U coordinate at which the dressing wheel just touches the new wheel periphery as [init Touch.U](section_4.html#S4D2)"
+            marks: [ifIsExternal]
+          - t: "Return to the dressing screen and set [Wheel Status](section_3.html#S3D16) to **New W.**"
+          - t: "Enter [New Wheel-D](section_3.html#S3D14) (about 0.2 mm larger than measured), [Wh.Width](section_3.html#S3D13) and [Line Speed](section_3.html#S3D15) (usually about 22 m/s)"
+          - t: "Set [Minimal diameter](section_3.html#S3D5); an alarm is given when the wheel becomes smaller"
+          - t: "Set [Maxmum diameter](section_3.html#S3D6): a new wheel is dressed automatically down to this diameter so that it can enter the workpiece bore"
+            marks: [ifIsInternal]
+          - t: Set the number of passes, infeed and speed for rough and fine dressing
+            note: |
+              ?ifIsInternal: For a new internal thread wheel the program calculates the rough and fine passes from (new wheel diameter - maximum grinding diameter) / 2 (about the last 5 passes are fine passes); the pass counts entered on the screen are not used
+          - t: Light the **Dressing** key on the machine operator panel and press **CYCLE START**; the machine dresses automatically
+            note: |
+              After the first dressing pass the wheel status changes to used wheel automatically; wheel diameter and grinding position are updated with every dressing. If dressing is stopped and started again, it continues as a used wheel from the current contact position
+              With "End automatic closing of Dressing/Tool setting key" enabled in the machine configuration, the dressing key is switched off automatically
+  - h3: Used wheel dressing
+    body:
+      - steps:
+          - Check on the dressing screen that the wheel status is **Used W.**
+          - Set the number of rough and fine passes and the infeeds
+          - Light the **Dressing** key and press **CYCLE START**; dressing starts from the current contact position on the dressing wheel page
+  - h3: Dressing during grinding
+    body:
+      - steps:
+          - t: "On the [process screen](section_2.html#S2D6) set the **dress setting** of each step (dress after every n passes); 0 means no dressing in that step"
+            img: {src: process_batch.png, h: 300}
+          - t: "On the process screen set [Dress Set - large / small wheel](section_2.html#S2D2) to dress automatically after every n parts"
+          - t: Dressing during grinding runs only fine dressing with the fine passes, fine infeed and fine speed of the dressing screen; with the expanded process, dressing per step uses the dressing parameters of each step in the process table, while dressing by part count still uses the fine parameters of the dressing screen
+          - t: To grind once without infeed after dressing, light the **fine grind after dress** softkey on the right of the process screen (not effective when dressing is counted per start)
+          - t: The dressing count of each step is cleared at the end of that step and is not carried over to the next step; dressing by part count is counted after each finished part and dresses before the next part when the set number is reached
+  - h3: Common reasons why dressing does not start
+    body:
+      - alarm: "If an alarm appears or nothing moves after starting dressing, check:"
+        items:
+          - "Workpiece pitch, left/right ends, retract positions etc. on the grinding screen are not set to suitable values (rough values can be set temporarily to complete the dressing)"
+          - Dressing centre distance / dressing centre set wrongly or with the wrong sign
+          - "?ifIsInternal: The current wheel diameter is larger than the maximum grinding diameter or smaller than the minimum grinding diameter"

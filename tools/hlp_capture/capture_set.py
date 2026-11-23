@@ -161,7 +161,14 @@ def prepare_default(cfg):
     pkg = PKG[cfg]
     hmi.import_package(pkg)
     to_welcome()
-    if not unlock_setting.unlock():
+    for _ in range(3):       # challenge OCR occasionally misreads -> retry with a fresh challenge code
+        try:
+            if unlock_setting.unlock():
+                break
+        except RuntimeError as e:
+            print(" ", e)
+        to_welcome()
+    else:
         raise SystemExit("unlock failed")
     hmi.vs(3, 1500)          # 重置数据 -> factory defaults of every 机床配置 item
     hmi.vs(8, 4000)

@@ -20,10 +20,25 @@ ROOT = os.environ.get("HJ_SOURCE", r"C:\Users\Marco Nie\Development\WorkProgram\
 SRC = os.path.join(HERE, "hlp_src")
 DST = os.path.join(ROOT, "Source_Library", "HMI", "hlp")
 
-AC_TEXT = {
-    "1": "制造商口令", "2": "服务口令", "3": "用户口令",
-    "4": "钥匙开关3档", "5": "钥匙开关2档", "6": "钥匙开关1档", "7": "钥匙开关0档（无限制）",
+# fixed wording per help language (selected with --lng)
+L10N = {
+    "chs": {"rec": "推荐设置：", "none": "无", "range": "取值范围", "unit": "（单位：{}）", "sep": "；",
+            "access": "修改权限：{}及以上", "ro": "界面只读显示，由程序自动写入",
+            "ac": {"1": "制造商口令", "2": "服务口令", "3": "用户口令", "4": "钥匙开关3档", "5": "钥匙开关2档",
+                   "6": "钥匙开关1档", "7": "钥匙开关0档（无限制）"}},
+    "eng": {"rec": "Recommended setting: ", "none": "none", "range": "Value range", "unit": " (unit: {})", "sep": "; ",
+            "access": "Access level: {} or higher", "ro": "Read-only on the screen, written automatically by the program",
+            "ac": {"1": "manufacturer password", "2": "service password", "3": "user password",
+                   "4": "key switch position 3", "5": "key switch position 2", "6": "key switch position 1",
+                   "7": "key switch position 0 (no restriction)"}},
+    "rus": {"rec": "Рекомендуемое значение: ", "none": "нет", "range": "Диапазон значений", "unit": " (ед.: {})",
+            "sep": "; ", "access": "Уровень доступа: {} и выше",
+            "ro": "Только чтение на экране, значение записывается программой автоматически",
+            "ac": {"1": "пароль изготовителя", "2": "сервисный пароль", "3": "пароль пользователя",
+                   "4": "положение 3 ключа", "5": "положение 2 ключа", "6": "положение 1 ключа",
+                   "7": "положение 0 ключа (без ограничений)"}},
 }
+T = L10N["chs"]
 IND = "    "
 
 
@@ -121,13 +136,13 @@ def emit_param(o, d, p, ids):
     o.w(d + 1, '<table border="1" cellspacing="0" cellpadding="2" width="100%">')
     o.w(d + 2, "<tr>")
     o.w(d + 3, f'<td><a class="var_mark" name="{pid}">{inline(p["name"])}</a></td>')
-    o.w(d + 3, f'<td>推荐设置：{inline(p.get("rec", "无"))}</td>')
+    o.w(d + 3, f'<td>{T["rec"]}{inline(p.get("rec", T["none"]))}</td>')
     o.w(d + 2, "</tr>")
     o.w(d + 2, "<tr>")
-    o.w(d + 3, "<td>取值范围</td>")
-    rng = str(p.get("range", "无"))
+    o.w(d + 3, f"<td>{T['range']}</td>")
+    rng = str(p.get("range", T["none"]))
     if p.get("unit"):
-        rng += f'（单位：{p["unit"]}）'
+        rng += T["unit"].format(p["unit"])
     o.w(d + 3, f"<td>{inline(rng)}</td>")
     o.w(d + 2, "</tr>")
     o.w(d + 1, "</table>")
@@ -137,11 +152,11 @@ def emit_param(o, d, p, ids):
     info = []
     # 帮助面向终端用户：`var` 仅作为 YAML 源中的维护参考，不输出到 HTML
     if p.get("ac") and str(p["ac"]) != "7":
-        info.append(f'修改权限：{AC_TEXT[str(p["ac"])]}' + ("" if str(p["ac"]) == "7" else "及以上"))
+        info.append(T["access"].format(T["ac"][str(p["ac"])]))
     if p.get("readonly"):
-        info.append("界面只读显示，由程序自动写入")
+        info.append(T["ro"])
     if info:
-        o.w(d + 2, "<i>" + html.escape("；".join(info), quote=False) + "</i><br>")
+        o.w(d + 2, "<i>" + html.escape(T["sep"].join(info), quote=False) + "</i><br>")
     o.w(d + 1, "</p>")
     for im in p.get("imgs", []) or []:
         o.w(d + 1, img_tag(im) + "<br>")
@@ -312,6 +327,8 @@ def main():
     ap.add_argument("--lng", default="chs")
     ap.add_argument("--only", help="只构建指定 section 文件名，如 section_1")
     a = ap.parse_args()
+    global T
+    T = L10N[a.lng]
     sdir = os.path.join(SRC, a.lng)
     ddir = os.path.join(DST, a.lng, "UserGuide")
     capp = os.path.join(sdir, "img_caps.yaml")

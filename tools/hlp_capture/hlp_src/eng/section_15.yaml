@@ -1,0 +1,25 @@
+title: Statistics and Accessory Life
+head1: Machine Functions
+refs: |
+  For the parameters see [Statistics and Accessory Life Screens](section_8.html)
+blocks:
+  - h3: Stats (machining statistics)
+    body:
+      - p: The **Stats** softkey on the right of the welcome page opens the screen only after **Processing statistics** is enabled in the machine configuration (otherwise clicking does nothing); the dressing wheel life cycle area additionally needs **Dressing wheel life cycle statistics**
+      - steps:
+          - t: Click **Stats** on the right of the welcome page (key switch position 3)
+            img: {src: stats.png, h: 300}
+          - The table records for each wheel number the parts ground and the change date; after changing the wheel and starting new wheel dressing, recording of the next wheel begins automatically (only parts finished in Mass mode are counted)
+          - The dressing wheel life cycle area shows the number of dressings and the total dressing amount of the dressing wheel; when the dressing limit is reached a replacement message is given
+          - After changing the dressing wheel click **Reset Count** and confirm; to clear all wheel records click **Reset Stat** and confirm
+  - h3: Accessory life
+    body:
+      - p: The **Accessory life** softkey on the right of the welcome page opens the screen only after **Parts life interface display** is enabled in the machine configuration (otherwise clicking does nothing)
+      - steps:
+          - t: Click **Accessory life** on the right of the welcome page
+            img: {src: parts_life.png, h: 300}
+          - Set Set Life and Alarm Threshold for each part and switch **Alarm Message** on
+          - Current Life is counted automatically during operation; after the alarm limit is exceeded, the machine pauses at program start with a replacement message
+          - After replacing a part click the ↺ icon at the right of its row; Current Life is cleared and the reset time recorded
+          - t: Click **Roller Log** on the right to see the IDs and dates of all roller changes
+            img: {src: roller_record.png, h: 300}

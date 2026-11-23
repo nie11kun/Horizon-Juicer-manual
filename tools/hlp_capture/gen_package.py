@@ -22,6 +22,8 @@ import subprocess
 import sys
 import time
 
+import inventory  # shared --lng / HLP_LNG: chs -> Creator Chinese package, eng/rus -> English package (all help languages)
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 MANUAL = os.path.abspath(os.path.join(HERE, "..", ".."))
 PKG_DIR = os.path.join(MANUAL, "tools", "vm_bridge", "packages")
@@ -29,6 +31,8 @@ SRC_DIR = r"C:\Users\Marco Nie\Development\WorkProgram\Horizon-Juicer"
 EXE = os.path.join(SRC_DIR, "HorizonJuicerCreator", "HorizonJuicerCreator.exe")
 USER_CFG = os.path.expanduser(r"~\HorizonJuicerCreator.json")
 
+LNG_NAME_EN = {"外螺纹磨床": "External Thread Grinder", "内螺纹磨床": "Internal Thread Grinder",
+               "内螺纹磨削中心": "Internal Thread Grinding Center"}
 BASE = {
     "lng": 0, "hmiMode": 0, "systemMode": 0, "ifRemoveComments": 1,
     "ifHasEncryption": 0, "ifHasNoneTradeMark": 0,
@@ -60,6 +64,8 @@ CONFIGS = {
     "int_uw": ("HLPINT3", "内螺纹磨床", {"machineType": 1, "wareType": 6, "wheelType": 1}),
     # minimal (factory-default) machines: no optional functions -> used for overview screenshots
     "ext_min": ("HLPEXT6", "外螺纹磨床", {"machineType": 0, "wareType": 0, "wheelType": 0}),
+    # generic package for the welcome / factory-info screenshots (model "TEST", no real machine data)
+    "demo": ("TEST", "外螺纹磨床", {"machineType": 0, "wareType": 0, "wheelType": 0}),
     "int_min": ("HLPINT4", "内螺纹磨床", {"machineType": 1, "wareType": 2, "wheelType": 0}),
     "ext_tap": ("HLPEXT7", "外螺纹磨床", {"machineType": 0, "wareType": 0, "wheelType": 0, "ifHasScrewTap": 0}),
     # internal grinding centers
@@ -150,6 +156,9 @@ def generate(name):
     mname, lngname, ov = CONFIGS[name]
     cfg = dict(BASE)
     cfg.update(ov)
+    if inventory.LANG != "chs":
+        cfg["lng"] = 1
+        lngname = LNG_NAME_EN.get(lngname, lngname)
     cfg.update({"machineName": mname, "machineNameLng": lngname, "machineIndex": "01",
                 "customInfo": "HLP", "programDir": {"sourceDir": SRC_DIR, "destDir": PKG_DIR}})
     assert cfg["systemMode"] == 0

@@ -1,0 +1,112 @@
+title: Parameter Backup and Restore Screen
+head1: HMI Screen Parameters
+blocks:
+- h3: Parameter backup and restore screen
+  body:
+  - p: The **Backup Restore** softkey on the right of the welcome page opens this screen only after **Parameter backup and restore** is enabled in the machine configuration (otherwise clicking does nothing)
+  - img:
+      src: backup_restore.png
+      h: 300
+  - params:
+    - id: S31D1
+      name: Mode Choice
+      rec: none
+      range: Grind / Backup / Restore
+      text: '**Grind**: CYCLE START runs the normal grinding program
+
+        **Backup** / **Restore**: CYCLE START runs the parameter backup or restore; nothing is ground
+
+        After backup or restore you must switch back to **Grind**, otherwise the machine cannot machine normally; when the screen is left with **return** (lower right), Mode Choice is switched back to Grind automatically
+
+        '
+    - id: S31D2
+      name: Location (backup path)
+      rec: none
+      range: Internal SPF / Front USB / CF card
+      text: 'Where the backup file is stored
+
+        To back up to the front USB port, put the configuration file **extdev.ini** into the system directory **/oem/sinumerik/nck** (or the corresponding user directory) and restart the control. The rear USB port can only be used for restoring, not for backup
+
+        '
+    - id: S31D3
+      name: Backup Dir
+      rec: none
+      range: backup folder name
+      text: 'The folder is created automatically if it does not exist
+
+        '
+    - id: S31D4
+      name: File Name (backup file)
+      rec: none
+      range: backup file name
+      text: 'The backup file is stored in the backup folder and is created automatically if it does not exist
+
+        '
+    - id: S31D5
+      name: Backup Type
+      rec: none
+      range: All Vars / Custom Vars
+      text: 'Back up all global variables or only selected variables
+
+        For custom variables also define List Dir, the list File Name and Line Count
+
+        For the list rules see [Parameter Backup and Restore](section_30.html)
+
+        '
+    - id: S31D6
+      name: List Dir
+      rec: none
+      range: folder of the custom variable list
+      text: 'This folder must be in the subprogram directory of the control
+
+        For the list rules see [Parameter Backup and Restore](section_30.html)
+
+        '
+    - id: S31D7
+      name: File Name (list name)
+      rec: none
+      range: name of the custom variable list
+      text: 'Text file by default; do not enter the extension
+
+        For the list rules see [Parameter Backup and Restore](section_30.html)
+
+        '
+    - id: S31D8
+      name: Line Count
+      rec: none
+      range: 0-800
+      text: 'Total number of lines of the custom variable list file
+
+        The control reads the variables of the list line by line up to this number of lines
+
+        For the list rules see [Parameter Backup and Restore](section_30.html)
+
+        '
+    - id: S31D9
+      name: Location (restore path)
+      rec: none
+      range: Internal SPF / Back USB / Front USB / CF card
+      text: 'Where the backup file to be restored is stored
+
+        To restore a file from the rear USB port, the logical drive must be configured with the name **//DEV_3**
+
+        '
+    - id: S31D10
+      name: Restore Dir
+      rec: none
+      range: restore folder name
+      text: 'Folder in which the backup file to be restored is located
+
+        '
+    - id: S31D11
+      name: File Name (restore file)
+      rec: none
+      range: restore file name
+      text: 'The restore file is stored in the restore folder
+
+        '
+refs: 'For the operating steps see [Parameter Backup and Restore](section_30.html)
+
+  Click the **Backup Restore** softkey on the right of the welcome page (user password level, and enabled in the machine configuration)
+
+  '

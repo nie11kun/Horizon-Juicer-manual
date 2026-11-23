@@ -1,0 +1,34 @@
+language: eng
+book: User Manual
+header:
+  - "Machine model: machineName"
+  - "Machine name: machineCHS"
+  - "Software version: softwareVersion"
+parts:
+  - title: HMI Screen Parameters
+    entries:
+      - {ref: section_9.html, title: Welcome Page and Navigation}
+      - {ref: section_1.html, title: Grinding Screen}
+      - {ref: section_2.html, title: Process Screen}
+      - {ref: section_3.html, title: Dressing Screen}
+      - {ref: section_4.html, title: Dressing Wheel Screen}
+      - {ref: section_6.html, title: Tooth Profile Screen}
+      - {ref: section_5.html, title: Automatic Tool Setting Screen, marks: [ifIsAuto]}
+      - {ref: section_26.html, title: External Cylinder Parameters, marks: [ifIsCenter]}
+      - {ref: section_27.html, title: End Face Parameters, marks: [ifIsCenter]}
+      - {ref: section_28.html, title: Process Selection, marks: [ifIsCenter]}
+      - {ref: section_8.html, title: Statistics and Accessory Life Screens}
+      - {ref: section_31.html, title: Parameter Backup and Restore Screen}
+      - {ref: section_7.html, title: Machine Configuration Screen}
+  - title: Machine Functions
+    entries:
+      - {ref: section_10.html, title: Wheel Dressing}
+      - {ref: section_11.html, title: Tool Setting}
+      - {ref: section_12.html, title: Grinding}
+      - {ref: section_13.html, title: Extended Grinding Functions}
+      - {ref: section_20.html, title: External Cylinder and End Face Dressing, marks: [ifIsCenter]}
+      - {ref: section_22.html, title: External Cylinder and End Face Tool Setting, marks: [ifIsCenter]}
+      - {ref: section_24.html, title: External Cylinder and End Face Grinding, marks: [ifIsCenter]}
+      - {ref: section_15.html, title: Statistics and Accessory Life}
+      - {ref: section_30.html, title: Parameter Backup and Restore}
+      - {ref: section_16.html, title: Machine Configuration Management}

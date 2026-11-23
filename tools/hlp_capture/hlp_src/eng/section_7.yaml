@@ -1,0 +1,107 @@
+title: Machine Configuration Screen
+head1: HMI Screen Parameters
+refs: 'The machine configuration screen is the configuration management screen used by the manufacturer and service staff to set the machine structure, function switches and input limits
+
+  Access: on the welcome page click the extended menu (▷) on the right, then **Settings**; a password must be entered. **To access it, please contact the machine manufacturer for the password**
+
+  Changes take effect immediately; wrong settings can cause abnormal machine motions, so do not change them yourself
+
+  '
+blocks:
+- h3: Password check
+  body:
+  - img:
+      src: setting_password.png
+      h: 300
+  - params:
+    - id: S7D1
+      name: Password
+      range: 6 digits
+      ac: 3
+      text: 'Click the third softkey on the right; a 6-digit challenge code is shown in the lower right corner. Give the challenge code to the manufacturer, enter the unlock password received into this field and press INPUT
+
+        Every click of the softkey shows a new challenge code; a wrong password gives a message
+
+        '
+- h3: Configuration list
+  body:
+  - img:
+      src: setting_list.png
+      h: 300
+  - note: 'After unlocking, the configuration list is shown; scroll with the page keys. Switch items are changed with the SELECT key, numeric items are entered directly
+
+      The **Reset** softkey on the right restores all items to the factory defaults of this machine (must be done once after a new program package has been imported); it is executed after confirmation
+
+      '
+  - params:
+    - id: S7D2
+      name: Grinding related
+      range: see table
+      ac: 3
+      text: 'Wheel drive type, wheel action after machining, spiral exit, automatic rotation angle, constant speed mode, extended process interface, ring groove machining, three-wire measurement display, automatic rough grinding calculation, compensation display after dressing, left-hand machining direction, automatic door control, power-off retraction, additional cooling channel, pressure display, infeed mode for two-way grinding, etc.
+
+        '
+    - id: S7D3
+      name: Dressing related
+      range: see table
+      ac: 3
+      text: 'Dressing wheel drive type, dressing wheel action after machining, new wheel lifting mode, universal profile plane, dressing A-axis angle display, dressing wheel reverse rotation, external profile program, speed readjustment every 20 dressings, starting the roller one pass early, plain or profiled new wheel, triangle/trapezoid/double arc profile modes, additional profiles, separate parameters for the new wheel contour, left/right finish grinding after form dressing, plain wheel dressing, etc.
+
+        '
+    - id: S7D4
+      name: Operate setting related
+      range: see table
+      ac: 3
+      text: 'Manual tool setting mode (interpolation / static), manual tool setting angle, non-first part moving directly to initial contact, automatic tool setting device and measuring mode, probe cylinder detection switch, measuring direction, internal thread automatic tool setting mode, etc.
+
+        '
+    - id: S7D5
+      marks:
+      - ifIsCenter
+      name: Grinding center related
+      range: see table
+      ac: 3
+      text: 'External wheel drive type, headstock rotation direction for external/face grinding, external wheel action after machining, table position after internal grinding, hydraulic control of the external dresser, headstock angle when dressing the external wheel, side door detection, external online measuring module and its speeds, etc.
+
+        '
+    - id: S7D6
+      name: Hidden interface activation
+      range: ON / OFF
+      ac: 3
+      text: 'Controls whether the following screens are shown in the HMI: parameter backup and restore, processing statistics, dressing wheel life cycle statistics, robot options, pitch transformation (single/many), self-grinding fixture, reverse hole chamfer, variable diameter grinding, dry running, segmental compensation, process additional configuration, Y axis settings, parts life
+
+        For switched-off functions the softkeys are not shown and the related parameters are not used
+
+        '
+    - id: S7D7
+      name: Restrictions on the input range of some interface parameters
+      range: 0 means default limit
+      ac: 3
+      text: 'Limits the values operators can enter on the screens, to prevent wrong inputs:
+
+        ?ifIsInternal: minimum distance of Safe Pos.Z from the right end of the workpiece
+
+        upper limits for pitch diameter adjustment, process infeed, process headstock speed and dressing infeed
+
+        ?ifIsCenter: upper limit for external wheel dressing infeed
+
+        '
+  - table:
+    - - Configuration item (examples)
+      - Effect
+    - - Grind wheel status after process
+      - after the program the wheel stops, keeps its speed or keeps turning at low speed
+    - - Constant speed mode
+      - process/dressing screens take the wheel speed directly; the surface speed changes with the diameter
+    - - Extended process interface
+      - every step in the process table gets its own dressing parameters
+    - - Automatic calculation of rough grinding volume
+      - enter Set Amount; the Rough infeed is calculated back
+    - - End automatic closing of Dressing/Tool setting key
+      - the corresponding function key on the operator panel is switched off automatically after dressing or tool setting
+    - - Power-off retreat enable
+      - on power failure the wheel retracts automatically to avoid damaging the workpiece
+    - - With automatic tool setting mechanism
+      - shows the automatic tool setting screen and function
+    - - Pitch transformation
+      - 'OFF / single / many: no screen, single-section or multi-section pitch conversion screen'

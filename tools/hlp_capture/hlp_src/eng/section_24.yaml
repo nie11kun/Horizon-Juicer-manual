@@ -1,0 +1,44 @@
+title: External Cylinder and End Face Grinding
+head1: Machine Functions
+refs: |
+  For the parameters see [External Cylinder Parameters](section_26.html), [End Face Parameters](section_27.html) and [Process Selection](section_28.html)
+blocks:
+  - h3: Process selection
+    body:
+      - img: {src: center_select.png, h: 300}
+      - p: |
+          On the right of the **main** (process selection) screen light the operations to be machined this time (External, Left Face, Right Face, Stair, Start = internal thread); after CYCLE START they are machined one after another
+  - h3: External cylinder grinding
+    body:
+      - steps:
+          - Light **External** on the process selection screen
+          - On the external parameter screen set the initial grinding contact by manual tool setting
+          - On the end face parameter screen set the left and right face contacts by manual tool setting (the external grinding range is calculated from them)
+          - t: Set the grinding process on the external process screen
+            img: {src: center_od_process.png, h: 300}
+          - "Grinding method: **Move** means reciprocating left and right after each infeed; **hold** means no reciprocating after infeed (plunge grinding)"
+          - In hold mode the cylinder can be plunge-ground in segments when it is longer than the wheel width
+      - note: |
+          Set the safe positions before grinding: external wheel retract position and table grinding start position
+          Headstock speed usually about 120 r/min, adjust according to surface quality
+          Rough grinding can use hold with segments to remove the surface stock quickly
+          External grinding start point = left face initial contact + 0.1 mm + slot width (the wheel feeds in here, the relief groove is not ground); end point = right face initial contact + 0.1 mm - End Pos Compensate of the external parameter page
+  - h3: End face grinding
+    body:
+      - steps:
+          - Light **Left Face / Right Face** on the process selection screen
+          - Set the grinding positions on the end face and external parameter screens by manual tool setting
+          - t: Set the grinding process on the end face process screen; the grinding method is the same as for the external cylinder
+            img: {src: center_face_process.png, h: 300}
+      - note: |
+          ?ifIsHasU: Left face: start = external current contact + 0.1 mm, end = external current contact + flange height + 1 mm; right face: start = external current contact - wall thickness, end = external current contact + 1 mm
+          ?ifIsNotHasUBack: Left face: start = external current contact - 0.1 mm, end = external current contact - flange height - 1 mm; right face: start = external current contact + wall thickness, end = external current contact - 1 mm
+          ?ifIsNotHasUFront: Left face: start = external current contact + 0.1 mm, end = external current contact + flange height + 1 mm; right face: start = external current contact - wall thickness, end = external current contact + 1 mm
+          The face stroke end point is further shortened by End Pos Compensate in the left/right face column of the end face parameter page; face grinding is based on the external current contact, so grind the external cylinder first
+  - h3: Step grinding
+    body:
+      - steps:
+          - Light **Stair** on the process selection screen
+          - t: Open **Stair 1 / Stair 2** on the right of the external parameter screen, switch Enable on and set the distance to the left face, step length and process
+            img: {src: center_step.png, h: 300}
+          - The initial grinding position of a step is taken from the external current contact (or initial contact), so machine the external cylinder first

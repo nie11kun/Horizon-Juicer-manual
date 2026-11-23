@@ -1,0 +1,52 @@
+title: Parameter Backup and Restore
+head1: Machine Functions
+refs: |
+  For the parameters see [Parameter Backup and Restore Screen](section_31.html)
+  Click **Backup Restore** on the right of the welcome page (user password needed, and enabled in the machine configuration)
+blocks:
+  - h3: Normal machining
+    body:
+      - steps:
+          - t: The **Mode Choice** of the backup/restore screen must be set to **Grind** for the machine to run the normal grinding program
+            img: {src: backup_restore.png, h: 300}
+  - h3: Backing up parameters
+    body:
+      - steps:
+          - Open the backup/restore screen and set Mode Choice to **Backup**
+          - Set the backup location, backup folder and file name
+          - Select the backup type as required (all variables or a custom variable list)
+          - For custom variables also define the list folder, list name and line count
+          - Press CYCLE START to run the backup; afterwards set Mode Choice back to **Grind**
+  - h3: Restoring parameters
+    body:
+      - steps:
+          - Open the backup/restore screen and set Mode Choice to **Restore**
+          - Set the restore location, restore folder and file name
+          - Press CYCLE START to run the restore; afterwards set Mode Choice back to **Grind**
+      - note: |
+          To restore a file from the rear USB port, the logical drive must first be configured in the control with the name //DEV_3
+  - h3: Custom variable list for backup
+    body:
+      - note: |
+          The variable list file is stored in the subprogram directory of the control; rules:
+          at most 790 variables
+          the total number of lines of the file (including comment lines and empty lines) must be entered on the screen
+          lines beginning with a semicolon ; are comments and are not read; empty lines are not read either
+          a star * before the name marks a string variable
+      - p: "The example file PAR_DEMO.TXT has 14 lines (including comment and empty lines), so enter 14 as Line Count:"
+      - table:
+          - ["Line", "File content", "Meaning"]
+          - ["1", ";PAR_DEMO.TXT", "comment, not read"]
+          - ["2", "", "empty line, not read"]
+          - ["3", ";example parameter list file", "comment, not read"]
+          - ["4", ";declare the total number of lines of this file in the line count", "comment, not read"]
+          - ["5", ";lines starting with a semicolon and empty lines are not read", "comment, not read"]
+          - ["6", ";a star before the name marks a string variable", "comment, not read"]
+          - ["7", "", "empty line, not read"]
+          - ["8", "R0", "backs up R0"]
+          - ["9", "R1", "backs up R1"]
+          - ["10", "", "empty line, not read"]
+          - ["11", "R2", "backs up R2"]
+          - ["12", "*STRING", "backs up the string variable STRING"]
+          - ["13", ";comment line", "comment, not read"]
+          - ["14", "R3", "backs up R3"]

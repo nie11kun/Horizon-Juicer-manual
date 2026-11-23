@@ -16,11 +16,12 @@ import sys
 import yaml
 
 import gen_package
+import inventory
 
 # markers Creator does not strip from help pages at all (checked 2026-11): the help text under them is
 # written as a condition ("带 A 轴的机床…"), so a leftover is reported as a note, not an error
 NOT_STRIPPED = {"ifIsHasA", "ifIsNotHasA", "ifIsHasLoadingArm", "ifIsNotHasLoadingArm", "ifIsHasWorm"}
-TOC = yaml.safe_load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "hlp_src", "chs", "toc.yaml"),
+TOC = yaml.safe_load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "hlp_src", inventory.LANG, "toc.yaml"),
                           encoding="utf-8"))
 GATE = {e["ref"]: set(e.get("marks", []) or []) for part in TOC["parts"] for e in part.get("entries", [])}
 
@@ -84,7 +85,7 @@ def absent(cfg):
 
 
 def hlp_dir(name):
-    hits = glob.glob(os.path.join(PKG_DIR, name + "(*", "**", "hlp", "chs", "UserGuide"), recursive=True)
+    hits = glob.glob(os.path.join(PKG_DIR, name + "(*", "**", "hlp", inventory.LANG, "UserGuide"), recursive=True)
     return hits[0] if hits else None
 
 

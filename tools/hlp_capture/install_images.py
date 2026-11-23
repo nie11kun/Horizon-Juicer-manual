@@ -13,10 +13,10 @@ import sys
 from PIL import Image, ImageDraw, ImageFont
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-RAW = os.path.join(HERE, "raw")
 import inventory  # noqa: E402
+RAW = os.path.join(HERE, "raw") if inventory.LANG == "chs" else os.path.join(HERE, "raw", inventory.LANG)
 
-DST = os.path.join(inventory.ROOT, "Source_Library", "HMI", "hlp", "chs", "UserGuide", "resources", "img")
+DST = os.path.join(inventory.ROOT, "Source_Library", "HMI", "hlp", inventory.LANG, "UserGuide", "resources", "img")
 UG = os.path.dirname(os.path.dirname(DST))
 
 ALIAS = {"setting_password": "_pw", "setting_list": "int_setting_p1"}

@@ -1,0 +1,402 @@
+title: End Face Parameters
+head1: HMI Screen Parameters
+blocks:
+- h3: Grinding parameters
+  body:
+  - img:
+      src: center_face_grind.png
+      h: 300
+  - params:
+    - id: S27D3
+      name: Mode (machining mode)
+      rec: as required
+      range: Single / Mass
+      text: 'Decides from which position grinding starts
+
+        **Single**: after starting, machining continues from the **current** grinding position; for setting up or regrinding a single part
+
+        **Mass**: after starting, machining begins at the **initial** grinding position; for continuous machining of a batch
+
+        '
+    - id: S27D1
+      var: INI[44]
+      name: left Height (left face flange height)
+      rec: none
+      range: greater than zero
+      text: 'Affects left face grinding and automatic tool setting
+
+        Measure the real flange height of the workpiece, to 0.1 mm
+
+        '
+    - id: S27D4
+      name: start Pos.X (left face grinding start point)
+      rec: calculated automatically
+      range: none
+      text: 'Calculated automatically from the external current grinding contact on the external parameter screen, read-only
+
+        ?ifIsHasU: grinding start point = external current contact + 0.1 mm
+
+        ?ifIsNotHasUFront: grinding start point = external current contact + 0.1 mm
+
+        ?ifIsNotHasUBack: grinding start point = external current contact - 0.1 mm
+
+        '
+    - id: S27D5
+      name: end Pos.X (left face grinding end point)
+      rec: calculated automatically
+      range: none
+      text: 'Calculated automatically from the external current grinding contact and the left flange height, read-only
+
+        ?ifIsHasU: grinding end point = external current contact + flange height + 1 mm
+
+        ?ifIsNotHasUFront: grinding end point = external current contact + flange height + 1 mm
+
+        ?ifIsNotHasUBack: grinding end point = external current contact - flange height - 1 mm
+
+        During the reciprocating stroke the end point is further shortened by **End Pos Compensate** in the left face column
+
+        '
+    - id: S27D6
+      name: L-face Init Touch.Z / Init Touch.Z (left face initial grinding contact)
+      rec: enter after measuring by hand
+      range: none
+      ac: 4
+      text: 'Z coordinate at which the wheel starts grinding the left face. In manual tool setting bring the wheel close to the left face, leave a gap of about 0.05 mm and enter the Z coordinate
+
+        In Mass mode every part starts feeding from this position; the external grinding start point is also calculated from it; after the face wheel is dressed it is compensated by the dressing amount
+
+        '
+    - id: S27D7
+      name: L-face Curt Touch.Z / Current Touch.Z (left face current grinding contact)
+      rec: accumulated automatically
+      range: none
+      ac: 4
+      text: 'Current grinding position of the left face, updated automatically after every infeed; in Single mode the program continues from this position
+
+        '
+    - id: S27D2
+      name: right Thickness (right face wall thickness)
+      rec: none
+      range: greater than zero
+      text: 'Affects right face grinding
+
+        Measure the real wall thickness of the workpiece, to 0.1 mm
+
+        '
+    - id: S27D8
+      name: start Pos.X (right face grinding start point)
+      rec: calculated automatically
+      range: none
+      text: 'Calculated automatically from the external current grinding contact and the right wall thickness, read-only
+
+        ?ifIsHasU: grinding start point = external current contact - wall thickness
+
+        ?ifIsNotHasUFront: grinding start point = external current contact - wall thickness
+
+        ?ifIsNotHasUBack: grinding start point = external current contact + wall thickness
+
+        '
+    - id: S27D9
+      name: end Pos.X (right face grinding end point)
+      rec: calculated automatically
+      range: none
+      text: 'Calculated automatically from the external current grinding contact, read-only
+
+        ?ifIsHasU: grinding end point = external current contact + 1 mm
+
+        ?ifIsNotHasUFront: grinding end point = external current contact + 1 mm
+
+        ?ifIsNotHasUBack: grinding end point = external current contact - 1 mm
+
+        During the reciprocating stroke the end point is further shortened by **End Pos Compensate** in the right face column
+
+        '
+    - id: S27D10
+      name: R-face Init Touch.Z / Init Touch.Z (right face initial grinding contact)
+      rec: enter after measuring by hand
+      range: none
+      ac: 4
+      text: 'Z coordinate at which the wheel starts grinding the right face. In manual tool setting bring the wheel close to the right face, leave a gap of about 0.05 mm and enter the Z coordinate
+
+        In Mass mode every part starts feeding from this position; the external grinding end point is also calculated from it; after the face wheel is dressed it is compensated by the dressing amount
+
+        '
+    - id: S27D11
+      name: R-face Curt Touch.Z / Current Touch.Z (right face current grinding contact)
+      rec: accumulated automatically
+      range: none
+      ac: 4
+      text: 'Current grinding position of the right face, updated automatically after every infeed; in Single mode the program continues from this position
+
+        '
+- h3: Process parameters
+  body:
+  - img:
+      src: center_face_process.png
+      h: 300
+  - params:
+    - id: S27D40
+      name: Left Grind-cumu / Left Grind-set / Right Grind-cumu / Right Grind-set
+      range: read-only
+      unit: mm
+      readonly: true
+      text: 'Set total grinding amount of the left and right face processes (passes × infeed of every step) and the amount already ground on the current part
+
+        '
+      var: PROCESS[61]、PROCESS[117]、PROCESS[62]、PROCESS[118]
+    - id: S27D12
+      name: Completed
+      rec: '0'
+      range: greater than zero
+      text: 'Counted automatically
+
+        Increases by one each time a grinding program is completed in Mass mode
+
+        '
+    - id: S27D13
+      name: Dress Set (dress after n parts)
+      rec: '0'
+      range: according to the process
+      text: 'The wheel is dressed once after this number of parts
+
+        This makes it possible to dress the wheel automatically after several parts
+
+        Note: dressing uses the fine dressing parameters of the dressing page (passes / amount / speed)
+
+        '
+    - id: S27D14
+      name: cycles (number of passes)
+      rec: none
+      range: greater than zero
+      text: 'Controlled by the grinding stock of the workpiece
+
+        '
+    - id: S27D15
+      name: infeed depth
+      rec: 0.005~0.05
+      range: greater than zero
+      text: 'Distribute the infeed according to the process: normally a large infeed in Rough to remove stock and a small infeed in Fine for finishing
+
+        '
+    - id: S27D16
+      name: grinding speed
+      rec: '100'
+      range: greater than zero
+      text: 'Speed of the wheel moving from the grinding start point to the end point
+
+        '
+    - id: S27D17
+      name: dress setting (dress after n passes)
+      rec: none
+      range: greater than zero
+      text: 'The wheel is dressed once when the number of passes of the current step reaches this setting
+
+        Note: dressing uses the fine dressing parameters of the dressing page (passes / amount / speed)
+
+        '
+    - id: S27D18
+      name: wheel surface speed
+      rec: 30 m/s
+      range: 15~50
+      text: 'The grinding surface speed varies a lot with the wheel and workpiece materials
+
+        Determine the setting by testing
+
+        With **Constant speed mode** switched on in the machine configuration this value is read-only and the wheel speed is entered directly
+
+        '
+    - id: S27D19
+      name: headstock speed
+      rec: '120'
+      range: according to the process
+      unit: r/min
+      text: 'Headstock speed for face grinding; affects surface roughness and efficiency. Usually about 120 r/min, adjust according to the actual result
+
+        '
+- h3: Dressing parameters
+  body:
+  - img:
+      src: center_face_dress.png
+      h: 300
+  - params:
+    - id: S27D20
+      name: Total Amount (accumulated dressing amount)
+      rec: none
+      range: none
+      text: 'Amount already dressed off the current wheel, radial
+
+        '
+    - id: S27D21
+      name: Taper fix (taper fine adjustment)
+      rec: '0'
+      range: 0~0.02
+      text: 'If the measured face of the workpiece shows a slight taper, this parameter dresses a slight slope onto the wheel to correct it
+
+        Use it only for fine adjustment; a large value would leave marks on the surface
+
+        '
+    - id: S27D22
+      name: Wheel Status
+      rec: none
+      range: New W. / Used W.
+      text: 'After mounting a new wheel switch to New W.; also set the correct new wheel diameter and initial dressing position
+
+        '
+    - id: S27D23
+      name: Rough Times (rough dressing passes)
+      rec: none
+      range: greater than zero
+      text: 'Number of rough dressing passes when dressing with the dressing key
+
+        '
+    - id: S27D24
+      name: Rough Feed-Rate (rough dressing infeed)
+      rec: none
+      range: greater than zero
+      text: 'Infeed per rough dressing pass
+
+        '
+    - id: S27D25
+      name: Rough Speed (rough dressing speed)
+      rec: none
+      range: greater than zero
+      text: 'Dressing speed in rough dressing
+
+        '
+    - id: S27D26
+      name: Fine Times (fine dressing passes)
+      rec: none
+      range: greater than zero
+      text: 'Number of fine dressing passes when dressing with the dressing key
+
+        Dressing during grinding also uses this number of fine passes
+
+        '
+    - id: S27D27
+      name: Fine Feed-Rate (fine dressing infeed)
+      rec: none
+      range: greater than zero
+      text: 'Infeed per fine dressing pass
+
+        '
+    - id: S27D28
+      name: Fine Speed (fine dressing speed)
+      rec: none
+      range: greater than zero
+      text: 'Dressing speed in fine dressing
+
+        '
+    - id: S27D29
+      name: Start Pos.X (dressing start point)
+      rec: coordinate with the diamond about 5 mm in front of the wheel
+      range: none
+      text: 'Move the diamond dresser by hand to a suitable position in front of the wheel and record the coordinate as dressing start point
+
+        '
+    - id: S27D30
+      name: End Pos.X (dressing end point)
+      rec: coordinate with the diamond about 5 mm behind the wheel
+      range: none
+      text: 'Move the diamond dresser by hand to a suitable position behind the wheel and record the coordinate as dressing end point
+
+        '
+    - id: S27D31
+      name: Line Speed (wheel surface speed for dressing)
+      rec: none
+      range: greater than zero
+      text: 'Wheel surface speed while dressing; set a suitable value for good dressing quality
+
+        With **Constant speed mode** switched on in the machine configuration this value is read-only and the wheel speed is entered directly
+
+        '
+    - id: S27D32
+      name: Curr Touch.Z (current dressing contact)
+      rec: accumulated automatically
+      range: none
+      text: 'Z-axis coordinate of the diamond and wheel in the left/right direction
+
+        Coordinate at which the current wheel touches the diamond; with wheel status Used W. dressing starts from this position. Updated automatically after every dressing
+
+        '
+    - id: S27D33
+      name: Init Touch.Z (initial dressing contact)
+      rec: enter after measuring by hand
+      range: none
+      text: 'Z-axis coordinate of the diamond and wheel in the left/right direction
+
+        Dressing position for a new wheel; make sure the diamond does not touch the wheel during the first dressing stroke from start to end point
+
+        '
+    - id: S27D34
+      name: grinding method
+      rec: select as required
+      range: Move / hold
+      text: 'Motion during grinding
+
+        Move: after infeed the wheel travels vertically from the grinding start point to the end point and back
+
+        hold: the wheel keeps feeding in without vertical motion (plunge grinding)
+
+        '
+    - id: S27D35
+      name: grinding wheel speed
+      rec: select as required
+      range: greater than zero
+      text: 'Wheel speed for grinding
+
+        With **Constant speed mode** switched on in the machine configuration it can be entered directly; otherwise it is converted from the surface speed and shown read-only
+
+        '
+    - id: S27D36
+      name: Rotating Speed (wheel speed for dressing)
+      rec: select as required
+      range: greater than zero
+      text: 'Wheel speed while dressing
+
+        With **Constant speed mode** switched on in the machine configuration it can be entered directly; otherwise it is converted from the surface speed and shown read-only
+
+        '
+    - id: S27D37
+      name: Grind Compensation (compensation per dressing during grinding)
+      rec: none
+      range: -0.5~0.5
+      text: 'Compensation of the grinding position for each dressing during grinding
+
+        A positive value compensates in the positive axis direction
+
+        The value is applied per dressing; use it when the part size keeps drifting in one direction during machining
+
+        Shown after **Display of grinding position compensation parameters after dressing** is enabled in the machine configuration
+
+        '
+    - id: S27D38
+      name: End Pos Compensate (left face end point compensation)
+      rec: none
+      range: greater than zero, less than the flange height
+      text: 'Compensation of the horizontal end point of the reciprocating stroke when grinding the left face
+
+        By default the end point is at the flange height; if the wheel should not travel completely off the left face, set this compensation
+
+        Example: 5 mm means the reciprocating stroke ends 5 mm before the flange height
+
+        Do not set it too large, otherwise the end point is closer to the cylinder than the start point
+
+        '
+    - id: S27D39
+      name: End Pos Compensate (right face end point compensation)
+      rec: none
+      range: greater than zero, less than the wall thickness
+      text: 'Compensation of the horizontal end point of the reciprocating stroke when grinding the right face
+
+        By default the end point is at the wall thickness; if the wheel should not travel completely off the right face, set this compensation
+
+        Example: 5 mm means the reciprocating stroke ends 5 mm before the wall thickness
+
+        Do not set it too large, otherwise the end point is closer to the cylinder than the start point
+
+        '
+refs: 'For the operating steps see [External Cylinder and End Face Grinding](section_24.html)
+
+  On grinding center machines click the **side face** softkey at the bottom of the user screens; the softkeys on the right switch between grinding / process / dressing parameters
+
+  '

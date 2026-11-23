@@ -23,6 +23,19 @@
 - **Creator 不处理的标记**：`ifIsHasA`、`ifIsHasLoadingArm`、`ifIsHasWorm` 在帮助页面里不会被删除；`ifIsHasReOperate` 只在外螺纹机型里处理。这些内容要写成条件句（“带 A 轴的机床…”），二次对刀相关内容要再套一层 `ifIsExternal`。
 - **"机床配置"界面**：在功能介绍章节里只说明它是配置管理界面、要访问需联系制造商，不展开细节。
 
+## 1.1 多语言（chs / eng / rus）
+
+- 三种语言的正文分别在 `hlp_src/chs|eng|rus/`，结构、锚点、图片文件名完全一致；中文定稿后再同步英文、俄文。
+- 参数名称、选项、软键一律照抄该语言界面上显示的文字（取自 `HMI/lng/almc_<lng>.txt`，同一编号按配置有不同版本时取对应配置的版本），可在括号里补充含义。界面文字有错译或缺译时照实写，并在括号里说明。
+- 程序报警写屏幕上实际显示的文字；只有中文的提示（程序里没有英俄分支）按中文原样写并注明含义。
+- 所有脚本都接受 `--lng chs|eng|rus`（或环境变量 `HLP_LNG`），默认 chs：
+  - `build_hlp.py --lng eng`、`audit_hlp.py --lng eng`、`check_mapping.py --lng eng`、`check_config.py --lng eng`
+  - `gen_package.py --lng eng all`：英文/俄文时 Creator 用英文模式生成，包里同时带 chs/eng/rus 三套帮助
+  - `verify_package.py --lng eng`
+  - `capture_lang.py --lng eng [组…]`：按该语言界面采全部截图（存到 `raw/<lng>/`），结束后自动导回基线包并切回中文界面
+  - `install_images.py --lng eng`：装入 `hlp/<lng>/UserGuide/resources/img`
+- 构建脚本里的固定字样（推荐设置、取值范围、修改权限等）按语言输出，见 `build_hlp.py` 的 `L10N`。
+
 ## 2. 目录
 
 | 路径 | 说明 |
@@ -76,6 +89,7 @@
 | `unlock_setting.py` | 解锁"机床配置"：OCR 读取挑战码，调用 Creator 自带的口令计算页得到结果，不使用剪贴板，也不输出或保存口令 |
 | `gud_helper.py` | 临时覆盖 `a_info.com`，用软键写入 GUD 预设，用来打开各隐藏界面 |
 | `capture_set.py` | 按配置批量截图（`ext_vw` / `ext_xz` / `ext_hyd` / `int_xz` / `ctr_u` 等） |
+| `capture_lang.py` | 按语言一次采全部帮助截图（分组：demo ext tap int auto_int auto_ext ctr hyd uw；`demo` 包机型为 TEST，用于欢迎页和出厂信息） |
 | `install_images.py` | 截图遮挡、加框、量化压缩并装入 `resources/img` |
 | `ocr_digits.ps1` | Windows 内置 OCR（只返回数字） |
 

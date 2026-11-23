@@ -1,0 +1,78 @@
+title: Extended Grinding Functions
+head1: Machine Functions
+refs: |
+  The following functions must be enabled in the machine configuration before their softkeys appear on the right of the grinding screen; for the parameters see [Grinding Screen](section_1.html)
+blocks:
+  - h3: Ring groove grinding
+    body:
+      - p: Can only be used after **Circular groove processing** is enabled in the machine configuration
+      - steps:
+          - t: Set [Type](section_1.html#S1D31) on the grinding screen to **Ring**; the ring groove screen opens automatically
+            img: {src: grind_ring.png, h: 300}
+          - Enter number of grooves, groove pitch, groove rise and group offsets of up to 4 groups from the drawing
+          - Align the wheel with the first groove and record [Init Slot.Z / Init Slot.X](section_1.html#S1D45)
+          - Set [init.slot](section_1.html#S1D43) and [end.slot](section_1.html#S1D44) and press CYCLE START to grind groove by groove
+          - The status area on the left shows the number of grooves machined and the current groove position in real time
+  - h3: Tap grinding
+    marks: [ifIsScrewTap]
+    body:
+      - steps:
+          - t: Set [Screw Tap](section_1.html#S1D32) on the grinding screen to **Yes** to open the tap parameter screen
+            img: {src: grind_tap.png, h: 300}
+          - Set number of flutes, flute type, flute hand and flute angle from the drawing
+          - For skip-tooth taps switch [Jump](section_1.html#S1D39) on and set the skip-tooth adjustments
+          - During tool setting adjust the B axis as well so that the relief motion is correct; adjust [Init Pos.B](section_1.html#S1D42) according to the result
+  - h3: Pitch conversion
+    body:
+      - p: Can only be used after **Pitch transformation** (single or many) is enabled in the machine configuration
+      - steps:
+          - t: Click **pitch conversion** on the right of the grinding screen and switch on [pitch conversion](section_1.html#S1D60)
+            img: {src: grind_pitch.png, h: 300}
+          - Enter the converted pitch of the conversion section and select the variable pitch mode (certain ang / To the end)
+          - Align the wheel with the point where the pitch begins to change and record mark 1; mark 2 is calculated automatically
+          - Switch the smooth path off while checking the position for the first time, and on after confirming it
+      - p: |
+          For parts with several sections of different pitch in the middle, select "many" in the machine configuration; the multi-pitch conversion screen opens and angle and pitch are entered section by section
+      - img: {src: grind_multipitch.png, h: 300}
+  - h3: Reverse hole chamfer
+    body:
+      - p: Can only be used after **Reverse hole chamfer** is enabled in the machine configuration
+      - steps:
+          - t: Click **Reverse hole chamfer** on the right of the grinding screen and switch on chamfer enable
+            img: {src: grind_chamfer.png, h: 300}
+          - Set pour-in transition angle, chamfer depth, translation angle and the pre-chamfers at both ends
+          - "Select the mode: enter the Z coordinate of every chamfer by hand, or enter the first chamfer position and let the others be calculated"
+          - After grinding check chamfer positions and depth; fine-tune with the position compensation and chamfer end point compensation if necessary
+  - h3: Variable diameter grinding
+    body:
+      - p: Can only be used after **Variable diameter grinding** is enabled in the machine configuration
+      - steps:
+          - t: Click **Change Dia** on the right of the grinding screen and switch on variable diameter grinding
+            img: {src: grind_diachange.png, h: 300}
+          - Set the blank thread angles, changed values and transition angles at both ends
+          - "Select the grinding mode: thread + variable diameter in every pass, or the variable diameter sections separately after the thread is finished"
+  - h3: Segment compensation
+    body:
+      - p: Can only be used after **Segmental comp. dia./lead** is enabled in the machine configuration
+      - steps:
+          - t: Click **Segment Comp** on the right of the grinding screen, switch on the compensation and set the number of segments
+            img: {src: grind_segcomp.png, h: 300}
+          - From the inspection report enter, starting at the right end, the end Z coordinate, pitch diameter (radius) compensation and lead compensation of each segment
+          - The compensation acts in automatic grinding, not in manual tool setting; it is not executed when reverse hole chamfer, variable diameter grinding or variable pitch is switched on at the same time
+  - h3: Dry-run warm-up
+    body:
+      - p: Can only be used after **Dry running heat engine** (dry-run warm-up) is enabled in the machine configuration
+      - steps:
+          - t: Click **Heat Machine** on the right of the grinding screen and switch on Enable
+            img: {src: grind_dryrun.png, h: 300}
+          - Set the Z and X reciprocating ranges, wheel speed and axis speed (make sure workpiece and fixture are not touched)
+          - Press CYCLE START; the machine runs back and forth without load to warm up. Always switch Enable off after warming up
+  - h3: Fixture self-grinding
+    marks: [ifIsInternal]
+    body:
+      - p: Can only be used after **Self-grinding fixture** is enabled in the machine configuration
+      - steps:
+          - t: Click **Refine clamp** on the right of the grinding screen and switch it on
+            img: {src: grind_fixture.png, h: 300}
+          - Set left and right end, contact position, passes, infeed and speed for fixture grinding, and the fixture dressing parameters
+          - Press CYCLE START to grind the fixture; always switch Refine clamp off afterwards

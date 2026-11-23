@@ -1,0 +1,17 @@
+title: Machine Configuration Management
+head1: Machine Functions
+refs: |
+  For the parameters see [Machine Configuration Screen](section_7.html)
+blocks:
+  - h3: Machine configuration screen
+    body:
+      - img: {src: setting_password.png, h: 300}
+      - p: |
+          The machine configuration screen is the configuration management screen of the manufacturer, used to set the machine structure, to enable or hide optional functions and to limit input ranges of screen parameters
+          It is password protected: a challenge code is shown when opening it, and the manufacturer provides the unlock password for this code
+          **To access or change the machine configuration, please contact the machine manufacturer**; do not change it yourself, wrong settings can cause abnormal machine motions
+      - alarm: "Contact the manufacturer for the machine configuration in the following cases:"
+        items:
+          - To enable or disable optional screens such as dry run, segment compensation, pitch conversion, reverse hole chamfer or statistics
+          - After replacing the control or re-importing the machine program, when the machine data must be reset
+          - To widen or narrow the input range of parameters such as pitch diameter adjustment or process infeed

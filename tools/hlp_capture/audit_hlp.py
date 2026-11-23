@@ -19,7 +19,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 import inventory
 
 SL = os.path.join(inventory.ROOT, "Source_Library")
-HLP = os.path.join(SL, "HMI", "hlp", "chs")
+HLP = os.path.join(SL, "HMI", "hlp", inventory.LANG)
 UG = os.path.join(HLP, "UserGuide")
 IMG = os.path.join(UG, "resources", "img")
 
@@ -40,7 +40,7 @@ def main():
                 n += 1
                 if aid not in anchors.get(sec, set()):
                     errors.append(f"[com-link] {os.path.basename(fp)}:{k} -> {sec}#{aid} missing")
-    print(f"com help links checked: {n}")
+    print(f"[{inventory.LANG}] com help links checked: {n}")
     # 2 internal links, 3 markers, 4 images, 5 leaks
     used_imgs = set()
     for f, t in list(pages.items()) + [("user_guide.xml", open(os.path.join(HLP, "user_guide.xml"), encoding="utf-8").read())]:
@@ -71,12 +71,12 @@ def main():
                 errors.append(f"[img] {f}: missing {src}")
         body = re.sub(r"<!--.*?-->", "", t, flags=re.S)
         body = re.sub(r"<[^>]+>", " ", body)
-        for leak in re.findall(r"\b(?:INI|TECHNOLOGY|PROCESS|DRESSER|TOOL_SET|SHAPE_MODEL|GRIND|RING|WORK|WHEEL|SCREW_TAP|SERVICE_LIFE)\[\d+\]|HMI ?= ?NC|NC 程序中为", body):
+        for leak in re.findall(r"\b(?:INI|TECHNOLOGY|PROCESS|DRESSER|TOOL_SET|SHAPE_MODEL|GRIND|RING|WORK|WHEEL|SCREW_TAP|SERVICE_LIFE)\[\d+\]|HMI ?= ?NC|NC 程序中为|NC program index", body):
             errors.append(f"[leak] {f}: {leak}")
     # every red-framed screenshot must explain its frame (caption printed under the picture)
     import install_images
     import yaml
-    caps = yaml.safe_load(open(os.path.join(HERE, "hlp_src", "chs", "img_caps.yaml"), encoding="utf-8")) or {}
+    caps = yaml.safe_load(open(os.path.join(HERE, "hlp_src", inventory.LANG, "img_caps.yaml"), encoding="utf-8")) or {}
     for name in install_images.FRAMES:
         if name + ".png" in used_imgs and name + ".png" not in caps:
             errors.append(f"[frame] {name}.png has red frames but no caption in img_caps.yaml")

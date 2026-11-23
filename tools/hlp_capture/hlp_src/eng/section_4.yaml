@@ -1,0 +1,439 @@
+title: Dressing Wheel Screen
+head1: HMI Screen Parameters
+refs: 'For the operating steps see [Wheel Dressing](section_10.html)
+
+  On the dressing screen click the **Single W. / Round W. / Double W. / Roll W.** softkey on the right to open the parameter page of the corresponding dressing wheel (only the wheels configured on this machine are shown)
+
+  '
+blocks:
+- h3: Locating the dressing wheel (general)
+  body:
+  - note: 'Before dressing, the program must know the position of the dressing wheel relative to the grinding wheel; two parameters are used:
+
+      **Dressing centre distance** (front/back direction): distance between the grinding wheel centre and the dressing wheel centre, which decides where dressing starts feeding
+
+      **Dressing centre** (left/right direction): coordinate of the dressing axis when the dressing wheel is aligned with the middle of the grinding wheel width, which decides whether the dressed profile is centred
+
+      The lock icons beside both parameters are locked by default; click to unlock before changing them, to prevent accidental changes
+
+      '
+  - params:
+    - id: S4D12
+      marks:
+      - ifIsInternal
+      name: wheel distance (dressing centre distance)
+      rec: calculate from measurement
+      range: -800~800
+      unit: mm
+      var: DRESSER[3]
+      ac: 4
+      text: 'Distance between grinding wheel centre and dressing wheel centre in the infeed direction; affects the front/back start position of dressing
+
+        Calculation:
+
+        1. Mount a new wheel, measure its diameter D1 and enter it as **New Wheel-D** on the dressing screen
+
+        2. Enter the **Disc diameter** D2 from the roller drawing
+
+        3. Move the machine until the wheel periphery just touches the dressing wheel periphery, record the X coordinate X1 and enter it as **curt Touch.X**
+
+        ?ifIsFrontDress: 4. Dressing centre distance = |X1 + D1/2 + D2/2|
+
+        ?ifIsBackDress: 4. Dressing centre distance = |X1 - D1/2 - D2/2|
+
+        After setting it, check that **init Touch.X** equals the curt Touch.X just entered; if equal, the setting is correct
+
+        '
+    - id: S4D6
+      marks:
+      - ifIsDressWare1
+      name: Dress Pos.W (dressing centre)
+      rec: calculate from measurement
+      range: -2000~2000
+      unit: mm
+      var: DRESSER[22]
+      ac: 4
+      text: 'W-axis (dresser horizontal axis) coordinate when the dressing wheel is aligned with the middle of the grinding wheel width; affects the left/right position of the dressed profile
+
+        Measuring: move W and touch the left and right faces of the grinding wheel with the side faces of the dressing wheel, record W1 and W2; dressing centre = (W1 + W2) / 2
+
+        With Double W. it is the coordinate when the middle between the two wheels is aligned with the grinding wheel centre
+
+        '
+    - id: S4D6
+      marks:
+      - ifIsDressWare2
+      name: Dress Pos.W (dressing centre)
+      rec: calculate from measurement
+      range: -2000~2000
+      unit: mm
+      var: DRESSER[22]
+      ac: 4
+      text: 'W-axis (dresser horizontal axis) coordinate when the dressing wheel is aligned with the middle of the grinding wheel width; affects the left/right position of the dressed profile
+
+        Measuring: move W and touch the left and right faces of the grinding wheel with the side faces of the dressing wheel, record W1 and W2; dressing centre = (W1 + W2) / 2
+
+        With Double W. it is the coordinate when the middle between the two wheels is aligned with the grinding wheel centre
+
+        '
+      dup: true
+    - id: S4D13
+      marks:
+      - ifIsDressWare3
+      name: Dress Pos.W (dressing centre)
+      rec: calculate from measurement
+      range: -2000~2000
+      unit: mm
+      var: DRESSER[22]
+      ac: 4
+      text: 'Coordinate of the dresser horizontal axis when the dressing wheel (the arc centre for Single W.) is aligned with the middle of the grinding wheel width; affects the left/right position of the dressed profile
+
+        Measuring: touch the left and right faces of the grinding wheel with the side faces of the dressing wheel and record Z1 and Z2; dressing centre = (Z1 + Z2) / 2
+
+        With Double W. it is the coordinate when the middle between the two wheels is aligned with the grinding wheel centre
+
+        '
+    - id: S4D13
+      marks:
+      - ifIsDressWare4
+      name: Dress Pos.W (dressing centre)
+      rec: calculate from measurement
+      range: -2000~2000
+      unit: mm
+      var: DRESSER[22]
+      ac: 4
+      text: 'Coordinate of the dresser horizontal axis when the dressing wheel (the arc centre for Single W.) is aligned with the middle of the grinding wheel width; affects the left/right position of the dressed profile
+
+        Measuring: touch the left and right faces of the grinding wheel with the side faces of the dressing wheel and record Z1 and Z2; dressing centre = (Z1 + Z2) / 2
+
+        With Double W. it is the coordinate when the middle between the two wheels is aligned with the grinding wheel centre
+
+        '
+      dup: true
+    - id: S4D17
+      name: Var Locker (parameter lock switch)
+      range: open / closed
+      ac: 4
+      text: 'Lock icons beside the dressing centre distance and dressing centre. Closed (read-only) by default; click to open before changing
+
+        '
+    - id: S4D18
+      marks:
+      - ifIsUW
+      name: UW-Dress Pos.X
+      range: none
+      unit: mm
+      var: DRESSER[141]
+      ac: 4
+      text: 'Position to which the X axis moves for dressing with the UW dresser; here the dressing wheel is driven by the U and W axes
+
+        '
+- h3: Single W. / Round W. / Double W. (interpolation dressing)
+  marks:
+  - ifIsDressWare1
+  body:
+  - img:
+      src: roller_single_ext.png
+      h: 300
+    marks:
+    - ifIsSingleAndRound
+  - img:
+      src: roller_double_ext.png
+      h: 300
+    marks:
+    - ifIsSide
+- h3: Single W. / Round W. / Double W. (interpolation dressing)
+  marks:
+  - ifIsDressWare3
+  body:
+  - img:
+      src: roller_single_int.png
+      h: 300
+    marks:
+    - ifIsInternal
+    - ifIsSingleAndRound
+  - img:
+      src: roller_square_int.png
+      h: 300
+    marks:
+    - ifIsInternal
+    - ifIsSingleAndRound
+  - img:
+      src: roller_double_ext.png
+      h: 300
+    marks:
+    - ifIsExternal
+    - ifIsSide
+- h3: Interpolation dressing wheel parameters
+  body:
+  - note: 'In interpolation dressing the dressing wheel follows the tooth profile, so its geometry must be entered accurately
+
+      '
+  - params:
+    - id: S4D1
+      name: Disc radius / Left radius / Right radius
+      rec: according to the roller drawing
+      range: 0~10
+      unit: mm
+      var: WHEEL[5]~WHEEL[10]
+      ac: 4
+      text: 'Edge radius of the dressing wheel: one radius for Single W., left and right edge radii for Round W. and Double W.
+
+        This value directly affects the dressed profile; enter it from the roller drawing or a measurement
+
+        '
+    - id: S4D7
+      marks:
+      - ifIsSingleAndRound
+      name: Disc Width (Round W. thickness)
+      rec: according to the roller drawing
+      range: 0~100
+      unit: mm
+      var: WHEEL[4]
+      ac: 4
+      text: 'Edge width of the Round W. wheel; affects the width of the dressed profile
+
+        '
+    - id: S4D8
+      marks:
+      - ifIsSide
+      name: Wheels Space (distance between the two wheels)
+      rec: according to the roller drawing
+      range: 0~300
+      unit: mm
+      var: WHEEL[3]
+      ac: 4
+      text: 'Distance between the two dressing wheels of Double W.; affects the width of the dressed profile
+
+        '
+    - id: S4D9
+      marks:
+      - ifIsSide
+      name: Height Gap (left/right height difference)
+      rec: according to measurement
+      range: -5~5
+      unit: mm
+      var: WHEEL[16]
+      ac: 4
+      text: 'Compensates the height difference between the left and right wheel of Double W.: left higher than right → positive, left lower than right → negative
+
+        '
+    - id: S4D2
+      marks:
+      - ifIsDressWare1
+      name: init Touch.U / Left Init-Touch.U / Right Init-Touch.U (Right Init-Touch.X)
+      rec: measure by hand
+      range: -500~500
+      unit: mm
+      var: WHEEL[13] / WHEEL[14] / WHEEL[15]
+      ac: 4
+      text: 'After mounting a new wheel, move the U axis until the dressing wheel just touches the highest point of the grinding wheel periphery and record the U coordinate
+
+        New wheel dressing starts from this position; with Double W. the left and right wheel contact positions are shown separately
+
+        '
+    - id: S4D2
+      marks:
+      - ifIsDressWare2
+      name: init Touch.U / Left Init-Touch.U / Right Init-Touch.U (Right Init-Touch.X)
+      rec: measure by hand
+      range: -500~500
+      unit: mm
+      var: WHEEL[13] / WHEEL[14] / WHEEL[15]
+      ac: 4
+      text: 'After mounting a new wheel, move the U axis until the dressing wheel just touches the highest point of the grinding wheel periphery and record the U coordinate
+
+        New wheel dressing starts from this position; with Double W. the left and right wheel contact positions are shown separately
+
+        '
+      dup: true
+    - id: S4D14
+      marks:
+      - ifIsDressWare3
+      name: init Touch.X / Left Init-Touch.X / Right Init-Touch.X
+      range: calculated automatically
+      unit: mm
+      var: WHEEL[13] / WHEEL[14] / WHEEL[15]
+      ac: 4
+      text: 'X coordinate at which the dressing wheel touches the periphery of a new grinding wheel; calculated automatically after the correct dressing centre distance is set
+
+        Can be used to check that the dressing centre distance is correct
+
+        '
+    - id: S4D14
+      marks:
+      - ifIsDressWare4
+      name: init Touch.X / Left Init-Touch.X / Right Init-Touch.X
+      range: calculated automatically
+      unit: mm
+      var: WHEEL[13] / WHEEL[14] / WHEEL[15]
+      ac: 4
+      text: 'X coordinate at which the dressing wheel touches the periphery of a new grinding wheel; calculated automatically after the correct dressing centre distance is set
+
+        Can be used to check that the dressing centre distance is correct
+
+        '
+      dup: true
+    - id: S4D3
+      marks:
+      - ifIsDressWare1
+      name: curt Touch.U / Left Cur-Touch.U / Right Cur-Touch.U (Right Cur-Touch.X)
+      range: updated automatically
+      unit: mm
+      var: WHEEL[11] / WHEEL[12]
+      ac: 4
+      text: 'U coordinate at which the current grinding wheel touches the dressing wheel, updated automatically after every dressing
+
+        When the wheel status on the dressing screen is Used W., dressing starts from this position
+
+        '
+    - id: S4D3
+      marks:
+      - ifIsDressWare2
+      name: curt Touch.U / Left Cur-Touch.U / Right Cur-Touch.U (Right Cur-Touch.X)
+      range: updated automatically
+      unit: mm
+      var: WHEEL[11] / WHEEL[12]
+      ac: 4
+      text: 'U coordinate at which the current grinding wheel touches the dressing wheel, updated automatically after every dressing
+
+        When the wheel status on the dressing screen is Used W., dressing starts from this position
+
+        '
+      dup: true
+    - id: S4D15
+      marks:
+      - ifIsDressWare3
+      name: curt Touch.X / Left Cur-Touch.X / Right Cur-Touch.X
+      range: updated automatically
+      unit: mm
+      var: WHEEL[11] / WHEEL[12]
+      ac: 4
+      text: 'X coordinate at which the current grinding wheel touches the dressing wheel, updated automatically after every dressing; used-wheel dressing starts from this position
+
+        When calibrating the dressing centre distance, enter the measured contact coordinate here
+
+        '
+    - id: S4D15
+      marks:
+      - ifIsDressWare4
+      name: curt Touch.X / Left Cur-Touch.X / Right Cur-Touch.X
+      range: updated automatically
+      unit: mm
+      var: WHEEL[11] / WHEEL[12]
+      ac: 4
+      text: 'X coordinate at which the current grinding wheel touches the dressing wheel, updated automatically after every dressing; used-wheel dressing starts from this position
+
+        When calibrating the dressing centre distance, enter the measured contact coordinate here
+
+        '
+      dup: true
+- h3: Roll W. (form dressing)
+  body:
+  - img:
+      src: roller_form_ext.png
+      h: 300
+    marks:
+    - ifIsExternal
+  - img:
+      src: roller_form_int.png
+      h: 300
+    marks:
+    - ifIsInternal
+  - note: 'In form dressing the roller feeds straight into the grinding wheel and copies its profile; no tooth profile parameters are needed
+
+      '
+  - params:
+    - id: S4D11
+      name: tooth Height (roller tooth height)
+      rec: according to the roller drawing
+      range: 0~50
+      unit: mm
+      var: DRESSER[2]
+      ac: 4
+      text: 'Tooth height of the form roller; for new wheel dressing the program uses it to judge whether the wheel contour has been formed completely
+
+        '
+    - id: S4D10
+      name: Rough Hold time / hold times (fine dressing dwell)
+      rec: about 1 s
+      range: 0~80
+      unit: s
+      var: DRESSER[48] / WHEEL[19]
+      ac: 4
+      text: 'Time the roller stays in contact with the grinding wheel after each infeed, so that the profile is formed completely; fine dressing may use a longer time
+
+        '
+    - id: S4D16
+      name: Back Distance (dressing reverse distance)
+      rec: '0'
+      range: 0~1
+      unit: mm
+      var: INI[12]
+      ac: 4
+      text: 'After each infeed and dwell the dressing roller retracts by this distance, separating from the grinding wheel before the next infeed
+
+        With 0 the roller does not retract and feeds continuously
+
+        '
+    - id: S4D19
+      name: NC-init Touch (profile formed contact)
+      range: read-only
+      unit: mm
+      var: WHEEL[13]
+      readonly: true
+      text: 'Contact coordinate of the roller when the outer contour of a new wheel has been formed completely; recorded by the program
+
+        '
+    - id: S4D23
+      name: init Touch / curt Touch
+      range: none
+      unit: mm
+      var: WHEEL[15] / WHEEL[11]
+      ac: 4
+      text: '**init Touch**: coordinate at which the roller starts touching a new wheel (start of new wheel dressing)
+
+        **curt Touch**: current contact coordinate between wheel and roller, updated after every dressing; used-wheel dressing starts here
+
+        '
+    - id: S4D20
+      name: Approach Back Dist / Approach Side Dist
+      range: 0~1
+      unit: mm
+      var: TECHNOLOGY[351] / TECHNOLOGY[352]
+      ac: 4
+      text: 'Shown after **Profile wheel dressed: left/right finish grind** is enabled in the machine configuration: after form dressing the roller first retracts by the back distance, then moves sideways to the left and right to finish both flanks
+
+        '
+- h3: Dressing wheel speed
+  body:
+  - params:
+    - id: S4D4
+      name: Disc diameter (dressing wheel diameter)
+      rec: according to the roller drawing
+      range: 0~500
+      unit: mm
+      var: WHEEL[1]
+      ac: 4
+      text: 'Outer diameter of the dressing wheel. Used to calculate the dressing wheel speed and the dressing centre distance; must be entered accurately
+
+        '
+    - id: S4D5
+      name: Line Speed (dressing wheel surface speed)
+      rec: about 15 m/s
+      range: 0~60, and not above the maximum rated roller speed
+      unit: m/s
+      var: WHEEL[2]
+      ac: 4
+      text: 'Peripheral speed of the dressing wheel. The speed ratio between grinding wheel and dressing wheel has a large influence on dressing quality
+
+        '
+    - id: S4D21
+      name: Rotating speed (dressing wheel speed)
+      range: read-only
+      unit: rpm
+      var: WHEEL[20]
+      readonly: true
+      text: 'Converted from the dressing wheel surface speed and diameter: speed = surface speed × 60000 / (π × dressing wheel diameter)
+
+        '

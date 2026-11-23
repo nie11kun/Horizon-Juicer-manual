@@ -1,0 +1,569 @@
+title: External Cylinder Parameters
+head1: HMI Screen Parameters
+blocks:
+- h3: Grinding parameters
+  body:
+  - img:
+      src: center_od_grind.png
+      h: 300
+  - params:
+    - id: S26D1
+      name: Safe Pos.X (external wheel retract position)
+      rec: rear limit of the external wheel axis
+      range: none
+      text: 'Safe position at which the external grinding wheel waits while internal grinding is done
+
+        Set it to the rear limit position to ensure safe operation
+
+        '
+    - id: S26D2
+      name: Safe Pos.Z (table grinding start position)
+      rec: Z coordinate with the workpiece clear of the external wheel
+      range: none
+      text: 'Position at which the table stops after machining
+
+        Set it so that the workpiece is clear of the external grinding wheel
+
+        '
+    - id: S26D3
+      name: Mode (machining mode)
+      rec: as required
+      range: Single / Mass
+      text: 'Decides from which position grinding starts
+
+        **Single**: after starting, machining continues from the **current** grinding position; for setting up or regrinding a single part
+
+        **Mass**: after starting, machining begins at the **initial** grinding position; for continuous machining of a batch
+
+        '
+    - id: S26D4
+      name: start Pos.Z (grinding start point)
+      rec: calculated automatically
+      range: none
+      text: 'Calculated automatically from the left face initial contact on the end face screen, read-only
+
+        Grinding start point = left face initial contact + 0.1 mm + slot width (relief groove length)
+
+        The external cylinder is fed in at this position every time, and the reciprocating stroke also returns here
+
+        '
+    - id: S26D5
+      name: end Pos.Z (grinding end point)
+      rec: calculated automatically
+      range: none
+      text: 'Calculated automatically from the right face initial contact on the end face screen, read-only
+
+        Grinding end point = right face initial contact + 0.1 mm
+
+        During the reciprocating stroke the end point is further reduced by **End Pos Compensate** on this page
+
+        '
+    - id: S26D6
+      name: slot width (relief groove length)
+      rec: according to the workpiece
+      range: greater than zero
+      text: 'Set to the length of the relief groove between the left face of the workpiece and the root of the external cylinder
+
+        The external grinding start point automatically leaves out the relief groove length: the wheel is fed in outside the groove and the reciprocating stroke does not include the groove
+
+        This prevents the wheel corner from wearing when feeding in at the groove, which would leave marks on the ground cylinder
+
+        '
+    - id: S26D8
+      var: PROCESS[47]
+      name: Exter Init Touch.X / Init Touch.X (external initial grinding contact)
+      rec: enter after measuring by hand
+      range: none
+      ac: 4
+      text: 'Position at which the external wheel starts grinding the workpiece cylinder. In manual tool setting bring the wheel close to the workpiece outer diameter, leave a gap of about 0.05 mm and enter the coordinate
+
+        In Mass mode every part starts feeding from this position; after the external wheel is dressed the program compensates this value by the dressing amount
+
+        '
+    - id: S26D9
+      var: PROCESS[21]
+      name: Exter Curt Touch.X / Current Touch.X (external current grinding contact)
+      rec: accumulated automatically
+      range: none
+      ac: 4
+      text: 'Current grinding position of the external wheel, updated automatically after every infeed
+
+        In Single mode the program continues from this position; the end face grinding start/end points and the step grinding positions are calculated from it
+
+        '
+    - id: S26D50
+      name: Grind size compensa (grinding size compensation)
+      rec: fine adjustment according to measurement
+      range: -1.0~1.0
+      unit: mm
+      ac: 7
+      text: 'If the measured size differs from the target after machining, enter the difference directly instead of changing the process infeed
+
+        **External cylinder**: enter the diameter difference; at the start of the next external grinding, half of it is added to the external initial and current grinding contact; positive → less grinding, larger diameter, negative → more grinding
+
+        **Left face / right face**: enter the Z difference; at the start of the next face grinding it is added to the initial and current grinding contact of that face
+
+        One-time compensation, cleared automatically after it has been added
+
+        '
+    - id: S26D51
+      name: online meas (online measurement)
+      range: OFF / ON
+      ac: 4
+      text: 'Shown after the external circle online measurement module is enabled in the machine configuration. When on, the outer diameter is measured in real time by the in-process gauge during external grinding and grinding ends automatically when the target size is reached
+
+        '
+      var: TECHNOLOGY[296]
+- h3: Process parameters
+  body:
+  - img:
+      src: center_od_process.png
+      h: 300
+  - params:
+    - id: S26D52
+      name: Total Amount / Set Amount
+      range: read-only
+      unit: mm
+      readonly: true
+      text: '**Set Amount**: total grinding amount, summed as passes × infeed of every step of the external process table
+
+        **Total Amount**: amount actually removed from the current part
+
+        With **Automatic calculation of rough grinding volume** switched on in the machine configuration, Set Amount is entered and the Rough infeed is calculated back from it
+
+        '
+      var: PROCESS[59]、PROCESS[115]
+    - id: S26D10
+      name: Completed
+      rec: '0'
+      range: greater than zero
+      text: 'Counted automatically
+
+        Increases by one each time a grinding program is completed in Mass mode
+
+        '
+    - id: S26D11
+      name: Dress Set (dress after n parts)
+      rec: '0'
+      range: according to the process
+      text: 'The wheel is dressed once after this number of parts
+
+        This makes it possible to dress the wheel automatically after several parts
+
+        Note: dressing uses the fine dressing parameters of the dressing page (passes / amount / speed)
+
+        '
+    - id: S26D12
+      name: cycles (number of passes)
+      rec: none
+      range: greater than zero
+      text: 'Controlled by the grinding stock of the workpiece
+
+        '
+    - id: S26D13
+      name: infeed depth
+      rec: 0.005~0.05
+      range: greater than zero
+      text: 'Distribute the infeed according to the process: normally a large infeed in Rough to remove stock and a small infeed in Fine for finishing
+
+        '
+    - id: S26D14
+      name: grinding speed
+      rec: '100'
+      range: greater than zero
+      text: 'Speed of the wheel moving from the grinding start point to the end point
+
+        '
+    - id: S26D15
+      name: dress setting (dress after n passes)
+      rec: none
+      range: greater than zero
+      text: 'The wheel is dressed once when the number of passes of the current step reaches this setting
+
+        Note: dressing uses the fine dressing parameters of the dressing page (passes / amount / speed)
+
+        '
+    - id: S26D16
+      name: wheel surface speed
+      rec: 30 m/s
+      range: 15~50
+      text: 'The grinding surface speed varies a lot with the wheel and workpiece materials
+
+        Determine the setting by testing
+
+        With **Constant speed mode** switched on in the machine configuration this value is read-only and the wheel speed is entered directly
+
+        '
+    - id: S26D17
+      name: headstock speed
+      rec: '120'
+      range: according to the process
+      unit: r/min
+      text: 'Headstock speed for external cylinder and step grinding; affects surface roughness and efficiency. Usually about 120 r/min, adjust according to the actual result
+
+        '
+    - id: S26D39
+      var: INI[31]
+      name: work length (external cylinder length)
+      rec: according to the workpiece
+      range: greater than zero
+      text: 'Measured length of the external cylinder of the workpiece; with grinding method hold it determines the length of each plunge segment
+
+        '
+    - id: S26D40
+      name: segmentation (hold segments)
+      rec: none
+      range: 1~10
+      text: 'For plunge (hold) grinding of the cylinder: if the wheel is narrower than the cylinder length, the cylinder must be ground in segments
+
+        Make each segment narrower than the wheel
+
+        Set 1 if no segmentation is needed
+
+        '
+- h3: Dressing parameters
+  body:
+  - img:
+      src: center_od_dress.png
+      h: 300
+  - params:
+    - id: S26D18
+      name: Total Amount (accumulated dressing amount)
+      rec: none
+      range: none
+      text: 'Amount already dressed off the current wheel, radial
+
+        '
+    - id: S26D19
+      name: Taper fix (taper fine adjustment)
+      rec: '0'
+      range: 0~0.02
+      text: 'If the measured cylinder of the workpiece shows a slight taper, this parameter dresses a slight slope onto the wheel to correct it
+
+        Use it only for fine adjustment; a large value would leave marks on the surface
+
+        '
+    - id: S26D20
+      name: Wheel Status
+      rec: none
+      range: New W. / Used W.
+      text: 'After mounting a new wheel switch to New W.; also set the correct new wheel diameter and initial dressing position
+
+        '
+    - id: S26D21
+      name: Rough Times (rough dressing passes)
+      rec: none
+      range: greater than zero
+      text: 'Number of rough dressing passes when dressing with the dressing key
+
+        '
+    - id: S26D22
+      name: Rough Feed-Rate (rough dressing infeed)
+      rec: none
+      range: greater than zero
+      text: 'Infeed per rough dressing pass
+
+        '
+    - id: S26D23
+      name: Rough Speed (rough dressing speed)
+      rec: none
+      range: greater than zero
+      text: 'Dressing speed in rough dressing
+
+        '
+    - id: S26D24
+      name: Fine Times (fine dressing passes)
+      rec: none
+      range: greater than zero
+      text: 'Number of fine dressing passes when dressing with the dressing key
+
+        Dressing during grinding also uses this number of fine passes
+
+        '
+    - id: S26D25
+      name: Fine Feed-Rate (fine dressing infeed)
+      rec: none
+      range: greater than zero
+      text: 'Infeed per fine dressing pass
+
+        '
+    - id: S26D26
+      name: Fine Speed (fine dressing speed)
+      rec: none
+      range: greater than zero
+      text: 'Dressing speed in fine dressing
+
+        '
+    - id: S26D27
+      name: start Pos.Z (dressing start point)
+      rec: Z coordinate with the diamond about 5 mm left of the wheel
+      range: none
+      text: 'Move the diamond dresser by hand to a suitable position on the left of the wheel and record the Z coordinate as dressing start point
+
+        '
+    - id: S26D28
+      name: end Pos.Z (dressing end point)
+      rec: Z coordinate with the diamond about 5 mm right of the wheel
+      range: none
+      text: 'Move the diamond dresser by hand to a suitable position on the right of the wheel and record the Z coordinate as dressing end point
+
+        '
+    - id: S26D29
+      name: New Wheel-D (new wheel diameter)
+      rec: measure and set
+      range: greater than zero
+      text: 'Diameter of the new wheel, used for dressing after a wheel change; measure it correctly before setting
+
+        '
+    - id: S26D30
+      name: Current Wheel-D (current wheel diameter)
+      rec: accumulated automatically
+      range: greater than zero
+      text: 'Updated automatically with every dressing after the new wheel has been dressed
+
+        '
+    - id: S26D31
+      name: Line Speed (wheel surface speed for dressing)
+      rec: none
+      range: greater than zero
+      text: 'Wheel surface speed while dressing; set a suitable value for good dressing quality
+
+        With **Constant speed mode** switched on in the machine configuration this value is read-only and the wheel speed is entered directly
+
+        '
+    - id: S26D32
+      name: current Touch (current dressing contact)
+      rec: accumulated automatically
+      range: none
+      text: '?ifIsHasU: U-axis coordinate of the diamond and wheel in the front/back direction
+
+        ?ifIsNotHasU: X-axis coordinate of the diamond and wheel in the front/back direction
+
+        Coordinate at which the current wheel touches the diamond; with wheel status Used W. dressing starts from this position. Updated automatically after every dressing
+
+        '
+    - id: S26D33
+      name: Init Touch (initial dressing contact)
+      rec: enter after measuring by hand
+      range: none
+      text: '?ifIsHasU: U-axis coordinate of the diamond and wheel in the front/back direction
+
+        ?ifIsNotHasU: X-axis coordinate of the diamond and wheel in the front/back direction
+
+        Dressing position for a new wheel; make sure the diamond does not touch the wheel during the first dressing stroke from start to end point
+
+        '
+    - id: S26D34
+      name: Minimal diameter (minimum grinding diameter)
+      rec: calculate the smallest usable wheel diameter
+      range: greater than zero
+      text: 'Smallest usable wheel diameter calculated from the wheel flange or quill size; if the wheel becomes smaller, the machine gives an alarm
+
+        '
+    - id: S26D35
+      name: left side Dis / to Stair 1 dis (step position)
+      rec: according to the workpiece drawing
+      range: greater than zero
+      text: 'Used for step grinding; set according to the workpiece
+
+        Note:
+
+        Steps must be ground after the external cylinder; step grinding starts from the external current grinding position
+
+        '
+    - id: S26D36
+      name: grinding method
+      rec: according to the workpiece length
+      range: Move / hold
+      text: 'Motion during grinding
+
+        Move: after infeed the wheel travels horizontally from the grinding start point to the end point and back
+
+        hold: the wheel keeps feeding in without horizontal motion (plunge grinding)
+
+        '
+    - id: S26D37
+      name: grinding wheel speed
+      rec: select as required
+      range: greater than zero
+      text: 'Wheel speed for grinding
+
+        With **Constant speed mode** switched on in the machine configuration it can be entered directly; otherwise it is converted from the surface speed and shown read-only
+
+        '
+    - id: S26D38
+      name: Rotating Speed (wheel speed for dressing)
+      rec: select as required
+      range: greater than zero
+      text: 'Wheel speed while dressing
+
+        With **Constant speed mode** switched on in the machine configuration it can be entered directly; otherwise it is converted from the surface speed and shown read-only
+
+        '
+    - id: S26D41
+      name: Grind Compensation (compensation per dressing during grinding)
+      rec: none
+      range: -0.5~0.5
+      text: 'Compensation of the grinding position for each dressing during grinding
+
+        A positive value compensates in the positive axis direction
+
+        The value is applied per dressing; use it when the part size keeps drifting in one direction during machining
+
+        Shown after **Display of grinding position compensation parameters after dressing** is enabled in the machine configuration
+
+        '
+    - id: S26D42
+      name: Grind Pos Choice (initial contact mode)
+      rec: none
+      range: 'Stair 1: Ext Curr / Ext Init; Stair 2: Stair 1 init / Stair 1 curr'
+      text: 'Decides where the initial contact position of the step face comes from when grinding a step
+
+        Stair 1 page: **Ext Curr** (default) uses the current contact after external cylinder grinding as initial contact of step 1; if the cylinder is not fully ground to size select **Ext Init** to start from the external initial contact
+
+        Stair 2 page: by default the current contact after grinding step 1 is used; if step 1 is not fully ground to size, select the initial contact of step 1. Note: in the English screen the two options are labelled the other way round — **Stair 1 init** means the current contact of step 1 (default), **Stair 1 curr** means the initial contact of step 1
+
+        '
+    - id: S26D43
+      name: End Pos Compensate (step end point compensation)
+      rec: none
+      range: greater than zero, less than the step length
+      text: 'Compensation of the horizontal end point of the reciprocating stroke when grinding a step
+
+        By default the end point is the right face contact position; if the wheel should not travel completely off the cylinder, set this compensation
+
+        Example: 5 mm means the reciprocating stroke ends 5 mm before the right face
+
+        Do not set it too large, otherwise the end point is closer to the left face than the start point
+
+        '
+    - id: S26D44
+      name: Direct Grind L Face
+      rec: none
+      range: No / Yes
+      text: 'Whether the wheel moves left directly to grind the left face after the external cylinder has been ground
+
+        If so, infeed and speed of the left face process parameters are used
+
+        Note: left face rough and fine grinding are each done only once
+
+        This gives a clean corner and can improve efficiency
+
+        '
+    - id: S26D45
+      name: End Pos Compensate (external end point compensation)
+      rec: none
+      range: greater than zero, less than the cylinder length
+      text: 'Compensation of the horizontal end point of the reciprocating stroke when grinding the external cylinder
+
+        By default the end point is the right face contact position; if the wheel should not travel completely off the cylinder, set this compensation
+
+        Example: 5 mm means the reciprocating stroke ends 5 mm before the right face
+
+        Do not set it too large, otherwise the end point is closer to the left face than the start point
+
+        '
+    - id: S26D46
+      var: INI[28]
+      name: Safe Ang.C (workpiece clamping angle)
+      rec: angle convenient for loading and unloading
+      range: 0~360
+      text: 'At the end of the program the headstock moves to this position
+
+        '
+    - id: S26D47
+      name: Compensate Ang (deflection compensation angle)
+      rec: set 0 when both face and periphery of the wheel are dressed
+      range: 0~90
+      text: 'By default each dressing of the wheel side compensates the left/right face grinding contacts, and each dressing of the wheel periphery compensates the external grinding contact
+
+        Normally the side and periphery of the external wheel are at 90°; set this angle to 0
+
+        If only the periphery and not the side is dressed, there is an angle between periphery and side equal to the mounting deflection angle of the wheel
+
+        In that case dressing the periphery also requires compensating the left/right face grinding contacts; the compensation depends on this deflection angle
+
+        '
+    - id: S26D48
+      name: Side face Dress (dress the face as well)
+      rec: select Yes to dress the face part as well when dressing the periphery during grinding
+      range: No / Yes
+      text: 'Default No: dressing during external grinding dresses only the periphery. Select Yes to dress the face as well; the face is dressed with the fine dressing passes set on the end face dressing page
+
+        '
+    - id: S26D53
+      name: Head Stop Ang (headstock angle)
+      range: 0~360
+      unit: °
+      ac: 4
+      text: 'Shown after "The head frame maintains a fixed angle during external grinding" is enabled in the machine configuration: when the external wheel is dressed, the headstock turns to and stays at this angle so that workpiece or chuck jaws do not collide with the dresser
+
+        '
+      var: DRESSER[56]
+- h3: Stair 1 / Stair 2
+  body:
+  - img:
+      src: center_step.png
+      h: 300
+  - note: 'For parts with one or two steps of different diameter on the external cylinder. Click **Stair 1 / Stair 2** on the right of the external parameter page; executed when **Stair** (external step) is selected on the main (process selection) screen
+
+      Each step has its own Fine and Finish process; the grinding start and end points are calculated from the distance to the left face and the step length and shown read-only
+
+      '
+  - params:
+    - id: S26D54
+      name: Enable
+      range: OFF / ON
+      ac: 4
+      text: 'When on, the step is ground during external step machining; when off it is skipped
+
+        '
+      var: PROCESS[25]、PROCESS[26]
+    - id: S26D55
+      name: Step length
+      range: 0~500
+      unit: mm
+      ac: 4
+      text: 'Length of the step in Z; together with the distance to the left face it determines the grinding start and end points
+
+        '
+      var: INI[13]、TECHNOLOGY[186]
+    - id: S26D56
+      name: segmentation (hold segments)
+      range: 1~10
+      ac: 4
+      text: 'With grinding method **hold** (plunge grinding): if the step is longer than the wheel width, the number of segments plunged one after another
+
+        '
+      var: INI[14]、TECHNOLOGY[187]
+    - id: S26D57
+      name: start Pos.Z / end Pos.Z
+      range: read-only
+      unit: mm
+      readonly: true
+      text: 'Step grinding range calculated from the distance to the left face, step length and end point compensation
+
+        '
+    - id: S26D58
+      name: Current Touch.X / Init Touch.X
+      range: read-only
+      unit: mm
+      readonly: true
+      text: 'Current grinding position and initial contact of the step; the initial contact is taken from the external current or initial contact (decided by Grind Pos Choice)
+
+        '
+      var: PROCESS[109]、TECHNOLOGY[178]、PROCESS[21]、PROCESS[47]
+    - id: S26D59
+      name: Total Amount / Set Amount
+      range: read-only
+      unit: mm
+      readonly: true
+      text: 'Set total grinding amount of the step process and amount already ground
+
+        '
+      var: PROCESS[108]、PROCESS[116]
+refs: 'For the operating steps see [External Cylinder and End Face Grinding](section_24.html)
+
+  On grinding center machines click the **external** softkey at the bottom of the user screens; the softkeys on the right switch between grinding / process / dressing parameters and the Stair 1 / Stair 2 pages
+
+  '

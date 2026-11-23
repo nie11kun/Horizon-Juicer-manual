@@ -1,0 +1,442 @@
+title: Dressing Screen
+head1: HMI Screen Parameters
+refs: 'For the operating steps see [Wheel Dressing](section_10.html)
+
+  On the user screens press the **dress** softkey at the bottom to open this page; the softkeys on the right open the tooth profile and dressing wheel pages
+
+  '
+blocks:
+- h3: Main dressing screen
+  body:
+  - img:
+      src: dress_main_ext.png
+      h: 300
+    marks:
+    - ifIsExternal
+  - img:
+      src: dress_main_int.png
+      h: 300
+    marks:
+    - ifIsInternal
+  - note: 'Dressing is triggered in two ways:
+
+      **Separate dressing**: light the dressing key on the machine operator panel and start the program; the wheel is dressed with the rough and fine dressing parameters of this page and no part is ground
+
+      **Dressing during grinding**: during grinding the wheel is dressed automatically according to the dress setting of the process screen; only the fine dressing part is run (with the expanded process, the dressing parameters of each step in the process table are used)
+
+      After every dressing the wheel diameter is reduced automatically and the grinding position is compensated by the dressing amount, so no new tool setting is needed
+
+      '
+  - params:
+    - id: S3D1
+      marks:
+      - ifIsDressWare1
+      name: Ware type (dresser type)
+      range: U-W / Roll-U
+      var: DRESSER[1]
+      ac: 4
+      text: '**U-W** (interpolation dressing): a disc dressing wheel; the U and W axes move together along the tooth profile point by point and can dress any set profile
+
+        **Roll-U** (form dressing): a form roller with the same profile as the thread; the U axis feeds straight in and copies the roller profile onto the wheel
+
+        Select according to the dressing wheel actually mounted, then set the parameters on the corresponding profile or roller page on the right
+
+        '
+    - id: S3D1
+      marks:
+      - ifIsDressWare2
+      name: Ware type (dresser type)
+      range: Roll-U (fixed)
+      var: DRESSER[1]
+      readonly: true
+      text: 'The dresser of this machine has only a U axis and can dress only with a form roller; the type is fixed to **Roll-U** and cannot be changed
+
+        The roller parameters are set on the **Roll W.** page on the right
+
+        '
+      dup: true
+    - id: S3D2
+      marks:
+      - ifIsDressWare3
+      name: Ware type (dresser type)
+      range: X-W / Roll-X
+      var: DRESSER[1]
+      ac: 4
+      text: '**X-W** (interpolation dressing): a disc dressing wheel; the two dresser axes move together along the tooth profile point by point
+
+        **Roll-X** (form dressing): a form roller; the X axis feeds straight in and copies the roller profile onto the wheel
+
+        Select according to the dressing wheel actually mounted, then set the parameters on the corresponding profile or roller page on the right
+
+        '
+    - id: S3D2
+      marks:
+      - ifIsDressWare4
+      name: Ware type (dresser type)
+      range: Roll-X (fixed)
+      var: DRESSER[1]
+      readonly: true
+      text: 'This machine has a rear-mounted internal thread dresser and can dress only with a form roller; the type is fixed to **Roll-X** and cannot be changed
+
+        The roller parameters are set on the **Roll W.** page on the right
+
+        '
+      dup: true
+    - id: S3D31
+      marks:
+      - ifIsDressWare5
+      name: Ware type / Wheel type (hydraulic dresser)
+      range: Hydra (fixed)
+      var: DRESSER[1]
+      readonly: true
+      imgs:
+      - src: roller_hyd.png
+        h: 300
+      text: 'This machine has a hydraulic swing-cylinder dresser; the dresser type is fixed to **Hydra** and the wheel type shows **waver** (swing cylinder)
+
+        '
+    - id: S3D3
+      marks:
+      - ifIsSingleAndRound
+      name: Wheel type (dressing wheel type)
+      range: Single W. / Round W.
+      var: DRESSER[4]
+      ac: 4
+      text: 'Select the dressing wheel actually mounted on the dresser:
+
+        **Single W.**: disc wheel with a radius edge, can dress a root with a radius
+
+        **Round W.**: wheel with a flat edge; enter the roller thickness and left/right radii
+
+        After switching, click the corresponding softkey on the right to set the dressing centre distance and other roller parameters
+
+        '
+    - id: S3D3
+      marks:
+      - ifIsSide
+      name: Wheel type (dressing wheel type)
+      range: Double W. (fixed)
+      var: DRESSER[4]
+      readonly: true
+      text: 'The dresser of this machine carries a left and a right dressing wheel; the type is fixed to **Double W.** and the two wheels dress the left and right flanks of the wheel profile
+
+        Roller spacing, left/right height difference and other parameters are set on the **Double W.** page on the right
+
+        '
+      dup: true
+    - id: S3D32
+      name: Wheel type (form dressing)
+      range: Roll W. (fixed)
+      readonly: true
+      text: 'When form dressing is selected as dresser type, the wheel type is fixed to **Roll W.**; the roller profile is the same as the thread profile and is copied directly onto the wheel
+
+        The roller parameters are set on the **Roll W.** page on the right
+
+        '
+    - id: S3D4
+      marks:
+      - ifIsAllShape
+      name: Shape Type (tooth profile)
+      range: Triangle / Trapezoid / Arc (with additional profiles enabled also planet gear and plane)
+      var: DRESSER[5]
+      ac: 4
+      text: 'Profile to be dressed onto the wheel by interpolation dressing; after switching, click the corresponding profile softkey on the right to set the profile parameters
+
+        With form dressing the profile is given by the roller and this setting has no effect
+
+        '
+    - id: S3D24
+      name: Planar taper
+      range: none
+      unit: mm
+      var: DRESSER[142]
+      ac: 4
+      text: 'Available when the profile **plane** is selected; used to dress the wheel to a plain surface (e.g. wheels for bore grinding)
+
+        The value is the diameter difference between the two sides over the wheel width; a positive value makes the left side larger than the right, 0 gives a cylinder
+
+        '
+    - id: S3D16
+      name: Wheel Status
+      range: New W. / Used W.
+      var: DRESSER[6]
+      ac: 7
+      text: 'After mounting a new wheel switch to **New W.**, enter the correct new wheel diameter and dressing wheel parameters, then run a separate dressing once
+
+        A new wheel is dressed layer by layer from the outer diameter until the complete profile is formed; after the first dressing pass the status changes to used wheel automatically, and if dressing is stopped and started again it continues as a used wheel
+
+        ?ifIsInternal: For a new internal thread wheel the program calculates the number of rough and fine passes from (new wheel diameter - maximum grinding diameter) / 2 and the rough and fine dressing infeeds (about the last 5 passes are fine passes), and dresses directly down to the maximum grinding diameter; the rough and fine pass counts on the screen are not used in this case
+
+        '
+    - id: S3D17
+      name: If is figured (new wheel is a profiled wheel)
+      range: Nomal / Figured
+      var: DRESSER[114]
+      ac: 4
+      text: 'Shown after it is enabled in the machine configuration
+
+        **Nomal**: the wheel periphery is flat; new wheel dressing first lifts by the tooth height and dresses the profile layer by layer from the tip down
+
+        **Figured**: the wheel already has a pre-formed profile; new wheel dressing does not lift and dresses directly along the profile
+
+        '
+    - id: S3D20
+      name: Dress Ang (dressing angle)
+      rec: '0'
+      range: -90~90
+      unit: °
+      var: INI[154]
+      ac: 4
+      text: 'On machines with an A axis, the angle to which the wheel head swivels for dressing; default 0°
+
+        Set it to avoid collisions or to fine-tune the angle of the dressed profile (shown after it is enabled in the machine configuration)
+
+        '
+- h3: Dressing passes and amounts
+  body:
+  - params:
+    - id: S3D7
+      name: Rough Times (rough dressing passes)
+      range: 0~1000
+      var: DRESSER[26]
+      ac: 7
+      text: 'Number of rough dressing passes run first in separate dressing. Rough dressing uses a larger infeed to form the profile quickly
+
+        Dressing during grinding does not use rough dressing
+
+        '
+    - id: S3D8
+      name: Rough Feed-Rate (rough dressing infeed)
+      range: 0~0.5
+      unit: mm
+      var: DRESSER[28]
+      ac: 4
+      text: 'Infeed per rough dressing pass (radial)
+
+        '
+    - id: S3D9
+      name: Rough Speed (rough dressing speed)
+      range: 0~1000
+      unit: mm/min
+      var: DRESSER[30]
+      ac: 4
+      text: 'Speed at which the dressing wheel follows the wheel profile in rough dressing
+
+        '
+    - id: S3D10
+      name: Fine Times (fine dressing passes)
+      range: 0~1000
+      var: DRESSER[27]
+      ac: 4
+      text: 'Number of fine dressing passes after rough dressing in separate dressing; dressing during grinding also uses this number
+
+        '
+    - id: S3D11
+      name: Fine Feed-Rate (fine dressing infeed)
+      rec: 0.005~0.02
+      range: 0~0.1 (the limit can be changed in the machine configuration)
+      unit: mm
+      var: DRESSER[29]
+      ac: 4
+      text: 'Infeed per fine dressing pass (radial); it determines the final quality of the wheel profile
+
+        '
+    - id: S3D12
+      name: Fine Speed (fine dressing speed)
+      range: 0~1000
+      unit: mm/min
+      var: DRESSER[31]
+      ac: 4
+      text: 'Speed of the dressing wheel in fine dressing; the lower the speed, the finer the wheel surface
+
+        '
+    - id: S3D22
+      name: New wheel profile dressing feed
+      range: 0~5
+      unit: mm
+      var: TECHNOLOGY[304]
+      ac: 4
+      text: 'Small field to the right of the rough dressing infeed (must be enabled in the machine configuration). Infeed per pass used only for the outer contour part of a new wheel
+
+        If it is not enabled, the contour part uses the rough dressing infeed (or the fine infeed if there are no rough passes)
+
+        '
+    - id: S3D23
+      name: New wheel profile dressing speed
+      range: 0~1000
+      unit: mm/min
+      var: TECHNOLOGY[305]
+      ac: 4
+      text: 'Small field to the right of the rough dressing speed. Dressing speed used only for the outer contour part of a new wheel
+
+        Shown after **New grinding wheel profile separate dressing parameters** is enabled in the machine configuration
+
+        '
+    - id: S3D18
+      name: Total Amount (accumulated dressing amount)
+      range: read-only
+      unit: mm
+      var: DRESSER[10]
+      readonly: true
+      text: 'Amount dressed off since the new wheel, equal to (new wheel diameter - current wheel diameter) / 2
+
+        '
+    - id: S3D21
+      name: Comp during grinding (compensation per dressing)
+      range: -0.5~0.5
+      unit: mm
+      var: DRESSER[71]
+      ac: 4
+      text: 'Shown after it is enabled in the machine configuration. In dressing during grinding, each fine dressing pass adds this extra compensation to the grinding position (Initial Pos.X and Current Pos.X); e.g. with 2 fine passes per dressing, twice the value is added
+
+        Used in batch production when the part size drifts in one direction with dressing; a positive value moves the grinding position in X+ (external thread: less grinding, larger part)
+
+        Not applied in separate dressing (dressing key lit)
+
+        '
+    - id: S3D26
+      name: Comp accumulation
+      range: read-only
+      unit: mm
+      var: DRESSER[72]
+      readonly: true
+      text: 'Total of the compensation during grinding already added to the grinding position
+
+        When a new wheel is dressed, the program first removes this accumulated amount from the grinding position and then clears it; it is also cleared after manual tool setting of the first part
+
+        Shown after **Display of grinding position compensation parameters after dressing** is enabled in the machine configuration
+
+        '
+- h3: Wheel parameters
+  body:
+  - params:
+    - id: S3D13
+      name: Wh.Width (wheel width)
+      rec: measured
+      range: 0~200
+      unit: mm
+      var: DRESSER[23]
+      ac: 7
+      text: 'Actual width of the current wheel, used to calculate the dressing path for interpolation dressing; measure it and enter the value
+
+        '
+    - id: S3D14
+      name: New Wheel-D (new wheel diameter)
+      rec: measured
+      range: 0~1000
+      unit: mm
+      var: DRESSER[24]
+      ac: 7
+      text: 'After mounting a new wheel, measure its outer diameter and enter it (it may be about 0.2 mm larger than measured, so that the first dressing forms the complete periphery)
+
+        '
+    - id: S3D25
+      name: Current Wheel-D (current wheel diameter)
+      range: read-only
+      unit: mm
+      var: DRESSER[25]
+      readonly: true
+      text: 'Current wheel diameter calculated by the program from every dressing amount, used for surface speed conversion and diameter alarms
+
+        '
+    - id: S3D15
+      name: Line Speed (wheel surface speed)
+      rec: about 22 m/s
+      range: 0~80
+      unit: m/s
+      var: WHEEL_LINESPEED_DRESS[2]
+      ac: 4
+      text: 'Peripheral speed of the grinding wheel while dressing. In non-constant-speed mode enter the surface speed; the wheel speed is converted from the current diameter
+
+        Usually about 22 m/s; adjust according to wheel size and material
+
+        With **constant speed mode** switched on in the machine configuration, the wheel speed is entered directly and the surface speed is shown read-only
+
+        '
+    - id: S3D19
+      name: Wheel RPM (wheel speed for dressing)
+      range: read-only or input depending on the configuration
+      unit: rpm
+      var: DRESSER[37]
+      ac: 4
+      text: 'Wheel speed while dressing: speed = surface speed × 60000 / (π × current wheel diameter)
+
+        With constant wheel speed configured in the machine configuration the speed is entered directly and the surface speed is read-only
+
+        '
+    - id: S3D5
+      name: Minimal diameter (minimum grinding diameter of the wheel)
+      rec: according to the wheel flange or quill size
+      range: 0~1000
+      unit: mm
+      var: DRESSER[36]
+      ac: 4
+      text: 'Smallest diameter to which the wheel may be used. If the current wheel diameter becomes smaller, the machine gives an alarm and the wheel must be replaced
+
+        ?ifIsExternal: Leave a safety margin according to the wheel flange size
+
+        ?ifIsInternal: Set to (workpiece minor diameter + 2 × thread depth), enlarged appropriately
+
+        '
+    - id: S3D6
+      marks:
+      - ifIsInternal
+      name: Maxmum diameter (maximum grinding diameter of the wheel)
+      rec: diameter at which the wheel can enter the workpiece bore
+      range: 0~1000, and at least 0.2 smaller than the new wheel diameter
+      unit: mm
+      var: DRESSER[50]
+      ac: 4
+      text: 'A new wheel is dressed automatically down to this diameter so that it can enter the workpiece bore
+
+        If the current wheel diameter is larger than this value, starting the grinding program gives an alarm
+
+        '
+- h3: External profile and worm profile
+  body:
+  - params:
+    - id: S3D27
+      name: shape mode choice (profile source)
+      range: Internal integration / external mode1 / external mode2
+      var: DRESSER[140]
+      ac: 4
+      text: 'Shown after the external profile program is enabled in the machine configuration
+
+        **Internal integration**: uses the built-in profiles (triangle, trapezoid, arc, etc.)
+
+        **external mode1**: calls an external profile program, left and right flanks dressed separately
+
+        **external mode2**: calls an external profile program as a continuous path with tool radius compensation
+
+        '
+    - id: S3D28
+      name: ext program path / ext program dir / external shape name
+      range: Internal SPF / Back USB / Front USB / CF card
+      ac: 4
+      text: 'Select the storage location, folder and program name of the external profile program
+
+        For the rear USB port the logical drive must first be configured in the control with the name //DEV_3
+
+        '
+      var: SHAPE_MODEL[1]、STRING_ADDON[1]、SHAPE_EXTERNAL
+    - id: S3D29
+      name: Tooth height / Raise the Wheel
+      range: 0~50
+      unit: mm
+      ac: 4
+      text: 'Tooth height of the continuous-path profile in external mode2, and the lift height before the dressing start point
+
+        '
+      var: PROCESS[124]、PROCESS[125]
+    - id: S3D30
+      marks:
+      - ifIsExternal
+      - ifIsHasWorm
+      name: worm profile / Worm tooth height
+      range: tooth height 0~200
+      unit: mm
+      var: INI[19]、WORM_SHAPE
+      ac: 4
+      text: 'Only on machines with the worm function, shown when worm enable is set to Worm on the grinding screen: the upper line shows the worm profile program being called, the lower field is the worm tooth height
+
+        '

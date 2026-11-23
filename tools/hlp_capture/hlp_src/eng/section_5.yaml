@@ -1,0 +1,533 @@
+title: Automatic Tool Setting Screen
+head1: HMI Screen Parameters
+refs: 'For the operating steps see [Tool Setting](section_11.html)
+
+  If the machine has an automatic tool setting device, a **measure** softkey appears at the bottom of the screen; click it to open this page
+
+  Automatic tool setting: light the automatic tool setting key on the operator panel and press CYCLE START. The measuring device (proximity switch or probe) extends automatically, finds the locating feature on the workpiece and calculates **Init Pos.C**; after measuring the device retracts. No manual tool setting is needed
+
+  Automatic tool setting only calculates Init Pos.C and does not change Initial Pos.X; after a successful measurement Current Pos.X is reset to Initial Pos.X and the accumulated process infeed is cleared, i.e. the part is ground again from the beginning
+
+  Each time an edge is searched, the probe/switch first touches fast, then backs off and measures again slowly; the slow result is used. The machine configuration can be set to measure only once
+
+  The upper left corner shows the signal status of the measuring devices in real time (lit = workpiece detected); the bottom shows the X, Z and C coordinates for calibrating positions by hand
+
+  '
+blocks:
+- h3: General parameters
+  body:
+  - params:
+    - id: S5D1
+      name: Compensation (tool setting result adjustment)
+      rec: according to the offset found
+      range: none
+      unit: mm or ° (see text)
+      var: TOOL_SET[42]
+      ac: 7
+      text: 'If after automatic tool setting and grinding the two thread flanks are ground unevenly (offset), correct the automatic tool setting result with this value
+
+        The value is added to every following automatic tool setting result; the measuring device does not need to be calibrated again
+
+        ?ifIsExternal: External thread: unit mm, equivalent to shifting the measured position in Z
+
+        ?ifIsInternal: Inner raceway, Reverse Hole (Routine) and Outer face right end reverse: unit mm, equivalent to shifting the measured position in Z; Reverse Hole (Only measure C), Right Step and Right Face Hole: unit °, added directly to the calculated start angle
+
+        '
+- h3: External thread automatic tool setting
+  marks:
+  - ifIsExternal
+  body:
+  - img:
+      src: auto_ext.png
+      h: 300
+  - note: 'External thread machines detect the thread flanks of the workpiece with a proximity switch and/or a probe. Sequence:
+
+      **Proximity switch**: the C axis first turns to 0° and the switch extends; if it sits exactly on a thread crest, the C axis turns forward 5° at a time to leave the crest (at most 3 times; if it still cannot leave, the machine stops with "Probe back error,check needed"), then searches one flank turning forward and one turning backward (up to 300° each); the middle of the two flank angles is the groove centre
+
+      **Probe**: with both switch and probe, the switch measures coarsely first, then the C axis turns from the switch result by the angle converted from Probe-Switch Dis. and the probe measures precisely; the probe result is used. With a probe only, measuring starts from the angle recorded at the last tool setting. After extending, the probe also searches both flanks forward and backward and takes the middle
+
+      After measuring, the device retracts and the program converts the result to the start angle using the reference position, the compensation value and the lead. If no flank is found within the C rotation range, the alarm "it is to far from measuring head to workpiece!" appears
+
+      '
+  - params:
+    - id: S5D2
+      name: swith align wheel .Z (switch-wheel coincidence position)
+      rec: calibrate by hand
+      range: none
+      unit: mm
+      var: INI[43]
+      ac: 4
+      text: 'Z coordinate at which the centre of the proximity switch is aligned with the wheel tip in Z; shown only when the machine has only a proximity switch
+
+        Calibration: move the table by hand until the switch centre is aligned with the wheel tip and record the Z coordinate
+
+        '
+    - id: S5D3
+      name: Probe-Wheel Ref. (probe-wheel coincidence position)
+      rec: calibrate by hand
+      range: none
+      unit: mm
+      var: INI[43]
+      ac: 4
+      text: 'Z coordinate at which the probe centre is aligned with the wheel tip in Z; shown when a probe is fitted (with both switch and probe the probe is the reference and the switch position is derived from Probe-Switch Dis.)
+
+        Calibration: move the table by hand until the probe centre is aligned with the wheel tip and record the Z coordinate
+
+        '
+    - id: S5D4
+      marks:
+      - ifIsKaiGuanAndCeTouCeLiang
+      name: Probe-Switch Dis. (switch-probe distance)
+      range: none
+      unit: mm
+      var: TOOL_SET[51]
+      ac: 4
+      text: 'Shown when both a proximity switch and a probe are fitted: horizontal distance from the switch centre to the probe centre
+
+        Enter a positive value if the probe is left of the switch, otherwise negative; the program uses it to bring the probe measuring position onto the same thread groove
+
+        '
+- h3: Internal thread automatic tool setting
+  marks:
+  - ifIsInternal
+  body:
+  - note: 'Internal thread machines move the measuring device into or close to the workpiece and measure a locating feature. **Structure** in the upper left corner decides the measuring method and the page changes accordingly:
+
+      **inner raceway**: a proximity switch enters the bore and finds both sides of a thread groove along Z; the groove centre is the reference
+
+      **reverse hole**: a probe measures the return (deflector) hole of the nut (or another locating feature); the hole centre is the reference
+
+      After **Optional measurement of the small step at the right end / locating hole** is enabled in the machine configuration, a **Measure Mode** field appears at the top of the reverse hole page and Right Step, Right Face Hole and Outer face right end reverse can also be selected
+
+      Whether the probe is behind or in front of the workpiece is set by **Measurement direction** in the machine configuration; just enter the real coordinates on the screen
+
+      After measuring, the device retracts, the Z axis returns to Meas Init Pos.Z, then to Safe Pos.Z of the grinding screen, and the X axis returns to Work Center.X
+
+      '
+  - params:
+    - id: S5D41
+      name: Structure
+      range: inner raceway / reverse hole
+      var: TECHNOLOGY[159]
+      ac: 4
+      text: 'Select according to the measuring device of the machine and the locating feature of the workpiece; the page then shows the matching parameters
+
+        **inner raceway**: the thread groove is measured with the proximity switch
+
+        **reverse hole**: the probe measures the reverse hole, right step, right face hole or the flat on the outer diameter
+
+        '
+    - id: S5D6
+      name: Meas-ball wheel Dis.Z (measuring horizontal distance)
+      rec: calculate from measurement
+      range: none
+      unit: mm
+      var: TOOL_SET[11]
+      ac: 4
+      text: 'Z distance between the measuring device (probe or switch) and the wheel; directly decides whether grinding is offset, so it must be calibrated accurately:
+
+        1. Touch the right end face of the workpiece with the probe and record Z1
+
+        2. Align the wheel tip with the right end face and record Z2
+
+        3. Measuring horizontal distance = |Z1 - ball R - Z2|
+
+        Used for inner raceway and Reverse Hole (Routine); Right Step, Right Face Hole, Only measure C and Outer face right end reverse do not use it
+
+        '
+    - id: S5D5
+      name: Meas Init Pos.Z (measuring start position Z)
+      rec: probe about 50 mm outside the workpiece
+      range: none
+      unit: mm
+      var: INI[49]
+      ac: 4
+      text: 'At the start of every automatic tool setting the Z axis first moves here, then the measuring device extends; after measuring it also returns here
+
+        Leave enough distance between the extended device and the workpiece and chuck
+
+        '
+    - id: S5D8
+      name: measuring Ang.C / hole Ang.C
+      rec: device facing the measuring point
+      range: ≥ 0
+      unit: °
+      var: INI[50]
+      ac: 4
+      text: '**inner raceway** (shown as measuring Ang.C): angle to which the headstock turns before the switch extends, so that the switch enters the bore without collision
+
+        **Reverse Hole**: at this headstock angle the probe must face the reverse hole and be able to enter its middle
+
+        **Right Face Hole**: at this headstock angle the probe must face the locating hole in the right end face
+
+        '
+- h3: 'Structure: inner raceway (proximity switch)'
+  marks:
+  - ifIsInternal
+  body:
+  - img:
+      src: auto_int_groove.png
+      h: 300
+  - note: 'Sequence: Z to Meas Init Pos.Z, C to measuring Ang.C, switch extends; X to Meas Init Pos.X, Z to measuring position Z; X moves towards measure pos.X (the switch must now be inside a thread groove, without signal), then Z moves first left, then right (up to 2 pitches each) until it touches both flanks of the groove; the middle is the groove centre, from which the start angle is calculated
+
+      If the switch touches a crest while moving towards measure pos.X: by default it moves 1/4 pitch along Z to leave the crest and then searches the groove; after **Inner raceway measurement - retract before lateral move on contact** is enabled in the machine configuration, it instead returns to Meas Init Pos.X, shifts 1/8 pitch along Z and tries again, up to 5 times; if this still fails the machine stops with "测量失败, 请检查测量位置设置是否合适" (measurement failed, check the measuring position settings; this message is shown in Chinese)
+
+      If no flank is found on both sides the alarm "Error in setting to measuring pisition!" appears (check measure pos.X)
+
+      ?ifIsCenter: On the grinding center, with inner raceway and **Right Side Meas** lit on the right, the right end face is measured after the groove; **External Meas** (run-out) and **Left Side Meas** can only be selected after right side measuring is on; see "Grinding center workpiece measurement" below
+
+      '
+  - params:
+    - id: S5D25
+      name: Meas Init Pos.X (measuring start position X)
+      range: none
+      unit: mm
+      var: TECHNOLOGY[177]
+      ac: 4
+      text: 'X coordinate at which the switch can enter the bore safely without touching the wall; after measuring the switch first returns to this X position before leaving the workpiece
+
+        '
+    - id: S5D7
+      name: measuring position Z (Meas Init Pos.Z on screen)
+      rec: switch inside the first thread groove
+      range: none
+      unit: mm
+      var: INI[53]
+      ac: 4
+      text: 'Move the switch into the workpiece by hand, roughly to the middle of the first thread groove, and record Z. At this Z the switch moves to measure pos.X and then searches the flanks on both sides along Z, so this position must be inside the groove
+
+        '
+    - id: S5D9
+      name: measure pos.X
+      rec: about 0.2 mm beyond the point where the signal appears
+      range: none
+      unit: mm
+      var: INI[52]
+      ac: 4
+      text: 'Target X coordinate of the switch towards the bore surface: move X by hand until the switch just detects the bore wall, then move about 0.2 mm further towards the wall and record this coordinate
+
+        Inside a thread groove the switch must have no signal at this position, and must get a signal when touching a flank while moving in Z; too shallow → flanks are not detected, too deep → risk of collision
+
+        '
+- h3: 'Structure: reverse hole (probe)'
+  marks:
+  - ifIsInternal
+  body:
+  - img:
+      src: auto_int.png
+      h: 300
+  - note: 'Sequence (Reverse Hole): Z to Meas Init Pos.Z, headstock to ex meas Ang.C, X to 5 mm outside the workpiece outer diameter, probe extends; the probe moves radially about 1.5 probe diameters inside the outer diameter and moves along Z (up to 100 mm) until it touches the right end face (compared with the right side setting; beyond the threshold the alarm "Error in position of right side, check if workpiece is not setup correctly" appears); then it returns to 5 mm outside the outer diameter, turns to hole Ang.C, moves from the measured right face into the workpiece by hole Pos.Z and enters the hole, turns C forward and backward (up to 300° each) to find the upper and lower sides of the hole, then searches the left and right sides along Z (up to 2 pitches each); this gives the hole centre, from which the start angle is calculated
+
+      Right Step and Right Face Hole also measure the right end face first; Outer face right end reverse does not
+
+      If the probe cannot enter the hole (touches the hole edge) the alarm "Measuring Head can not move into hole, check parameters!" appears; if the right face is not found or no hole wall is found in C or Z the alarm "Error in setting to outer diameter, check again!" appears — check work Dia, ball in center.X, hole Pos.Z, etc.
+
+      '
+  - params:
+    - id: S5D42
+      name: Measure Mode
+      range: Reverse Hole / Right Step / Right Face Hole / Outer face right end reverse
+      var: TECHNOLOGY[128]
+      ac: 4
+      text: 'Shown after **Optional measurement of the small step at the right end / locating hole** is enabled in the machine configuration; otherwise always Reverse Hole
+
+        The measuring method and parameters of each mode are described below
+
+        '
+    - id: S5D24
+      name: ball in center.X (probe centre position X)
+      range: none
+      unit: mm
+      var: PROCESS[54]
+      ac: 4
+      text: 'X coordinate at which the probe is at the rotation centre of the workpiece. It can be calculated from the coordinate at which the probe touches the workpiece outer diameter plus (or minus) the workpiece radius
+
+        The program uses it as reference and calculates from the outer diameter where the probe approaches the workpiece surface
+
+        '
+    - id: S5D11
+      name: ball R (probe radius)
+      rec: according to the probe drawing
+      range: 0~10
+      unit: mm
+      var: TOOL_SET[10]
+      ac: 4
+      text: 'Radius of the probe ball according to the probe specification. Used to calculate how deep the probe goes into the workpiece and to correct the contact point
+
+        '
+    - id: S5D10
+      name: work Dia (workpiece outer diameter)
+      rec: measured
+      range: 0~500
+      unit: mm
+      var: INI[35]
+      ac: 4
+      text: 'Outer diameter of the workpiece; decides where the probe approaches the workpiece surface and is used to convert kidney hole sizes to C-axis angles; must be entered accurately
+
+        '
+    - id: S5D12
+      name: hole Pos.Z (reverse hole distance from right end)
+      rec: probe can enter the middle of the hole
+      range: 0~500
+      unit: mm
+      var: INI[36]
+      ac: 4
+      text: '**Reverse Hole**: Z distance from the right end face to the reverse hole centre; the probe moves from the measured right face into the workpiece by this distance to reach the hole
+
+        **Right Face Hole**: depth by which the probe enters the locating hole in the right end face along Z
+
+        '
+    - id: S5D13
+      name: hole Compensation (hole notch depth)
+      rec: according to the workpiece
+      range: -20~100
+      unit: mm
+      var: PROCESS[55]
+      ac: 4
+      text: '**Reverse Hole**: extra depth the probe must go in when there is a notch (counterbore) outside the reverse hole; enter 0 without notch
+
+        **Right Face Hole**: radial distance from the locating hole centre to the workpiece outer surface
+
+        '
+    - id: S5D14
+      name: hole type (reverse hole type)
+      range: roundness / kidney
+      var: TOOL_SET[23]
+      ac: 4
+      text: 'Select according to the shape of the reverse hole
+
+        **roundness** (round hole): upper and lower sides searched in C, left and right sides in Z
+
+        **kidney** (slotted hole): edges searched obliquely along the width and length of the slot; also set the slot angle, length and width (see picture below)
+
+        '
+    - id: S5D21
+      name: Measurement Mode (Routine / Only measure C)
+      rec: Routine
+      range: Routine / Only measure C
+      var: INI[163]
+      ac: 4
+      text: '**Routine**: measures the upper/lower (C) and left/right (Z) sides of the hole, locates the hole centre and calculates the start angle
+
+        **Only measure C**: measures only the upper and lower sides to get the angular position of the hole; the right face measuring error is written automatically into **Deviation Adj** (offset compensation) of the grinding screen, and Compensation is added as an angle (°)
+
+        '
+    - id: S5D18
+      name: Hole Pos Meas / Meas Range / Meas Step Ang (hole periphery search)
+      rec: range 30°, step 5°
+      range: Hole Pos Meas OFF/ON; range and step 0~360
+      unit: °
+      var: TECHNOLOGY[156] / TECHNOLOGY[157] / TECHNOLOGY[158]
+      ac: 4
+      text: 'Switch on for small holes or inaccurate clamping angles: if the probe cannot enter the reverse hole at the set angle, the headstock turns step by step first in one direction, then in the other (each up to half the search range) and the probe tries to enter the hole again after each step
+
+        '
+    - id: S5D23
+      name: ex meas Ang.C (Outer circular leveling.C)
+      rec: no collision while measuring
+      range: 0~360
+      unit: °
+      var: INI[132]
+      ac: 4
+      text: 'Angle to which the headstock turns at the start of automatic tool setting; the probe extends at this angle and measures the right end face or the outer diameter. Make sure the probe does not hit chuck jaws, notches, etc.
+
+        In Outer face right end reverse mode it is shown as **Outer circular leveling.C**, the start angle for measuring the flat on the outer diameter
+
+        '
+    - id: S5D37
+      name: right side base.Z / right side actual
+      rec: set after measuring by hand
+      range: none
+      unit: mm
+      var: INI[137]、INI[51]
+      ac: 4
+      text: 'Touch the right end face of the workpiece with the probe by hand and enter the Z coordinate in **right side base.Z**; the field on the right shows the value measured automatically each time
+
+        '
+    - id: S5D38
+      name: right side alarm.Z / right side diff
+      rec: '0.05'
+      range: 0~0.5
+      unit: mm
+      var: INI[138]、INI[140]
+      ac: 4
+      text: 'The field on the right shows the difference between the measured right face and the setting (measured - setting). If it is larger than the threshold, the alarm "Error in position of right side, check if workpiece is not setup correctly" appears and the program stops; a deviation in the other direction gives no alarm
+
+        Usually the part is too long or not clamped correctly; check the part or change the right side setting and continue
+
+        '
+  - h4: 'hole type: kidney'
+    body:
+    - img:
+        src: auto_int_slot.png
+        h: 300
+    - params:
+      - id: S5D15
+        name: Angle / length / width (kidney hole)
+        rec: according to the drawing (developed view)
+        range: angle 0~180, length and width 0~100
+        unit: ° / mm
+        var: INI[32] / INI[33] / INI[34]
+        ac: 4
+        text: 'Inclination angle, length and width of the kidney hole on the developed outer surface of the workpiece. Set according to the picture on the screen; usually the angle is more than 90° for right-hand parts and less than 90° for left-hand parts
+
+          The probe finds both edges across the width to get the centre line, then both ends along the length to get the hole centre
+
+          '
+  - h4: 'Measure Mode: Right Step'
+    body:
+    - img:
+        src: auto_int_step.png
+        h: 300
+    - note: 'The angle is taken from a small step on the right end face: the probe measures the right face, backs off half a probe radius along Z, and the headstock turns forward within one revolution until the probe touches the side of the step; this angle plus Compensation is the start angle. The right face error is written automatically into Deviation Adj of the grinding screen
+
+        If no step is found within one revolution the alarm "Error in setting to outer diameter, check again!" appears
+
+        This mode needs only ball in center.X, Meas Init Pos.Z, ball R, work Dia and the right side parameters
+
+        '
+  - h4: 'Measure Mode: Right Face Hole'
+    body:
+    - img:
+        src: auto_int_hole.png
+        h: 300
+    - note: 'The angle is taken from a locating hole in the right end face: the probe measures the right face, moves to the radius of the locating hole (outer radius minus the distance from hole centre to outer diameter entered in **hole Compensation**), the headstock turns to **hole Ang.C**, the probe enters the hole along Z by **hole Pos.Z**, then C turns forward and backward (up to 40° each) to find both sides of the hole; the middle plus Compensation is the start angle. The right face error is written automatically into Deviation Adj of the grinding screen
+
+        If the probe cannot enter the hole the alarm "Measuring Head can not move into hole, check parameters!" appears; if no hole wall is found within ±40° the alarm "Error in setting to outer diameter, check again!" appears
+
+        This mode uses three reverse hole parameters with the meanings given above
+
+        '
+  - h4: 'Measure Mode: Outer face right end reverse'
+    body:
+    - img:
+        src: auto_int_flat.png
+        h: 300
+    - note: 'The angle is taken from a flat on the outer diameter (milled flat, keyway, etc.) and the Z position from the end face of the right return piece:
+
+        1. The headstock turns to Outer circular leveling.C, the probe moves to Outer circular leveling.Z / .X and C turns forward and backward to find both sides of the flat; the middle is the angle reference
+
+        2. The probe leaves and returns to the workpiece centre, the headstock turns further by **End reverse angle.C**, the probe moves to **End reverse measure.Z / .X** and touches the end face of the right return piece along Z
+
+        3. The measured face position (minus Compensation) plus **Inner track distance from end** is converted to the angle from the wheel to the raceway start, giving the start angle
+
+        If the flat or the end face is not found the machine stops with "测量错误,测头未检测到信号" (measuring error, no probe signal; this message is shown in Chinese)
+
+        '
+    - params:
+      - id: S5D43
+        name: Outer circular leveling.C / .Z / .X
+        range: none
+        var: INI[132] / TOOL_SET[72] / TOOL_SET[73]
+        ac: 4
+        text: 'Measuring position of the probe on the flat of the outer diameter: the headstock first turns to Outer circular leveling.C, the probe moves to .Z and .X (close to the flat), and C turns forward and backward to find both sides of the flat
+
+          Move the probe by hand to the middle of the flat, at the position where the signal just appears, and record the Z and X coordinates
+
+          '
+      - id: S5D44
+        name: Inner track distance from end
+        range: 0~500
+        unit: mm
+        var: TOOL_SET[74]
+        ac: 4
+        text: 'Z distance from the end face of the right return piece to the start of the raceway; used to convert the measured face position to the start angle
+
+          '
+      - id: S5D45
+        name: End reverse measure.Z / End reverse measure.X / End reverse angle.C
+        range: none
+        var: TOOL_SET[75] / TOOL_SET[76] / TOOL_SET[77]
+        ac: 4
+        text: 'Z and X position of the probe for measuring the end face of the right return piece, and the angle by which the headstock turns further after leveling (so that the probe can reach the end face)
+
+          The probe first moves outside End reverse measure.Z, then to End reverse measure.X, and then touches the face along Z
+
+          '
+- h3: Grinding center workpiece measurement
+  marks:
+  - ifIsCenter
+  body:
+  - img:
+      src: auto_center.png
+      h: 300
+  - note: 'On the grinding center automatic tool setting can also check the clamping of the workpiece: the softkeys on the right select which measurements are included (lit = included; all are lit in the picture)
+
+      **Right Side Meas**: optional with inner raceway, always done with the probe except in Outer face right end reverse mode; measures the right end face and compares it with the setting
+
+      **External Meas** (run-out): 3 points 120° apart are measured on the outer diameter; the difference between maximum and minimum is the run-out; above the threshold the alarm "External run-out: … mm, bigger than setting: … mm" appears
+
+      **Left Side Meas**: the probe moves outside the outer diameter to about 1.5 probe diameters below the left flange height, the headstock turns to side meas Ang.C to avoid the chuck jaws, and the left end face is measured along Z (up to work surf length + 5 mm); if it is not found the alarm "Length of workpiece going to wrong!" appears, beyond the threshold "Error in position of lift side, check if workpiece is not setup correctly"; after a successful measurement the measured workpiece length is written back to the setting
+
+      Sequence: with inner raceway the groove is measured first, then the right face, run-out and left face; with the probe the right face, run-out, reverse hole and finally the left face
+
+      Run-out and left side measurement are only done with inner raceway and in **Reverse Hole** mode, not in Right Step, Right Face Hole or Outer face right end reverse mode
+
+      Run-out and left side measurement require right side measurement: with inner raceway, switching them on lights Right Side Meas automatically, and switching right side measurement off switches the other two off. After measuring, the current grinding contact of the operations concerned is reset to the initial value
+
+      '
+  - params:
+    - id: S5D20
+      name: ex jerk alarm / ex jerk actual (run-out threshold / current run-out)
+      rec: '0.08'
+      range: 0~0.5
+      unit: mm
+      var: INI[128]、INI[134]
+      ac: 4
+      text: 'Shown when run-out measurement is on. If the run-out of the 3 points is larger than the threshold an alarm is given and the program stops; the field on the right shows the measured run-out
+
+        '
+    - id: S5D22
+      name: side meas Ang.C (left side measuring angle)
+      rec: no collision while measuring
+      range: 0~360
+      unit: °
+      var: TOOL_SET[59]
+      ac: 4
+      text: 'Shown when left side measurement is on. Headstock angle for measuring the left end face, so that the probe can touch the face and avoid the chuck jaws
+
+        '
+    - id: S5D27
+      name: left Height (left flange height)
+      rec: according to the drawing
+      range: 0~100
+      unit: mm
+      var: INI[44]
+      ac: 4
+      text: 'Radial height of the flange on the left end of the workpiece, from the drawing or measured. For left side measurement the probe moves outside the outer diameter to about 1.5 probe diameters below the flange height and touches the left face along Z; if the value is too large the probe passes above the flange and does not touch the face
+
+        It is also used to calculate the end point of left face grinding
+
+        '
+    - id: S5D39
+      name: Left set.Z / Left measure
+      rec: set after measuring by hand
+      range: none
+      unit: mm
+      var: TOOL_SET[46]、TOOL_SET[47]
+      ac: 4
+      text: 'Touch the left end face of the workpiece with the probe by hand and enter the Z coordinate in Left set.Z; the field on the right shows the automatically measured value
+
+        '
+    - id: S5D40
+      name: left threshold.Z / Left diff
+      rec: '0.05'
+      range: 0~0.5
+      unit: mm
+      var: TOOL_SET[48]、TOOL_SET[49]
+      ac: 4
+      text: 'The field on the right shows the difference between measured left face and setting (measured - setting); if it is larger than the threshold the alarm "Error in position of lift side, check if workpiece is not setup correctly" appears; a deviation in the other direction gives no alarm
+
+        '
+    - id: S5D28
+      name: work surf length (workpiece outer length)
+      rec: according to the drawing
+      range: 0~500
+      unit: mm
+      var: INI[31]、INI[141]
+      ac: 4
+      text: 'Left: setting; right: length calculated from the right and left measurements this time; after left side measurement the measured value is written back to the setting
+
+        In left side measurement the probe moves at most this length + 5 mm along Z from the right face to find the left face; if the setting is too short the alarm "Length of workpiece going to wrong!" appears
+
+        '

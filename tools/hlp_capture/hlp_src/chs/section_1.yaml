@@ -180,7 +180,7 @@ blocks:
     - id: S1D12
       marks:
       - ifIsExternal
-      name: 工件中心.X（对刀起始位）
+      name: 对刀起始位.X
       rec: 接近工件外圆处
       range: 砂轮在工件外的安全位置
       unit: mm
@@ -884,7 +884,7 @@ blocks:
       range: 关/开
       var: INI[111]
       ac: 4
-      text: '打开后精磨、终磨工序不再执行倒角让刀，仅粗磨及之前工序倒角
+      text: '打开后精磨、终磨工序不再执行倒角让刀，只有粗磨、半精磨工序倒角
 
         '
     - id: S1D82

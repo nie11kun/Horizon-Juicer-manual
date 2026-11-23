@@ -1,0 +1,82 @@
+title: Process Selection
+head1: HMI Screen Parameters
+blocks:
+- h3: Process selection screen (main)
+  body:
+  - img:
+      src: center_select.png
+      h: 300
+  - note: 'The grinding center can grind the external cylinder, left/right end faces, external steps and the internal thread one after another in one clamping. This page summarises machining mode, grinding amounts and contact positions of each operation
+
+      The softkeys **External / Left Face / Right Face / Stair / Start** on the right select the operations included in this run when lit; click again to deselect. Note: in the English screen the internal thread softkey is labelled **Start**
+
+      ?ifIsHasLoadingArm: On machines with a loading robot, **Auto Pair** lit on the right uses the robot for automatic loading and unloading, and **Test** lit runs the robot sequence without parts for testing
+
+      The left side shows the initial and current contact positions of each operation, the same as on the parameter pages
+
+      '
+  - params:
+    - id: S28D5
+      name: Total Amount / Set Amount, Left Grind-cumu / Left Grind-set, Right Grind-cumu / Right Grind-set (each operation)
+      range: read-only
+      unit: mm
+      readonly: true
+      var: PROCESS[59]、PROCESS[115]、PROCESS[61]、PROCESS[117]、PROCESS[62]、PROCESS[118]
+      text: 'Set total grinding amount and amount already ground on the current part for each operation, the same as on the corresponding parameter page
+
+        '
+    - id: S28D6
+      name: operation selected indicators (External / Right Face / Left Face / Stair / Start)
+      range: read-only
+      readonly: true
+      var: PROCESS[44]、PROCESS[46]、PROCESS[45]、PROCESS[95]、PROCESS[42]
+      text: 'Selection state of the external cylinder, right face, left face, external step and internal thread operations: when the softkey on the right is lit, the middle of the screen shows that the operation is selected and it is included in this run
+
+        '
+    - id: S28D7
+      name: online meas (online measurement)
+      range: OFF / ON
+      ac: 4
+      var: TECHNOLOGY[296]
+      text: 'Shown after the external circle online measurement module is enabled in the machine configuration: when on, the outer diameter is measured by the in-process gauge during external grinding and grinding ends automatically when the target size is reached
+
+        '
+- h3: Process selection
+  body:
+  - params:
+    - id: S28D1
+      name: Process (internal thread)
+      rec: opens the internal thread process screen
+      range: button
+      text: 'Click the **Process** button in the internal thread row to open the internal thread process screen
+
+        '
+    - id: S28D2
+      var: TOOL_SET[60]
+      name: pitch conversion (variable pitch enable)
+      rec: whether a variable pitch part is ground
+      range: Nomal / conversion
+      text: 'Select **Nomal** (constant pitch) for ordinary parts with constant pitch
+
+        Select **conversion** for parts with variable lead, and set the pitches on the **pitch conversion** screen (click **grind** at the bottom, then **pitch conversion** on the right)
+
+        Shown after **Pitch transformation** is set to single or many in the machine configuration
+
+        '
+    - id: S28D3
+      name: Process (external cylinder)
+      rec: opens the external process screen
+      range: button
+      text: 'Click the **Process** button in the external cylinder row to open the external process screen
+
+        '
+    - id: S28D4
+      name: Process (end face)
+      rec: opens the end face process screen
+      range: button
+      text: 'Click the **Process** button in the end face row to open the end face process screen
+
+        '
+refs: 'For the operating steps see [External Cylinder and End Face Grinding](section_24.html)
+
+  '

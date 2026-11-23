@@ -20,9 +20,13 @@ import inventory
 from inventory import parse_def_line, split_fields
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SRC = os.path.join(HERE, "hlp_src", "chs")
-UG = os.path.join(inventory.ROOT, "Source_Library", "HMI", "hlp", "chs", "UserGuide")
+SRC = os.path.join(HERE, "hlp_src", inventory.LANG)
+UG = os.path.join(inventory.ROOT, "Source_Library", "HMI", "hlp", inventory.LANG, "UserGuide")
+RO = {"chs": "只读", "eng": "read-only", "rus": "только чтение"}[inventory.LANG]
+KEY3 = {"chs": "钥匙开关 3 档", "eng": "key switch position 3", "rus": "положение 3 ключа"}[inventory.LANG]
+SOFTKEY = {"chs": "软键", "eng": "softkey", "rus": "программная клавиша"}[inventory.LANG]
 TEXTS = inventory.load_texts()
+VARIANTS = inventory.load_text_variants()
 
 
 def cells():
@@ -47,12 +51,12 @@ def cells():
     return out
 
 
-ROWLABEL = re.compile(r"(粗磨|半精磨|精磨|终磨|光磨|第[一二三四五六七八九十\d]+[头组段]|台阶\d+.*|[XZCUWB]轴?|当前|初始)")
+ROWLABEL = re.compile(r"(粗磨|半精磨|精磨|终磨|光磨|第[一二三四五六七八九十\d]+[头组段]|台阶\d+.*|[XZCUWB]轴?|当前|初始|(?i:rough(ing)?|semi[- ]?finish(ing)?|finish(ing)?|final|spark[- ]?out|current|initial|start|[XZCUWB](\s*axis)?|step ?\d.*|head ?\d|group ?\d|segment ?\d)|(?i:черн\w*|получист\w*|чист\w*|оконч\w*|текущ\w*|начальн\w*))")
 
 
 def norm(s):
-    s = re.sub(r"[\s\-—_:：.%n]|\(.*?\)|（.*?）", "", s or "")
-    return s.replace("磨削", "").replace("位置", "位").replace("过度", "过渡")
+    s = re.sub(r"[\s\-—_:：.%n,;/]|\(.*?\)|（.*?）", "", (s or "").lower())
+    return s.replace("磨削", "").replace("位置", "位").replace("过度", "过渡").replace("grinding", "").replace("шлиф", "")
 
 
 def label_variant_ok(label, alltext):
@@ -78,7 +82,15 @@ def main():
     issues = collections.defaultdict(list)
     for fp in sorted(glob.glob(os.path.join(inventory.PROJ, "*.com"))):
         fn = os.path.basename(fp)
+        stack = []
         for k, line in enumerate(open(fp, encoding="utf-8-sig"), 1):
+            bm = re.match(r"\s*;\s*(ifIs\w+?)(Begin|End)", line)
+            if bm:
+                if bm.group(2) == "Begin":
+                    stack.append(bm.group(1))
+                elif bm.group(1) in stack:
+                    stack.remove(bm.group(1))
+            line_marks = stack + inventory.MARK_RE.findall(line.split(";", 1)[1] if ";" in line else "")
             p = parse_def_line(line)
             if not p:
                 continue
@@ -91,7 +103,7 @@ def main():
             cell = C.get(key)
             if not cell:
                 continue
-            texts = [inventory.resolve(t.strip(), TEXTS).strip('"') for t in f[3].split(",")]
+            texts = [inventory.resolve_for(t.strip(), TEXTS, VARIANTS, line_marks).strip('"') for t in f[3].split(",")]
             label = (texts[1] if len(texts) > 1 and texts[1] else texts[0])
             alltext = f'{cell.get("name","")} {cell.get("range","")} {cell.get("text","")}'
             # label
@@ -114,15 +126,15 @@ def main():
             # access level
             acm = re.search(r"ac(\d)", f[4])
             wr = re.search(r"WR(\d)", f[4])
-            if acm and cell.get("ac") and not f[0].strip().startswith("S") and                     not (acm.group(1) == "4" and "钥匙开关 3 档" in str(cell.get("text", ""))) and int(cell["ac"]) > int(acm.group(1)) and wr and wr.group(1) in ("2", "3", "4"):
+            if acm and cell.get("ac") and not f[0].strip().startswith("S") and                     not (acm.group(1) == "4" and KEY3 in str(cell.get("text", ""))) and int(cell["ac"]) > int(acm.group(1)) and wr and wr.group(1) in ("2", "3", "4"):
                 issues["access"].append(f"{fn}:{k} {key[1]} 帮助写 ac{cell['ac']}，界面 ac{acm.group(1)}")
             # readonly vs editable
-            if wr and wr.group(1) == "2" and cell.get("readonly") and "只读" in str(cell.get("range", "")):
+            if wr and wr.group(1) == "2" and cell.get("readonly") and RO in str(cell.get("range", "")).lower():
                 issues["readonly"].append(f"{fn}:{k} {key[1]} 界面可编辑但帮助写只读")
     used = set(refs)
     param_cells = {k for k in C if k[0] in {f"section_{n}" for n in (1, 2, 3, 4, 5, 6, 7, 8, 9, 26, 27, 28, 31)}}
     for k in sorted(param_cells - used):
-        if C[k].get("nofield") or "软键" in str(C[k].get("range", "")):
+        if C[k].get("nofield") or SOFTKEY in str(C[k].get("range", "")).lower():
             continue  # documented soft key / table column, no input field to link
         issues["unreferenced"].append(f"{k[0]}#{k[1]} {C[k]['name']}")
     # strict internal-name scan

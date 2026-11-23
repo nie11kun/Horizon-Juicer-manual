@@ -11,12 +11,25 @@ import collections
 import json
 import os
 import re
+import sys
+
+
+def _pick_lang():
+    """--lng chs|eng|rus (removed from argv so the scripts' own parsers never see it) or env HLP_LNG."""
+    if "--lng" in sys.argv:
+        i = sys.argv.index("--lng")
+        os.environ["HLP_LNG"] = sys.argv[i + 1]
+        del sys.argv[i:i + 2]
+    return os.environ.get("HLP_LNG", "chs")
+
+
+LANG = _pick_lang()
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.environ.get("HJ_SOURCE", r"C:\Users\Marco Nie\Development\WorkProgram\Horizon-Juicer")
 HMI = os.path.join(ROOT, "Source_Library", "HMI")
 PROJ = os.path.join(HMI, "proj")
-LNG = os.path.join(HMI, "lng", "almc_chs.txt")
+LNG = os.path.join(HMI, "lng", f"almc_{LANG}.txt")
 
 MARK_RE = re.compile(r"\bifIs[A-Za-z0-9]+")
 
@@ -29,6 +42,30 @@ def load_texts(path=LNG):
             if m:
                 texts[m.group(1)] = m.group(2)
     return texts
+
+
+def load_text_variants(path=LNG):
+    """id -> [(text, [marks])]: the lng files hold config-specific versions of one text id
+    (e.g. 85165 = 对刀起始位.X ;ifIsExternal / 工件中心.X ;ifIsInternal)."""
+    out = collections.defaultdict(list)
+    with open(path, encoding="utf-8-sig", errors="ignore") as f:
+        for line in f:
+            m = re.match(r'\s*(\d+)\s+\d+\s+\d+\s+"(.*?)"(.*)', line)
+            if m:
+                out[m.group(1)].append((m.group(2), MARK_RE.findall(m.group(3))))
+    return out
+
+
+def resolve_for(s, texts, variants, marks):
+    """Like resolve(), but picks the text version whose config marks the field has."""
+    implied = {"ifIsScrewTap": "ifIsExternal", "ifIsCenter": "ifIsInternal", "ifIsInternalOnly": "ifIsInternal"}
+    marks = set(marks) | {implied[x] for x in marks if x in implied}
+
+    def one(m):
+        vs = variants.get(m.group(1), [])
+        fit = [t for t, ms in vs if ms and set(ms) <= set(marks)]
+        return fit[0] if len(fit) == 1 else texts.get(m.group(1), m.group(0))
+    return re.sub(r"\$(\d{5})", one, s)
 
 
 def split_fields(body):

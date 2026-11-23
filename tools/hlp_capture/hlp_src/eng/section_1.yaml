@@ -1,0 +1,1225 @@
+title: Grinding Screen
+head1: HMI Screen Parameters
+refs: 'For the operating steps see [Grinding](section_12.html); for the extended functions see [Extended Grinding Functions](section_13.html)
+
+  On the user screens press the **grind** softkey at the bottom to open this page
+
+  '
+blocks:
+- h3: Main grinding screen
+  body:
+  - img:
+      src: grind_main_ext.png
+      h: 300
+    marks:
+    - ifIsExternal
+  - img:
+      src: grind_main_int.png
+      h: 300
+    marks:
+    - ifIsInternal
+  - note: 'The upper left corner shows the X/Z machine coordinates and the DRF (handwheel offset) values in real time, used to read positions when measuring by hand
+
+      While the program is running (cycle start active), workpiece and position parameters become read-only; they can be edited again after the program stops
+
+      The green area at the bottom (Init Pos.C / Current Pos.X / Initial Pos.X) holds the tool setting result and is locked (read-only) by default
+
+      '
+  - params:
+    - id: S1D1
+      name: Mode (machining mode)
+      range: Single / Mass
+      var: INI[27]
+      ac: 4
+      text: 'Decides from which X position the wheel starts feeding each time the program is started
+
+        **Single** (single-part adjustment): continues from the grinding position reached at the end of the last run (Current Pos.X); used for trial grinding of the first part and for regrinding the same part
+
+        **Mass** (mass production): at every start Current Pos.X is reset to Initial Pos.X and the accumulated process infeed is cleared, so every new part is ground completely from the tool setting position
+
+        Switch to Mass only after the first part has been ground correctly
+
+        '
+    - id: S1D8
+      name: Handedness (thread hand)
+      range: Right / Left
+      var: INI[1]
+      ac: 4
+      text: 'Set according to the workpiece drawing. The hand decides the direction in which the C axis turns with the Z axis, and also whether grinding starts at the left or the right end of the workpiece
+
+        '
+    - id: S1D9
+      name: Start (number of thread starts)
+      range: 1~100
+      var: WORK[1]
+      ac: 4
+      text: 'Number of thread starts according to the drawing. The program calculates the C-axis angle with lead = starts × pitch; multi-start threads are indexed and ground start by start
+
+        '
+    - id: S1D4
+      name: Pitch
+      range: 0~100
+      unit: mm
+      var: INI[5]
+      ac: 4
+      text: 'Thread pitch according to the drawing (distance between two neighbouring threads, not the lead)
+
+        ?ifIsExternal,ifIsHasWorm: On machines with the worm function, when worm mode is selected this value is calculated as worm module × π and cannot be changed by hand
+
+        '
+    - id: S1D53
+      marks:
+      - ifIsExternal
+      - ifIsHasWorm
+      name: worm enable
+      range: Screw / Worm
+      var: INI[87]
+      ac: 4
+      text: 'Shown only on machines with the worm function
+
+        **Screw**: enter the pitch; dressing uses the built-in thread profiles
+
+        **Worm**: enter the module; the pitch is converted as π × module, dressing uses the worm profile, and the helix angle is calculated from the pitch circle diameter
+
+        '
+    - id: S1D54
+      marks:
+      - ifIsExternal
+      - ifIsHasWorm
+      name: Module (worm module)
+      range: 0~50
+      unit: mm
+      var: INI[77]
+      ac: 4
+      text: 'Shown only on machines with the worm function; entered when worm enable is set to Worm. Enter the normal/axial module from the drawing; the screen calculates pitch = π × module
+
+        '
+    - id: S1D55
+      marks:
+      - ifIsExternal
+      - ifIsHasWorm
+      name: Pitch Circle (pitch circle diameter)
+      range: 0~400
+      unit: mm
+      var: INI[40]
+      ac: 4
+      text: 'Shown only on machines with the worm function; entered in worm mode when the automatic helix angle is switched on, and used to calculate it: helix angle = arctan(starts × pitch / (π × pitch circle diameter))
+
+        '
+    - id: S1D16
+      name: Taper
+      rec: according to the workpiece drawing
+      range: -10~10
+      var: INI[15]
+      ac: 4
+      text: 'Entered for taper threads; enter 0 for parallel threads
+
+        The value is the change of radius per unit length of the workpiece: for a taper of 1:16 enter 1/16/2 = 0.03125
+
+        If both end diameters are known: (large diameter - small diameter) / length / 2
+
+        ?ifIsExternal: External threads are ground from the small end towards the large end; enter a positive value if grinding goes from small to large, otherwise negative
+
+        ?ifIsInternal: Internal threads are ground from the large end towards the small end; enter a positive value if grinding goes from large to small, otherwise negative
+
+        Total X increment over the length = grinding length × taper + Taper Fix
+
+        '
+    - id: S1D19
+      name: Helix Angle (switch)
+      range: ON / OFF
+      var: INI[39]
+      ac: 4
+      text: '**ON**: the helix angle is calculated from starts, pitch and pitch diameter: helix angle = arctan(starts × pitch / (π × pitch diameter))
+
+        **OFF**: the helix angle is entered by hand
+
+        '
+    - id: S1D20
+      name: Helix Angle
+      range: -90~90
+      unit: °
+      var: INI[18]
+      ac: 4
+      text: 'On machines with an A axis the wheel head is swivelled to this angle before grinding and tool setting; the value is also used to convert the tooth profile to the normal section when dressing
+
+        ?ifIsHasA: On machines with an A axis, at the start of tool setting or grinding the hydraulic clamping is released automatically and the head swivels to this angle
+
+        '
+    - id: S1D23
+      name: Pitch dia (workpiece pitch diameter)
+      range: 0~500
+      unit: mm
+      var: INI[40]
+      ac: 4
+      text: 'Used only for the automatic helix angle calculation; enter it after switching the helix angle to ON. It cannot be edited when the switch is OFF
+
+        '
+    - id: S1D10
+      name: Grinding Left.Z (workpiece left end)
+      range: -2000~2000
+      unit: mm
+      var: INI[2]
+      ac: 4
+      text: 'Move the wheel centre by hand to the left end of the thread to be ground and record the Z machine coordinate
+
+        The difference between left and right end is the grinding length; make sure the wheel can grind the complete thread
+
+        '
+    - id: S1D11
+      name: Grinding Right.Z (workpiece right end)
+      range: -2000~2000
+      unit: mm
+      var: INI[3]
+      ac: 4
+      text: 'Move the wheel centre by hand to the right end of the thread to be ground and record the Z machine coordinate
+
+        The program decides from the thread hand whether grinding starts at the left or the right end
+
+        '
+    - id: S1D12
+      marks:
+      - ifIsExternal
+      name: Measure start.X (tool setting start position)
+      rec: close to the workpiece outer diameter
+      range: a safe position with the wheel outside the workpiece
+      unit: mm
+      var: INI[11]
+      ac: 4
+      text: 'For external threads this is the tool setting start position: during tool setting the X axis first moves rapidly to this position, then the handwheel is used
+
+        Set it as close to the workpiece outer diameter as is safe and record the X coordinate
+
+        '
+    - id: S1D28
+      marks:
+      - ifIsInternal
+      name: Work Center.X
+      rec: X coordinate where the wheel centre coincides with the headstock centre
+      range: none
+      unit: mm
+      var: INI[11]
+      ac: 4
+      text: 'For internal threads the wheel enters and leaves the bore along Z at this X position, so it must be set accurately
+
+        Measuring: move X until the wheel touches the bore wall and record X1; measure the bore diameter D1 and the wheel diameter D2
+
+        Work centre = X1 ± (D1 - D2) / 2 (take the sign towards the bore centre)
+
+        '
+    - id: S1D52
+      marks:
+      - ifIsExternal
+      - ifIsHasLoadingArm
+      name: Safe pos.Z (loading position)
+      rec: Z position convenient for loading/unloading by the robot
+      range: none
+      unit: mm
+      var: INI[29]
+      ac: 4
+      text: 'Shown only on machines with a loading robot
+
+        Before the robot loads or unloads a part, the Z axis moves to this position and waits for the robot
+
+        '
+    - id: S1D30
+      marks:
+      - ifIsInternal
+      name: Safe Pos.Z
+      rec: wheel completely outside the workpiece
+      range: -2000~2000
+      unit: mm
+      var: INI[29]
+      ac: 4
+      text: 'At the start of internal grinding, dressing and when leaving, the Z axis first moves to this position; here the wheel leaves the bore
+
+        It must be at least 30 mm beyond the right end of the workpiece, so that the X axis can move safely at this position
+
+        '
+    - id: S1D14
+      name: Safe Pos.X
+      rec: X axis away from the workpiece
+      range: none
+      unit: mm
+      var: INI[24]
+      ac: 4
+      text: 'Safe position to which the X axis retracts at program start, at the end of machining and after an abnormal stop
+
+        A position further back is recommended, so that Z, C and loading/unloading motions cannot collide with the workpiece
+
+        '
+    - id: S1D29
+      name: Safe Ang.C (workpiece clamping angle)
+      rec: angle convenient for loading and unloading
+      range: 0~360
+      unit: °
+      var: INI[28]
+      ac: 4
+      text: 'At the end of the program the headstock (C axis) turns to this angle, for easy clamping/unclamping or gripping by the robot
+
+        '
+    - id: S1D18
+      marks:
+      - ifIsExternal
+      name: Grinding back.X (grinding safe retract)
+      rec: wheel completely clear of the workpiece
+      range: ≥ 10
+      unit: mm
+      var: TECHNOLOGY[130]
+      ac: 4
+      text: 'For external threads: after each pass reaches the end point, the X axis retracts by this distance from Initial Pos.X, then the Z axis returns to the start point
+
+        Grinding safe position = Initial Pos.X + this distance; make sure the Z return stroke cannot touch the workpiece
+
+        '
+    - id: S1D15
+      name: Compensation (full-length lead compensation)
+      rec: according to the inspection report
+      range: -500~500
+      unit: mm
+      var: INI[25]
+      ac: 7
+      text: 'Corrects the accumulated pitch error over the full length; enter the full-length lead error from the inspection report
+
+        The program uses total C-axis angle = 360 × (grinding length - compensation) / lead. A positive value reduces the C-axis angle over the same length, so the real lead becomes larger; a negative value does the opposite
+
+        '
+    - id: S1D17
+      name: Taper Fix (full-length taper compensation)
+      rec: according to measurement
+      range: -9~9
+      unit: mm
+      var: INI[142]
+      ac: 7
+      text: 'Used when the pitch diameter differs between the two ends after grinding; the value is the radial compensation over the full length
+
+        Added to the taper: total X increment = grinding length × taper + Taper Fix
+
+        '
+    - id: S1D51
+      marks:
+      - ifIsInternal
+      name: exit method
+      rec: according to wheel and bore size
+      range: stright out / Rotating out
+      var: INI[85]
+      ac: 4
+      text: 'How the wheel leaves the bore after reaching the end of the thread
+
+        **stright out** (direct exit): X returns to the work centre, then Z moves straight out; used when the wheel is smaller than the bore
+
+        **Rotating out** (helical exit): the wheel leaves along the thread helix; used when the wheel is larger than the bore or there is a step in the exit path
+
+        '
+- h3: Compensation and tool setting result
+  body:
+  - params:
+    - id: S1D2
+      name: Pitch-D Adj (pitch diameter compensation)
+      range: default ±1 (the limit can be changed in the machine configuration)
+      unit: mm
+      var: GRIND[5]
+      ac: 7
+      text: 'If the measured pitch diameter differs from the target after grinding, enter the diameter difference here instead of changing the process infeed
+
+        A positive value makes the pitch diameter larger (external thread: less grinding; internal thread: more grinding), a negative value makes it smaller
+
+        Example: the measured pitch diameter of an external thread is 0.02 mm too large → enter -0.02
+
+        One-time compensation: at the start of the next grinding, half of the value is added to Current Pos.X and Initial Pos.X and the value is cleared (separate dressing or tool setting does not use it; it is kept until grinding)
+
+        Click the lock icon on the right first to unlock the input
+
+        '
+    - id: S1D3
+      name: Deviation Adj (offset compensation)
+      range: -100~100
+      unit: mm
+      var: TOOL_SET[43]
+      ac: 7
+      text: 'If the two thread flanks are ground unevenly (offset), enter the Z offset
+
+        The program converts the Z offset to angle = offset / lead × 360 and adds it to Init Pos.C, so the wheel is shifted axially in the thread groove
+
+        One-time compensation: at the start of the next grinding it is added to Init Pos.C and cleared; click the lock icon on the right first to unlock the input
+
+        '
+    - id: S1D56
+      name: Var Locker (parameter lock switch)
+      range: open / closed
+      ac: 7
+      text: 'The lock icons beside pitch diameter compensation, offset compensation and the tool setting result prevent accidental changes of key values
+
+        Closed (default): the parameters are read-only; click to open them for editing. They are locked again automatically after leaving and re-entering the screen
+
+        '
+    - id: S1D24
+      name: Init Pos.C (machining start angle)
+      range: 0~360
+      unit: °
+      var: TOOL_SET[5]
+      ac: 4
+      text: 'C-axis start angle for grinding, calculated automatically at the end of tool setting, so that the wheel enters the thread groove exactly
+
+        Normally it does not need to be changed by hand; offset compensation corrects this value automatically
+
+        '
+    - id: S1D25
+      name: Current Pos.X (current contact)
+      range: none
+      unit: mm
+      var: PROCESS[5]
+      ac: 4
+      text: 'Current grinding position of the wheel in the workpiece, updated automatically after every infeed
+
+        In Single mode the program continues from this position
+
+        ?ifIsCenter: On the grinding center main screen it is shown as Inter Curt Touch.X (internal grinding current contact)
+
+        '
+    - id: S1D26
+      name: Initial Pos.X (initial contact)
+      range: none
+      unit: mm
+      var: PROCESS[14]
+      ac: 4
+      text: 'Initial contact position between wheel and workpiece recorded at the end of tool setting
+
+        In Mass mode every start begins from this position; after the wheel is dressed the program compensates this value by the dressing amount
+
+        '
+    - id: S1D27
+      name: first part of the batch (1st work / not 1st)
+      range: 1st work / not 1st
+      var: TOOL_SET[58]
+      ac: 4
+      text: 'For batch production where every part needs manual tool setting but the size must stay the same
+
+        **1st work**: tool setting recalculates Initial Pos.X and Init Pos.C
+
+        **not 1st**: tool setting recalculates only the start angle; Initial Pos.X keeps the value of the first part so the batch size stays the same
+
+        '
+- h3: Tool setting settings
+  marks:
+  - ifIsExternal
+  body:
+  - params:
+    - id: S1D5
+      marks:
+      - ifIsHasReOperate
+      name: tool setting type (Init-Opera / re-Opera)
+      range: Init-Opera / re-Opera
+      var: TOOL_SET[9]
+      ac: 4
+      text: '**Init-Opera** (first tool setting): new part or new wheel; the wheel goes to the tool setting start position first, then enters the thread with the handwheel
+
+        **re-Opera** (second tool setting): the part has already been ground once (e.g. re-clamped after rough grinding); the wheel goes directly into the existing thread groove and only needs fine adjustment
+
+        After a first tool setting the program switches to second tool setting automatically
+
+        '
+    - id: S1D6
+      name: Measure Position (tool setting position)
+      range: Starting / Middle / Random
+      var: TOOL_SET[20]
+      ac: 4
+      text: 'Z position at which the wheel enters the thread during manual tool setting
+
+        **Starting**: at the grinding start end
+
+        **Middle**: at the middle between the left and right ends; for long parts, reduces accumulated error
+
+        **Random**: at the Z coordinate entered in Pos below; used to avoid missing threads, steps, etc.
+
+        '
+    - id: S1D7
+      name: Pos (any-point tool setting position)
+      range: between the left and right ends of the workpiece
+      unit: mm
+      var: INI[135]
+      ac: 4
+      text: 'Can be entered only when the tool setting position is Random. Move the wheel by hand to the desired position and record the Z coordinate
+
+        '
+- h3: Grinding type
+  body:
+  - params:
+    - id: S1D57
+      marks:
+      - ifIsInternal
+      name: grinding type (machine type)
+      range: External Thread / Internal Thread / Worm / External / Circle
+      var: GRIND[1]
+      ac: 4
+      text: 'Shows the grinding type of this program, generated from the machine configuration; normally it does not need to be changed
+
+        '
+    - id: S1D31
+      name: Type (grinding type)
+      range: Thread / Ring
+      var: RING[1]
+      ac: 4
+      text: 'Selecting Ring (ring groove) opens the ring groove parameter screen automatically; grinding is then done groove by groove
+
+        This option can only be changed after the ring groove function is enabled in the machine configuration
+
+        '
+    - id: S1D32
+      marks:
+      - ifIsScrewTap
+      name: Screw Tap (tap grinding)
+      range: No / Yes
+      var: SCREW_TAP[1]
+      ac: 4
+      text: 'Yes opens the tap parameter screen and grinds as a tap (with B-axis relief grinding); select No for ordinary threads
+
+        '
+- h3: Ring groove screen
+  body:
+  - img:
+      src: grind_ring.png
+      h: 300
+  - note: 'Ring groove machining must be enabled in the machine configuration before Ring can be selected as grinding type
+
+      After selecting Ring the screen opens automatically. The left side shows the current status (read-only): number of grooves, grooves to be machined, grooves machined, start Z/X of the current groove and current X
+
+      Ring grooves are set in up to 4 groups; within a group the grooves are equally spaced with the same parameters. The program calculates the Z/X position of every groove from the first groove position and the group parameters
+
+      '
+  - params:
+    - id: S1D43
+      name: init.slot (first groove to grind)
+      rec: '1'
+      range: ≥ 1
+      var: RING[3]
+      ac: 4
+      text: 'Groove number from which grinding starts (counted from the grinding start end). Set 1 for a new part; for regrinding only some grooves set the number of the first groove to regrind
+
+        '
+    - id: S1D44
+      name: end.slot (last groove to grind)
+      range: ≥ init.slot
+      var: RING[4]
+      ac: 4
+      text: 'Groove number at which grinding ends. Grooves to machine = end.slot - init.slot + 1
+
+        '
+    - id: S1D45
+      name: Init Slot.Z (first groove start)
+      range: none
+      unit: mm
+      var: INI[3]
+      ac: 4
+      text: 'Z grinding position of the first groove: align the wheel with the centre of the first groove by hand and record the Z coordinate
+
+        '
+    - id: S1D46
+      name: Init Slot.X (first groove start)
+      range: none
+      unit: mm
+      var: PROCESS[14]
+      ac: 4
+      text: 'X initial contact position of the first groove: let the wheel touch the first groove by hand and record the X coordinate; the other grooves are derived from the vertical offset and the groove rise
+
+        '
+    - id: S1D48
+      name: number of grooves (1st Group ~ 4th Group)
+      range: ≥ 0
+      var: RING[12]、RING[22]、RING[32]、RING[42]
+      ac: 4
+      text: 'Number of grooves in the group; set 0 for unused groups
+
+        '
+    - id: S1D47
+      name: groove pitch / groove rise (1st Group ~ 4th Group)
+      range: groove pitch greater than 0
+      unit: mm
+      var: 槽距 RING[11]、RING[21]、RING[31]、RING[41]；槽升量 TECHNOLOGY[165]~TECHNOLOGY[168]
+      ac: 4
+      text: '**Groove pitch**: Z distance between two neighbouring grooves of the group
+
+        **Groove rise**: X (radius) increase from groove to groove in the group, for parts whose groove bottom diameter changes from groove to groove; enter 0 for equal diameters
+
+        '
+    - id: S1D49
+      name: group horizontal offset (1st Group ~ 4th Group)
+      range: none
+      unit: mm
+      var: RING[13]、RING[23]、RING[33]、RING[43]
+      ac: 4
+      text: 'Additional Z offset of the first groove of the group relative to the last groove of the previous group, for parts where the distance between groups differs from the pitch within a group
+
+        '
+    - id: S1D50
+      name: group vertical offset (1st Group ~ 4th Group)
+      range: none
+      unit: mm
+      var: RING[14]、RING[24]、RING[34]、RING[44]
+      ac: 4
+      text: 'Additional X offset of the first groove of the group relative to the last groove of the previous group, for parts whose groove bottom diameter differs between groups
+
+        '
+    - id: S1D125
+      name: ring groove status (Slots / needed / processed / init Pos.Z / init Pos.X)
+      range: read-only
+      readonly: true
+      var: RING[2]、RING[5]、RING[6]、RING[10]、RING[9]
+      text: 'The status area on the left shows in real time: total number of ring grooves, grooves to machine this time, grooves already machined, and the start Z and X of the groove being ground
+
+        '
+- h3: Tap parameter screen
+  marks:
+  - ifIsScrewTap
+  body:
+  - img:
+      src: grind_tap.png
+      h: 300
+  - note: 'Selecting Yes for tap grinding opens this screen. The workpiece parameters on the right are the same as on the main grinding screen; during tap grinding the B axis (relief axis) moves synchronously with the C axis according to the number of flutes to grind the relief
+
+      '
+  - params:
+    - id: S1D33
+      name: Slots cout (number of flutes)
+      range: ≥ 1
+      var: SCREW_TAP[2]
+      ac: 4
+      text: 'Number of chip flutes of the tap, typically 3 or 4; set according to the drawing
+
+        '
+    - id: S1D34
+      name: Slot Type (flute type)
+      range: stright / thread
+      var: SCREW_TAP[3]
+      ac: 4
+      text: 'Set according to the drawing. For helical flutes (thread) also set the flute hand and flute angle; the program uses them to correct the B-axis relief timing
+
+        '
+    - id: S1D35
+      name: -Handedness (flute hand)
+      range: Right / Left
+      var: SCREW_TAP[4]
+      ac: 4
+      text: 'Helix direction of the chip flutes; not needed for straight flutes. The equivalent flute count for relief grinding is calculated differently when the flute hand is the same as or opposite to the thread hand
+
+        '
+    - id: S1D36
+      name: -Slot Angle (flute helix angle)
+      range: 0~90
+      unit: °
+      var: SCREW_TAP[5]
+      ac: 4
+      text: 'Helix angle of the chip flutes according to the drawing; not needed for straight flutes
+
+        '
+    - id: S1D39
+      name: Jump (skip-tooth)
+      range: OFF / ON
+      var: SCREW_TAP[7]
+      ac: 4
+      text: 'Switch on for skip-tooth taps (every other tooth ground), and set the two skip-tooth adjustments below
+
+        '
+    - id: S1D40
+      name: -Jump Init C adjust
+      rec: adjust according to the grinding result
+      range: -360~360
+      unit: °
+      var: SCREW_TAP[8]
+      ac: 4
+      text: 'Correction of the C-axis start angle for skip-tooth grinding; the B-axis start angle is corrected proportionally. Adjust it when the relief position or the cutting start point is wrong
+
+        '
+    - id: S1D41
+      name: -Jump Ang adjust
+      rec: adjust according to the grinding result
+      range: -360~360
+      unit: °
+      var: SCREW_TAP[9]
+      ac: 4
+      text: 'Correction of the grinding angle of each flute for skip-tooth grinding; if teeth that should remain are ground, adjust this value so that they stay complete
+
+        '
+    - id: S1D42
+      name: Init Pos.B (machining start angle B)
+      range: 0~360
+      unit: °
+      var: SCREW_TAP[6]
+      ac: 4
+      text: 'B-axis (relief) start angle at the beginning of grinding; changing it shifts the relief relative to the cutting edge
+
+        Offset compensation also corrects this value proportionally
+
+        '
+    - id: S1D58
+      name: Rough Setting
+      range: Rough Shovel / Rough No Shovel
+      var: TECHNOLOGY[175]
+      ac: 4
+      text: '**Rough Shovel**: the rough grinding step also uses the B-axis relief motion
+
+        **Rough No Shovel**: without skip-tooth, rough grinding is done like an ordinary thread and the relief is ground only in the later steps, which makes rough grinding faster
+
+        '
+- h3: Pitch conversion screen
+  body:
+  - img:
+      src: grind_pitch.png
+      h: 300
+  - note: 'For parts with a section in the middle whose pitch differs from both ends. After pitch conversion is enabled in the machine configuration, a **pitch conversion** softkey appears on the right of the main grinding screen
+
+      Grinding uses the normal pitch from the start point to mark 1, the converted pitch from mark 1 to mark 2, and the normal pitch again from mark 2 to the end point
+
+      '
+  - params:
+    - id: S1D60
+      name: pitch conversion (variable pitch)
+      range: OFF / ON
+      var: TOOL_SET[60]
+      ac: 4
+      text: 'When switched on, grinding runs with variable pitch; if the conversion positions are not reasonable (not between the grinding start and end points, or in the wrong order) the program stops with an alarm
+
+        '
+    - id: S1D61
+      name: Smooth Thread (smooth path)
+      range: OFF / ON
+      var: TECHNOLOGY[302]
+      ac: 4
+      text: 'When switched on, the pitch changes are blended with a smooth curve to avoid a sudden pitch change
+
+        Switch it off while checking the conversion positions for the first time, so the real change points can be seen
+
+        '
+    - id: S1D62
+      name: pitch to (converted pitch)
+      range: 0~100
+      unit: mm
+      var: TOOL_SET[67]
+      ac: 4
+      text: 'Pitch of the conversion section (between mark 1 and mark 2)
+
+        '
+    - id: S1D63
+      name: change pitch (variable pitch mode)
+      range: certain ang / To the end
+      var: TOOL_SET[61]
+      ac: 4
+      text: '**certain ang** (given angle): enter the C-axis rotation angle of the conversion section; mark 2 is calculated from mark 1, the converted pitch and the angle
+
+        **To the end**: the converted pitch is used from mark 1 up to the grinding end point
+
+        '
+    - id: S1D64
+      name: conversion Ang (variable pitch angle)
+      range: ≥ 0
+      unit: °
+      var: TOOL_SET[68]
+      ac: 4
+      text: 'In certain ang mode: C-axis rotation angle of the conversion section
+
+        '
+    - id: S1D65
+      name: mark 1 / mark 2 (conversion positions)
+      range: between grinding start and end point
+      unit: mm
+      var: TOOL_SET[65] / TOOL_SET[66]
+      ac: 4
+      text: 'Z coordinates of the start and end of the conversion section. Mark 1 is entered by hand (align the wheel with the point where the pitch begins to change and record Z)
+
+        Mark 2 is calculated according to the variable pitch mode and displayed read-only
+
+        On the multi-pitch conversion screen mark 1 is shown as Pos1
+
+        '
+- h3: Multi-pitch conversion screen
+  body:
+  - img:
+      src: grind_multipitch.png
+      h: 300
+  - note: 'For parts with several consecutive sections of different pitch in the middle. After pitch conversion is set to multi-section mode in the machine configuration, click the **pitch conversion** softkey on the right to open this screen
+
+      Starting at Pos1 there are 5 conversion sections; each section derives the start of the next section from its pitch and C-axis angle: Pos(n+1) = Pos n ∓ pitch n × angle n / 360
+
+      '
+  - params:
+    - id: S1D66
+      name: Pos1 ~ Pos6
+      range: between grinding start and end point
+      unit: mm
+      var: TOOL_SET[65]、TECHNOLOGY[418]~TECHNOLOGY[421]、TOOL_SET[66]
+      ac: 4
+      text: 'Pos1 is the Z coordinate of the start of the first conversion section, entered by hand; Pos2 to Pos6 are calculated from the pitch and angle of each section and displayed read-only
+
+        '
+    - id: S1D67
+      name: angle of each section
+      range: ≥ 0
+      unit: °
+      var: TECHNOLOGY[422]~TECHNOLOGY[426]
+      ac: 4
+      text: 'C-axis rotation angle of each conversion section
+
+        '
+    - id: S1D68
+      name: pitch of each section
+      range: greater than 0
+      unit: mm
+      var: TECHNOLOGY[427]~TECHNOLOGY[431]
+      ac: 4
+      text: 'Pitch of each conversion section; set the angle to 0 for sections that are not needed
+
+        '
+- h3: Fixture self-grinding screen
+  marks:
+  - ifIsInternal
+  body:
+  - img:
+      src: grind_fixture.png
+      h: 300
+  - note: 'For internal thread machines that grind (true up) the fixture locating surface with their own wheel. After it is enabled in the machine configuration, a **Refine clamp** softkey appears on the main grinding screen
+
+      When it is switched on and the program is started, fixture grinding and the special wheel dressing for the fixture are run; no thread is ground. Always switch it off afterwards
+
+      '
+  - params:
+    - id: S1D70
+      name: Refine clamp (fixture self-grinding)
+      range: OFF / ON
+      var: INI[69]
+      ac: 4
+      text: 'When switched on, starting the program runs the fixture grinding cycle
+
+        '
+    - id: S1D71
+      name: Safe Pos.Z (safe start position)
+      range: none
+      unit: mm
+      var: INI[90]
+      ac: 4
+      text: 'Safe position to which the Z axis moves before fixture grinding and fixture dressing; X motion must not collide here
+
+        '
+    - id: S1D72
+      name: Grinding left.Z / Grinding Right.Z
+      range: none
+      unit: mm
+      var: DRESSER[61] / DRESSER[62]
+      ac: 4
+      text: 'Z coordinates of the wheel at the left and right end of the fixture surface; during grinding Z reciprocates between both ends
+
+        '
+    - id: S1D73
+      name: Current Pos.X (fixture grinding)
+      range: none
+      unit: mm
+      var: DRESSER[63]
+      ac: 4
+      text: 'X coordinate at which the wheel touches the fixture surface; increased automatically after every infeed
+
+        '
+    - id: S1D74
+      name: Grind times / Grind Feed-Rate
+      range: Grind times ≥ 1
+      unit: feed in mm
+      var: DRESSER[54] / DRESSER[70]
+      ac: 4
+      text: 'Number of fixture grinding strokes and X infeed per stroke
+
+        '
+    - id: S1D75
+      name: Grinding speed / Head Rotating / Hold time / Grind Wheel RPM
+      range: none
+      var: PROCESS[40] / TECHNOLOGY[232] / DRESSER[53] / DRESSER[119]
+      ac: 4
+      text: '**Grinding speed**: Z reciprocating speed (mm/min)
+
+        **Head Rotating**: headstock speed during fixture grinding (r/min)
+
+        **Hold time**: dwell at each end point (s)
+
+        **Grind Wheel RPM**: wheel speed during fixture grinding (r/min)
+
+        '
+    - id: S1D76
+      name: Dress left.W / Dress right.W / Dress angle.C
+      range: none
+      var: DRESSER[64] / DRESSER[65] / INI[68]
+      ac: 4
+      text: 'For dressing the wheel before fixture grinding: left and right end coordinates of the dresser horizontal axis stroke, and the C-axis angle at which the headstock dresser is located
+
+        '
+    - id: S1D77
+      name: Current Pos.X (fixture dressing) / Dress Times / Dress Feed-Rate
+      range: none
+      var: DRESSER[66] / DRESSER[67] / DRESSER[68]
+      ac: 4
+      text: 'X coordinate where the wheel touches the dresser, number of dressing passes and infeed per pass
+
+        '
+    - id: S1D78
+      name: Dress speed / Grind Wheel RPM / Dress wheel RPM
+      range: none
+      var: PROCESS[37] / DRESSER[117] / DRESSER[118]
+      ac: 4
+      text: 'Speed of the dressing axis, wheel speed and dressing wheel speed during fixture dressing; with dressing wheel speed 0 the dressing wheel is not started
+
+        '
+- h3: Reverse hole chamfer screen
+  body:
+  - img:
+      src: grind_chamfer.png
+      h: 300
+  - note: 'For ball-nut type internal threads: where the thread meets a return (deflector) hole, the wheel backs off at the set positions to form a chamfer and avoid sharp edges. After it is enabled in the machine configuration, a **Reverse hole chamfer** softkey appears on the main grinding screen
+
+      For each chamfer: within the pour-in transition angle C the X axis backs off obliquely to the chamfer depth X, stays there for the translation angle C, then returns obliquely to the thread
+
+      '
+  - params:
+    - id: S1D80
+      name: chamfer enable
+      range: OFF / ON
+      var: INI[83]
+      ac: 4
+      text: 'When switched on, thread grinding backs off automatically at the chamfer positions
+
+        '
+    - id: S1D81
+      name: fine grind ignore (no chamfer in Fine/Finish)
+      range: OFF / ON
+      var: INI[111]
+      ac: 4
+      text: 'When switched on, the Fine and Finish steps do not back off for chamfers; only the Rough and Medium Fine steps make chamfers
+
+        '
+    - id: S1D82
+      name: compensate.X (chamfer end point compensation mode)
+      range: direct / Gradient
+      var: TECHNOLOGY[293]
+      ac: 4
+      text: 'How the X compensation at the chamfer end point is applied
+
+        **direct**: added immediately after the chamfer
+
+        **Gradient**: blended gradually from the end of this chamfer to the start of the next one
+
+        Shown after **Reverse hole chamfer → chamfer-XShow compensation parameters** is enabled in the machine configuration
+
+        '
+    - id: S1D83
+      name: Smooth Thread (smooth path)
+      range: OFF / ON
+      var: TOOL_SET[18]
+      ac: 4
+      text: 'When switched on, the back-off path is blended with a smooth curve; switch it off while checking the chamfer positions for the first time
+
+        '
+    - id: S1D84
+      name: Pour into angle.C / Chamfer depth.X / translation angle.C
+      range: pour-in angle ≥ 0, translation angle ≥ 2
+      var: R241 / R242 / R243
+      ac: 4
+      text: '**Pour into angle.C**: C-axis angle of the chamfer slope; the larger the angle, the flatter the slope
+
+        **Chamfer depth.X**: X back-off depth at the chamfer
+
+        **translation angle.C**: C-axis angle over which the chamfer depth is kept (length of the chamfer bottom)
+
+        '
+    - id: S1D85
+      name: Pre-chamfer Angle / Pre-chamfer Depth
+      range: pre-chamfer angle ≥ 0
+      var: TECHNOLOGY[238] / TECHNOLOGY[239]
+      ac: 4
+      text: 'Additional pre-chamfer C angle and X depth at both ends of a chamfer, for the transition at chamfer entry and exit
+
+        '
+    - id: S1D86
+      name: Mode settings
+      range: Manual entry / Auto calc / auto detect
+      var: INI[23]
+      ac: 4
+      text: '**Manual entry**: the Z coordinate of every chamfer is entered in 1.Z~20.Z on the left
+
+        **Auto calc**: only the first chamfer position is entered; the others are calculated from the number of reverse holes, hole spacing and second raceway compensation
+
+        ?ifIsAuto: **auto detect**: the automatic tool setting probe detects the reference hole and all chamfer positions are calculated from it
+
+        '
+    - id: S1D87
+      name: Reverse hole type
+      range: Dual raceway / Single raceway
+      var: TECHNOLOGY[387]
+      ac: 4
+      text: '**Dual raceway**: each reverse hole corresponds to two neighbouring raceways (one turn apart) with one chamfer each; the holes are equally spaced
+
+        **Single raceway**: one chamfer per hole; the spacing of each hole is entered below in Chamfer spacing.Z (up to 24)
+
+        '
+    - id: S1D88
+      name: Num of reverse holes / Reverse hole spacing.Z
+      range: number 1~12
+      unit: spacing in mm
+      var: INI[45] / INI[46]
+      ac: 4
+      text: 'Used for Auto calc: number of reverse holes and Z centre distance between neighbouring holes
+
+        '
+    - id: S1D89
+      name: Curr 2nd raceway compen.Z
+      range: none
+      unit: mm
+      var: TOOL_SET[8]
+      readonly: true
+      text: 'Dual raceway: Z compensation of the second chamfer relative to the first (one turn apart), calculated from the current wheel diameter:
+
+        compensation = base value.Z + (current wheel diameter - minimum reference diameter) × offset per mm.Z (if the wheel diameter is not larger than the reference diameter, the base value is used)
+
+        '
+    - id: S1D90
+      name: Compen min ref dia / Compensation basis and offset.Z / Compensate for every millimeter of offset.Z
+      range: offset per mm -0.5~0.5
+      var: TECHNOLOGY[68] / TECHNOLOGY[69] / TECHNOLOGY[70]
+      ac: 4
+      text: 'Used to calculate the second raceway compensation: a change of wheel diameter changes the contact point between wheel and chamfer, corrected linearly with the offset per millimetre of diameter
+
+        '
+    - id: S1D91
+      name: Meas ref hole-Right / position compen.Z
+      range: reference hole 1~10
+      var: INI[84] / INI[47]
+      ac: 4
+      text: '**Meas ref hole-Right**: for auto detect, which reverse hole counted from the right is measured
+
+        **position compen.Z**: Z fine adjustment of the first chamfer position
+
+        '
+    - id: S1D92
+      name: Number of chamfers(1-24) / 1.Z~20.Z
+      range: number of chamfers 1~24
+      unit: mm
+      var: R240 / R244~R263
+      ac: 4
+      text: 'Number of chamfers and Z coordinate of each chamfer start; entered one by one in manual mode, filled in by the program in the automatic modes
+
+        '
+    - id: S1D93
+      name: Chamfer spacing.Z (single raceway)
+      range: 0~100
+      unit: mm
+      var: TECHNOLOGY[393]~TECHNOLOGY[411]
+      ac: 4
+      text: 'Single raceway with unequal spacing: Z distance between two neighbouring chamfers
+
+        '
+    - id: S1D94
+      name: Chamfer end point compensation.X
+      range: -0.1~0.1
+      unit: mm
+      var: TECHNOLOGY[272]~TECHNOLOGY[291]
+      ac: 4
+      text: 'X compensation after chamfer 1 to 20, to correct size differences of the thread on both sides of a chamfer; the way it is applied is selected with compensate.X
+
+        Shown after **Reverse hole chamfer → chamfer-XShow compensation parameters** is enabled in the machine configuration
+
+        '
+- h3: Dry run screen
+  body:
+  - img:
+      src: grind_dryrun.png
+      h: 300
+  - note: 'For warming up the machine: it runs back and forth without load within the set range so that spindle and guideway temperatures become stable. After it is enabled in the machine configuration, a **Heat Machine** (dry run) softkey appears on the main grinding screen
+
+      '
+  - params:
+    - id: S1D100
+      name: Enable (dry run enable)
+      range: OFF / ON
+      var: GRIND[10]
+      ac: 7
+      text: 'When switched on, starting the program runs the dry-run warm-up without grinding; always switch it off after warming up
+
+        '
+    - id: S1D101
+      marks:
+      - ifIsInternal
+      name: Auto Clamp
+      range: OFF / ON
+      var: TECHNOLOGY[35]
+      ac: 4
+      text: 'Whether the chuck opens and closes automatically during the dry run, to warm up the hydraulic chuck as well
+
+        '
+    - id: S1D102
+      name: Auto cooling
+      range: OFF / ON
+      var: TECHNOLOGY[67]
+      ac: 4
+      text: 'Whether coolant is switched on automatically during the dry run
+
+        '
+    - id: S1D103
+      name: Init.Z / End.Z
+      range: none
+      unit: mm
+      var: TECHNOLOGY[36] / TECHNOLOGY[39]
+      ac: 4
+      text: 'Start and end point of the Z reciprocating motion during the dry run; the C axis rotates together with Z
+
+        '
+    - id: S1D104
+      name: Init.X / End.X
+      range: none
+      unit: mm
+      var: TECHNOLOGY[40] / TECHNOLOGY[49]
+      ac: 4
+      text: 'Rear start point and front end point of the X reciprocating motion during the dry run; must not touch the workpiece or fixture
+
+        '
+    - id: S1D105
+      name: Wheel RPM / Axis Speed
+      range: ≥ 0
+      var: TECHNOLOGY[50] / TECHNOLOGY[55]
+      ac: 4
+      text: 'Wheel speed (r/min) and reciprocating speed of the axes (mm/min) during the dry run
+
+        '
+- h3: Variable diameter grinding screen
+  body:
+  - img:
+      src: grind_diachange.png
+      h: 300
+  - note: 'For threads whose depth must decrease gradually at both ends (run-out): the wheel backs off over the set angle range at both ends to form a transition. After it is enabled in the machine configuration, a **Change Dia** softkey appears on the main grinding screen
+
+      Each end consists of: blank (invalid) thread section → transition section (gradually feeding to the normal depth) → normal thread
+
+      '
+  - params:
+    - id: S1D110
+      name: Change Dia (variable diameter grinding enable)
+      range: OFF / ON
+      var: TECHNOLOGY[110]
+      ac: 7
+      text: 'When switched on, both ends of the thread are ground with variable diameter according to the parameters below
+
+        '
+    - id: S1D111
+      name: Smooth Thread (smooth path)
+      range: OFF / ON
+      var: TECHNOLOGY[301]
+      ac: 4
+      text: 'When switched on, the variable diameter section is blended with a smooth curve; switch it off while checking the positions for the first time
+
+        '
+    - id: S1D112
+      name: Blank Part Mode (invalid thread section)
+      range: Smooth / Same Dia
+      var: TECHNOLOGY[155]
+      ac: 7
+      text: 'How the blank thread section at the ends is machined
+
+        **Smooth**: the blank section keeps the back-off of the variable diameter
+
+        **Same Dia**: the blank section is ground with the normal thread depth
+
+        '
+    - id: S1D113
+      name: Blank Ang.R / Blank Ang.L
+      range: ≥ 0
+      unit: °
+      var: TECHNOLOGY[139] / TECHNOLOGY[140]
+      ac: 4
+      text: 'C-axis angle of the blank thread section at the right and left end; Z length = angle / 360 × lead
+
+        '
+    - id: S1D114
+      name: Changed Value.R / Changed Value.L
+      range: -2~2
+      unit: mm
+      var: TECHNOLOGY[115] / TECHNOLOGY[117]
+      ac: 4
+      text: 'X back-off at the end relative to the normal thread; a positive value retracts the wheel (shallower thread)
+
+        '
+    - id: S1D115
+      name: Trans Ang.R / Trans Ang.L
+      range: ≥ 0
+      unit: °
+      var: TECHNOLOGY[116] / TECHNOLOGY[118]
+      ac: 4
+      text: 'C-axis angle over which the back-off returns to the normal depth; the larger the angle, the smoother the transition
+
+        '
+    - id: S1D116
+      name: Grind Mode
+      range: Thread+Change Dia / Alone Change Dia
+      var: TECHNOLOGY[379]
+      ac: 4
+      text: '**Thread+Change Dia**: every pass grinds the whole thread along the variable diameter path
+
+        **Alone Change Dia**: the normal thread is ground first, then the variable diameter sections at both ends are ground separately
+
+        '
+    - id: S1D117
+      name: Change Dia Times
+      range: 1~100
+      var: TECHNOLOGY[380]
+      ac: 4
+      text: 'In Alone Change Dia mode: number of grinding passes on the variable diameter sections
+
+        '
+- h3: Segment compensation screen
+  body:
+  - img:
+      src: grind_segcomp.png
+      h: 300
+  - note: 'For long threads whose pitch diameter and lead are compensated separately for different sections according to the inspection result. After it is enabled in the machine configuration, a **Segment Comp** softkey appears on the main grinding screen
+
+      The workpiece is divided into up to 10 sections from the right end to the left end; the right end Z and left end Z on the screen show the grinding range (read-only)
+
+      Segment compensation acts only on the normal thread grinding path: when reverse hole chamfer, variable diameter grinding (Thread+Change Dia mode) or variable pitch is switched on at the same time, these grinding paths do not use segment compensation
+
+      '
+  - params:
+    - id: S1D120
+      name: comp. enable (segment compensation enable)
+      range: OFF / ON
+      var: TECHNOLOGY[311]
+      ac: 7
+      text: 'When switched on, grinding follows the segment compensation path (not used in manual tool setting, and not together with reverse hole chamfer, variable diameter grinding or variable pitch)
+
+        '
+    - id: S1D121
+      name: No. of segments
+      range: 0~10
+      var: TECHNOLOGY[312]
+      ac: 7
+      text: 'Number of sections into which the whole grinding length is divided
+
+        '
+    - id: S1D122
+      name: Segment n.Z (section boundary)
+      range: between left and right end of the workpiece
+      unit: mm
+      var: TECHNOLOGY[333]~TECHNOLOGY[341]
+      ac: 4
+      text: 'Z coordinate of the boundary between section n and section n+1 (counted from the right end). The last section ends at the left end of the workpiece, so only (number of segments - 1) boundaries are entered
+
+        '
+    - id: S1D123
+      name: Segment n pitch diameter compensation
+      range: none
+      unit: mm
+      var: TECHNOLOGY[313]~TECHNOLOGY[322]
+      ac: 4
+      text: 'Accumulated X (radius) compensation at the end of section n relative to the grinding start point, blended linearly within the section
+
+        '
+    - id: S1D124
+      name: Segment n lead compensation
+      range: none
+      unit: mm
+      var: TECHNOLOGY[323]~TECHNOLOGY[332]
+      ac: 4
+      text: 'Lead correction of section n: a positive value increases the real lead of the section, a negative value decreases it
+
+        '

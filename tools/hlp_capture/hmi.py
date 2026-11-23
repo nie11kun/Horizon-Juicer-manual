@@ -18,7 +18,8 @@ sys.path.insert(0, os.path.join(HERE, "..", "vm_bridge"))
 import host_sinutrain_shot as bridge  # noqa: E402
 from PIL import Image  # noqa: E402
 
-RAW = os.path.join(HERE, "raw")
+import inventory  # noqa: E402  (--lng / HLP_LNG)
+RAW = os.path.join(HERE, "raw") if inventory.LANG == "chs" else os.path.join(HERE, "raw", inventory.LANG)
 HMI_X0, HMI_Y0 = 150, 71
 
 # Panel keys, screen coordinates (full-screen layout)
@@ -140,10 +141,10 @@ def set_language(lng, settle=10):
 
 
 def import_package(pkg_subdir):
-    """Copy package System-CF-Card into VM SinuTrain, then refresh via ENG->CHS language switch."""
+    """Copy package System-CF-Card into VM SinuTrain, then refresh by switching to another language and back to LANG."""
     print(bridge.send_cmd("import_cf", timeout=120.0, packageSubDir=pkg_subdir)["message"])
-    set_language("eng")
-    set_language("chs")
+    set_language("chs" if inventory.LANG == "eng" else "eng")
+    set_language(inventory.LANG)
     key("CUSTOM", 1500)
 
 

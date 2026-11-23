@@ -1,0 +1,105 @@
+title: Grinding
+head1: Machine Functions
+refs: 'For the parameters see [Grinding Screen](section_1.html) and [Process Screen](section_2.html)
+
+  '
+blocks:
+- h3: Grinding steps
+  body:
+  - steps:
+    - '?ifIsCenter: Grinding center: light the operations to be machined on the right of the main (process selection) screen'
+    - New wheel dressing and tool setting must be completed before grinding
+    - t: "Select the [Mode](section_1.html#S1D1) on the grinding screen: **Single** for trial grinding of the first part, **Mass** after the size is confirmed"
+      img:
+        src: grind_main_int.png
+        h: 300
+      marks:
+      - ifIsInternal
+    - t: "Select the [Mode](section_1.html#S1D1) on the grinding screen: **Single** for trial grinding of the first part, **Mass** after the size is confirmed"
+      img:
+        src: grind_main_ext.png
+        h: 300
+      marks:
+      - ifIsExternal
+    - t: Open the process screen and set, according to the stock, One-Way/Two-Way, passes, infeed, dress setting, wheel surface speed and headstock speed of Rough, Medium Fine, Fine and Finish
+      img:
+        src: process_batch.png
+        h: 300
+    - Switch off the dressing and tool setting keys and press **CYCLE START** to start grinding
+    - During grinding the message line shows the current step, pass and infeed
+    - After machining measure the part and adjust according to the result (see "Adjustment after grinding" below)
+  - note: 'Process setting notes:
+
+      The infeed is per side (radial)
+
+      For Two-Way grinding the meaning of the infeed is set by the machine configuration (total of one back-and-forth stroke, or infeed per direction)
+
+      Dress setting: e.g. Rough with 5 passes and dress setting 2 → dressing after pass 2 and pass 4
+
+      Dressing during grinding uses the fine dressing parameters of the dressing screen
+
+      '
+- h3: Process example
+  body:
+  - table:
+    - - Item
+      - Rough
+      - Medium Fine
+      - Fine
+      - Finish
+    - - One-Way / Two-Way
+      - One-Way
+      - One-Way
+      - One-Way
+      - One-Way
+    - - Passes
+      - according to stock
+      - '3'
+      - '2'
+      - '2'
+    - - Infeed (mm)
+      - '0.04'
+      - '0.02'
+      - '0.01'
+      - '0.005'
+    - - Dress setting
+      - '5'
+      - '3'
+      - '0'
+      - '0'
+    - - Headstock speed (r/min)
+      - '50'
+      - '40'
+      - '30'
+      - '30'
+  - note: '?ifIsExternal: Reference wheel surface speed for external threads: 35 m/s
+
+      ?ifIsInternal: Reference wheel surface speed for internal threads: 20 m/s
+
+      These are examples only; adjust according to wheel, material and accuracy requirements
+
+      '
+- h3: Adjustment after grinding
+  body:
+  - table:
+    - - Measurement result
+      - Adjustment
+    - - Pitch diameter too large or too small
+      - Enter the diameter difference in [Pitch-D Adj](section_1.html#S1D2) on the grinding screen (one-time)
+    - - Flanks ground unevenly (offset)
+      - Enter the Z offset in [Deviation Adj](section_1.html#S1D3) (one-time)
+    - - Accumulated pitch error over the full length
+      - Enter the full-length error in [Compensation](section_1.html#S1D15) (full-length lead compensation)
+    - - Pitch diameter differs between the two ends
+      - Enter the radial compensation in [Taper Fix](section_1.html#S1D17)
+    - - Errors differ along a long thread
+      - Use the [segment compensation](section_13.html) function
+    - - Size drifts continuously with dressing in a batch
+      - Set [Comp during grinding](section_3.html#S3D21) on the dressing screen
+- h3: Continuing after an interruption
+  body:
+  - note: 'In Single mode, the next start continues grinding from the current contact position
+
+      In Mass mode, with "Batch grinding - Starting process selection function" enabled in the machine configuration, the step and pass to continue from can be selected in the upper right corner of the process screen; the infeed of the previous steps is taken into account automatically
+
+      '

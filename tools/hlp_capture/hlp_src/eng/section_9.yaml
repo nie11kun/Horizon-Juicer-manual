@@ -1,0 +1,115 @@
+title: Welcome Page and Navigation
+head1: HMI Screen Parameters
+refs: 'Press the **CUSTOM** key on the operator panel to open the machine-specific screens; the welcome page is shown first
+
+  '
+blocks:
+- h3: Welcome page
+  body:
+  - img:
+      src: welcome_main.png
+      h: 300
+  - note: 'The welcome page shows a general background picture; the machine model and serial number are shown under **info**. Softkeys on the right:
+
+      **info**: shows the machine model and serial number
+
+      **Backup Restore**: parameter backup and restore (user password required; can be opened only after it is enabled in the machine configuration)
+
+      **Accessory life**: usage counts of wear parts (can be opened only after it is enabled in the machine configuration)
+
+      **Stats**: number of parts ground with each grinding wheel (key switch position 3; can be opened only after it is enabled in the machine configuration)
+
+      The Backup Restore, Accessory life and Stats softkeys are always shown; if the screen is not enabled in the machine configuration, clicking the softkey does not open it
+
+      The ▷ softkey at the bottom switches to the extended menu (**Settings** = machine configuration, user password required); press it again to return
+
+      The **custom** softkey at the bottom of the screen opens the machining screens (grinding parameters, etc.)
+
+      '
+- h3: User screen navigation
+  body:
+  - img:
+      src: grind_main_int.png
+      h: 300
+    marks:
+    - ifIsInternal
+  - img:
+      src: grind_main_ext.png
+      h: 300
+    marks:
+    - ifIsExternal
+  - note: 'The horizontal softkeys at the bottom of the user screens switch between the parameter pages:
+
+      **grind**: workpiece and position parameters, compensations, and extended functions such as dry run, segment compensation and pitch conversion
+
+      **process**: process table for Rough, Medium Fine, Fine and Finish grinding
+
+      **dress**: wheel dressing parameters, tooth profile and dressing wheel parameters
+
+      ?ifIsAuto: **measure**: automatic tool setting parameters
+
+      ?ifIsCenter: **external / side face / main**: external cylinder grinding, end face grinding and operation selection of the grinding center
+
+      **return**: back to the welcome page
+
+      Select a parameter on any page and press the **HELP** key on the operator panel to open the help for that parameter directly
+
+      '
+  - img:
+      src: help_view.png
+      h: 300
+  - note: 'Picture above: after selecting a parameter on the automatic tool setting screen and pressing HELP, the help for that parameter is shown in the lower half of the screen; the softkeys on the right switch to full screen, table of contents or search, and "Exit help" returns
+
+      '
+- h3: Function keys on the operator panel
+  body:
+  - note: 'After **CYCLE START** is pressed, the program decides what to run from the function keys lit on the machine operator panel:
+
+      **Dressing**: only dresses the grinding wheel, no tool setting and no grinding (also when a tool setting key is lit at the same time)
+
+      **Manual tool setting**: runs manual tool setting, see [Tool Setting](section_11.html)
+
+      ?ifIsAuto: **Automatic tool setting**: runs automatic tool setting (if the manual tool setting key is lit at the same time, automatic tool setting is run)
+
+      ?ifIsNotCenter: **C-axis rotation**: starts the grinding wheel and rotates the headstock continuously, without dressing, tool setting or grinding; stop with RESET
+
+      **Retract**: pressed during dressing, tool setting or grinding, the program stops the current motion, moves the wheel safely out of the workpiece and ends (also used to finish manual tool setting)
+
+      With none of these keys lit, CYCLE START runs grinding
+
+      If **Enable** is switched on in the Heat Machine (dry run) screen, the dry-run warm-up runs first and nothing else is executed
+
+      ?ifIsCenter: Grinding center: the wheels that are dressed and the operations that are ground are those selected (lit) on the main (process selection) screen
+
+      ?ifIsInternal: Internal thread machine: when **Refine clamp** (fixture self-grinding) is switched on, only the fixture is ground
+
+      '
+- h3: Access rights
+  body:
+  - note: 'Changing parameters is controlled by the access level of the control; with insufficient access a parameter can only be viewed:
+
+      **Key switch position 0**: daily adjustment values such as pitch diameter compensation, offset compensation and full-length compensations
+
+      **Key switch position 3**: most machining parameters (workpiece, process, dressing, tool setting) and Stats
+
+      **User password**: Backup Restore and the machine configuration entry
+
+      **Manufacturer password**: all items of the machine configuration
+
+      The access level of each parameter is given as "Access level" in its help
+
+      '
+- h3: Machine information
+  body:
+  - img:
+      src: info.png
+      h: 300
+  - params:
+    - id: S9D1
+      name: 'NO.: (serial number)'
+      range: set by the manufacturer
+      ac: 3
+      text: 'Serial number of the machine, identical to the nameplate. Please give this number and the machine model when reporting a fault or asking for service
+
+        '
+      var: INI[131]
