@@ -19,7 +19,7 @@
 
 | 界面字段 | JSON 键名 & UI 枚举（索引从 `0` 起） | 底层生成差异（由 `generatepro.cpp` 控制） |
 | :--- | :--- | :--- |
-| **机床语言** | `lng`：`0` 中文 / `1` 多语言 | `lng=0` 时移除 `;ifIsENG` 英文/多语言段、保留纯中文；`lng=1` 时移除 `;ifIsCHS` 并打包多语言 `almc_*.txt` 与 `hlp/eng` 等资源，便于在现场切换中/英文显示。 |
+| **机床语言** | `lng`：`0` 中文 / `1` 多语言 | `lng=0` 时移除 `;ifIsENG` 英文/多语言段、保留纯中文；`lng=1` 时移除 `;ifIsCHS` 并打包多语言 `almc_*.txt` 与 `hlp/eng`、`hlp/rus` 三语帮助资源，便于在现场切换中/英/俄三语显示。 |
 | **数控系统** | `systemMode`：`0` 老版 828D | 将 HMI 运行包写入 `System-CF-Card/siemens` 与 `user`，使用 `ico800`（`800×600`）图标资源。在 **SinuTrain 840D sl 4.8 SP4** 中预览测试时优先选择此模式（或与 840D sl 共用目录）。 |
 | | `1` 新版 828D | 将核心系统界面文件放入 `System-CF-Card/oem` 与 `user` 目录（不生成 `siemens` 覆盖包），并将 `ico800` 资源切换为 `ico1024`（`1024×768`）适配高分辨率面板。 |
 | | `2` Sinumerik ONE | 同样输出到 `oem` + `user`（`ico1024`），并额外执行 `oneReplace.json` 跨平台映射表：<br>① 把传统 <code>&#36;A_DBB[...]</code>、DB4900 等信号批量替换为 ONE 的高速输入/输出符号（如 <code>&#36;A_IN[...]</code>、`digitInpVal[...]`）；<br>② 适配 `DB10.DBX107.0/1` 系统信号与 `1170×600` 宽屏面板坐标。 |
@@ -31,7 +31,7 @@
 | :--- | :--- | :--- |
 | **删除注释** | `ifRemoveComments`：**`0` 是 / `1` 否** | **注意索引顺序**：下拉第 1 项 **`0 = 是`**（生成完成后自动剥离 `.COM`/`.SPF`/`.MPF` 中常规 `;` 注释，保留 `;*` 与 `;\"` 等语法标记），第 2 项 **`1 = 否`**（保留全部源码注释以便现场调试核对）。 |
 | **机械手** | `ifHasLoadingArm`：`0` 无 / `1` 有 | 选 `1 有` 后保留桁架机械手自动上下料交互子程序 `A_JXS_MAIN.SPF` / `B_JXS_ZJ.SPF` / `B_JXS_TEST.SPF`、`M80`～`M97` 握手代码、<code>&#36;A_DBB[30..34/60..67]</code> 互锁及 `Z轴上料位` 显示；选 `0 无` 则彻底裁剪。 |
-| **删除厂商标识图** | `ifHasNoneTradeMark`：`0` 否 / `1` 是 | 选 `1 是` 后使用 `Source_Library/0_NoneTradeMark` 下的通用无品牌标识欢迎底图，实现 OEM 中性化交付；选 `0 否` 则显示标准出厂品牌图。 |
+| **删除厂商标识图** | `ifHasNoneTradeMark`：`0` 否 / `1` 是 | 选 `1 是` 后使用 `Source_Library/HMI/Repository/0_NoneTradeMark` 下的通用无品牌标识欢迎底图，实现 OEM 中性化交付；选 `0 否` 则显示标准出厂品牌图。 |
 | **后期加密程序** | `ifHasEncryption`：`0` 否 / `1` 是 | 开启后在主入口 `A_GRINDING.SPF` 等处保留 `ifIsHasEncryption` 分支，运行时强校验控制器硬件序列号 <code>&#36;MN_HW_SERIAL_NUMBER</code>，不匹配时报警 `"设备未授权,请联系厂家！"` 并锁止循环。 |
 
 > **警告**：启用 **加密保护** 时，务必提前核对目标机床 CF 卡的真实 <code>&#36;MN_HW_SERIAL_NUMBER</code>，否则程序包导入现场机床后无法启动循环！

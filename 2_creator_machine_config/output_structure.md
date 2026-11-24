@@ -34,7 +34,7 @@ SKR7620B(#02-DemoCenter)/
     │   └── sinumerik/
     │       ├── hmi/
     │       │   ├── cfg/         # custom.ini、easyscreen.ini、slamconfig.ini、machine_sec.ini 等
-    │       │   ├── hlp/         # chs/eng 嵌入式帮助网页与 pic1..pic76 图包
+    │       │   ├── hlp/         # chs/eng/rus 三语嵌入式帮助网页与 UserGuide/resources/img 实机截图包（54 张）
     │       │   ├── ico/         # 按系统类型精选的 ico800 / ico1024 图标资源
     │       │   ├── lng/         # almc_chs.txt / almc_eng.txt / almc_rus.txt 多语言文本库
     │       │   └── proj/        # 经条件编译与兼容处理后的 *.com 界面文件

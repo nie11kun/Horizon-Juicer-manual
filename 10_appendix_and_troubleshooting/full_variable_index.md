@@ -1,6 +1,6 @@
 # 10.4 全量全局变量与 R 参数索引表
 
-本节汇集 `MGUD.DEF` 全部 60 条自定义全局变量声明、`Parameter_Index.md` 全部 30 个分类共 1,554 条变量明细（对应 `Parameter_Index.md` 全部 1,561 个非空表格行中的 8 个子分组标题与 1,554 个独立条目），以及 `Parameter_Index.md` 未展开的 22 项系统/备份统计变量。
+本节汇集 `MGUD.DEF` 全部 60 条自定义全局变量声明、`Parameter_Index.md` 全部 30 个分类共 1,554 条变量明细（对应 `Parameter_Index.md` 全部 1,562 个非空表格行中的 8 个子分组标题与 1,554 个独立条目），以及 `Parameter_Index.md` 未展开的 22 项系统/备份统计变量。
 
 > **0-based（NC）与 1-based（HMI ACX）下标偏移铁律**：<br>• `.SPF` / `.MPF` 子程序、`MGUD.DEF` 与 `Parameter_Index.md` 使用 **0-based** 下标（例如 `DRESSER[0]`、`INI[36]`）；<br>• EasyScreen `.com` 界面脚本（`/NC/_N_NC_GD2_ACX/...`）使用 **1-based** 下标（**HMI 下标 = NC 下标 + 1**，例如 `DRESSER[1]`、`INI[37]`）；<br>• `MGUD.DEF` 自定义变量名超过 60 个，激活前必须确保通用机床数据 **`MD18120 >= 70`**。若将早期 `TECHNOLOGY[420]` 控制器升级至 `TECHNOLOGY[500]` 新版 `MGUD.DEF`，激活前务必先备份原 GUD 数据，激活后执行 `VS3 重置数据` 并恢复业务参数。
 
